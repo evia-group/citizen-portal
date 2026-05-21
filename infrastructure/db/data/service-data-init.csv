@@ -1,0 +1,39 @@
+name;location_id;category_id;slug;icon;cost
+Hund anmelden;1;4;dog-tax;dog;10
+Ersatzmarke beantragen;2;4;replace-dog-tag;shield;5
+Elterngeld beantragen;1;6;elterngeld_beantragen;a-large-small;0
+Namen des Kindes nach der Geburt dem Standesamt melden;1;6;namen_des_kindes_nach_der_geburt_dem_standesamt_melden;a-large-small;0
+Adoption eines erwachsenen Menschen beantragen;1;9;adoption_eines_erwachsenen_menschen_beantragen;a-large-small;0
+Adoption eines ausländischen Kindes beantragen;1;9;adoption_eines_ausländischen_kindes_beantragen;a-large-small;0
+Kindertageseinrichtung - Kind für Aufnahme anmelden;1;7;kindertageseinrichtung_kind_für_aufnahme_anmelden;a-large-small;0
+Eheurkunde - beglaubigte Abschrift aus dem Eheregister beantragen;1;8;eheurkunde_beglaubigte_abschrift_aus_dem_eheregister_beantragen;a-large-small;0
+Eheschließung im Ausland - Eintragung in das deutsche Eheregister beantragen;1;8;eheschließung_im_ausland_eintragung_in_das_deutsche_eheregister_beantragen;a-large-small;0
+Scheidung beantragen;1;10;scheidung_beantragen;a-large-small;0
+Namen nach der Scheidung ändern;1;10;namen_nach_der_scheidung_ändern;a-large-small;0
+Wohnberechtigungsschein beantragen;1;11;wohnberechtigungsschein_beantragen;a-large-small;0
+Kindesunterhalt beantragen (minderjährige Kinder);1;11;kindesunterhalt_beantragen_minderjährige_kinder;a-large-small;0
+Trinkwasseruntersuchungsstellen - Zulassung beantragen;1;12;trinkwasseruntersuchungsstellen_zulassung_beantragen;a-large-small;0
+Trinkwasser - Verunreinigungen melden;1;12;trinkwasser_verunreinigungen_melden;a-large-small;0
+Berufskrankheit feststellen lassen;1;13;berufskrankheit_feststellen_lassen;a-large-small;0
+Schwerbehindertenausweis verlängern;1;14;schwerbehindertenausweis_verlängern;a-large-small;0
+Unfallversicherung - Tagespflege anmelden;1;15;unfallversicherung_tagespflege_anmelden;a-large-small;0
+Erdbestattung - Beerdigung beauftragen;1;16;erdbestattung_beerdigung_beauftragen;a-large-small;0
+Aufnahme in die Berufsoberschule beantragen;1;17;aufnahme_in_die_berufsoberschule_beantragen;a-large-small;0
+Freiwilliges Soziales Jahr (FSJ) beantragen;1;18;freiwilliges_soziales_jahr_beantragen;a-large-small;0
+Aufenthaltserlaubnis für Studierende aus Staaten außerhalb der EU/EWR beantragen;1;19;aufenthaltserlaubnis_für_studierende_aus_staaten_außerhalb_der_eu_ewr_beantragen;a-large-small;0
+Studienplatz - einschreiben (Immatrikulation);1;19;studienplatz_einschreiben_immatrikulation;a-large-small;0
+Hochschulzugang für beruflich Qualifizierte beantragen;1;20;hochschulzugang_für_beruflich_qualifizierte_beantragen;a-large-small;0
+Blaue Karte EU zur Ausübung einer hochqualifizierten Beschäftigung beantragen;1;21;blaue_karte_eu_zur_ausübung_einer_hochqualifizierten_beschäftigung_beantragen;a-large-small;0
+Führungszeugnis beantragen;1;22;führungszeugnis_beantragen;a-large-small;0
+Einkommenssteuer - Erklärung abgeben;1;23;einkommenssteuer_erklärung_abgeben;a-large-small;0
+Gewerbesteuer - Erklärung abgeben;1;23;gewerbesteuer_erklärung_abgeben;a-large-small;0
+Arbeitslosengeld II beantragen;1;24;arbeitslosengeld_2_beantragen;a-large-small;0
+Altersrente - Rente bei vorzeitigem Eintritt in den Ruhestand beantragen;1;25;altersrente_rente_bei_vorzeitigem_eintritt_in_den_ruhestand_beantragen;a-large-small;0
+Erwerbsminderungsrente beantragen;1;26;erwerbsminderungsrente_beantragen;a-large-small;0
+Tierquälerei anzeigen;1;27;tierquälerei_anzeigen;a-large-small;0
+Geldwäsche oder Terrorismusfinanzierung - Verdacht melden;1;27;geldwäsche_oder_terrorismusfinanzierung_verdacht_melden;a-large-small;0
+Vermisstenanzeige aufgeben;1;28;vermisstenanzeige_aufgeben;a-large-small;0
+Einwohnerantrag stellen;1;1;einwohnerantrag_stellen;a-large-small;0
+Fischereischein beantragen;1;2;fischereischein_beantragen;a-large-small;0
+Tierausstellung, Tiermarkt, Tierbörse - Veranstaltung beantragen;1;3;tierausstellung_tiermarkt_tierbörse_veranstaltung_beantragen;a-large-small;0
+Wasserfahrzeuge auf dem Bodensee - Zulassung oder Registrierung beantragen;1;5;wasserfahrzeuge_auf_dem_bodensee_zulassung_oder_registrierung_beantragen;a-large-small;0

@@ -1,0 +1,23 @@
+{
+  "name": "@repo/services",
+  "version": "0.0.0",
+  "types": "main.ts",
+  "exports": {
+    ".": "./main.ts",
+    "./mocks": "./mocks/main.ts",
+    "./models/*": "./models/*.ts"
+  },
+  "dependencies": {
+    "@repo/profile": "*",
+    "@repo/shared": "*",
+    "@repo/ui": "*",
+    "@tanstack/react-query": "^5.22.2",
+    "expo-router": "~3.4.10",
+    "react-hook-form": "^7.51.0"
+  },
+  "devDependencies": {
+    "@repo/typescript-config": "*",
+    "h3": "^1.11.1",
+    "typescript": "^5.3.3"
+  }
+}

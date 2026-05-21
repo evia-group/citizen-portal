@@ -1,0 +1,22 @@
+{
+  "cli": {
+    "version": ">= 7.6.2"
+  },
+  "build": {
+    "development": {
+      "developmentClient": true,
+      "distribution": "internal"
+    },
+    "preview": {
+      "distribution": "internal",
+      "env": {
+        "EXPO_PUBLIC_API_URL": "https://bp-dev-dnstest.germanywestcentral.cloudapp.azure.com/api/v1",
+        "EXPO_PUBLIC_KEYCLOAK_URL": "https://keycloak.eviaconsulting.com"
+      }
+    },
+    "production": {}
+  },
+  "submit": {
+    "production": {}
+  }
+}

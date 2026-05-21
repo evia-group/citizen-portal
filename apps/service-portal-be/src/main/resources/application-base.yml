@@ -1,0 +1,57 @@
+spring:
+
+  application:
+    name: service-portal-be
+
+  jpa:
+    show-sql: true
+    properties:
+      hibernate.jdbc.batch_size: 100
+      hibernate.jdbc.fetch_size: 500
+      hibernate.jdbc.batch_versioned_data: true
+      hibernate.order_inserts: true
+      hibernate.order_updates: true
+      hibernate.cache.use_second_level_cache: false
+      hibernate.generate_statistics: false
+      hibernate.session.events.log: false
+      jdbc:
+        lob.non_contextual_creation: true
+
+  datasource:
+    hikari:
+      maximum-pool-size: 20
+      minimum-idle: 5
+
+  liquibase:
+    drop-first: false
+    change-log: classpath:db/db.changelog-master.yml
+
+jwt:
+  auth:
+    converter:
+      resource-id: service-portal
+      principle-attribute: preferred_username
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+    health:
+      show-details: always
+
+info:
+  app:
+    name: Service Portal
+    description: Service Portal Backend
+    version: 1.0.0
+    build:
+      version: 1.0.0
+      time: 2022-02-22T22:22:22Z
+
+logging:
+  level:
+    org.springframework.boot.context.config: DEBUG
+
+server:
+  max-http-request-header-size: 1MB

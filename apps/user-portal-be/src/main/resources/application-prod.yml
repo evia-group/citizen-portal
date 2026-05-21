@@ -1,0 +1,17 @@
+spring:
+
+  datasource:
+    url: jdbc:postgresql://${POSTGRES_HOST}/${POSTGRES_DATABASE}?autoReconnect=true&targetServerType=master
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
+  
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${KEYCLOAK_ISSUER_URL}/realms/portal
+          jwk-set-uri: ${KEYCLOAK_URL}/realms/portal/protocol/openid-connect/certs
+
+
+file-storage:
+  root-directory: "${java.io.tmpdir}/file-storage"

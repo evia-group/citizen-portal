@@ -1,0 +1,9 @@
+:8181 {
+	root * /app/dist
+	file_server
+
+	# Try first to serve static files, otherwise serve index.html for JS routing.
+	try_files {path} index.html
+
+	encode gzip
+}

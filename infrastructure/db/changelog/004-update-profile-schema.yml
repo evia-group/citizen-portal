@@ -1,0 +1,34 @@
+databaseChangeLog:
+  - changeSet:
+      id: "004-update-profile-schema"
+      author: "Mark Iarovih"
+      logicalFilePath: "004-update-profile-schema.yml"
+      objectQuotingStrategy: "QUOTE_ONLY_RESERVED_WORDS"
+      preConditions:
+        - onFail: MARK_RAN
+        - onFailMessage: "Database table [portal_location] already initialized"
+        - not:
+            - columnExists:
+                tableName: "portal_location"
+                columnName: "location_id"
+      changes:
+        - addColumn:
+            tableName: "portal_profile"
+            columns:
+              - column:
+                  name: "location_id"
+                  type: "BIGINT"
+        - update:
+            tableName: "portal_profile"
+            columns:
+              - column:
+                  name: "location_id"
+                  value: "1"
+        - addForeignKeyConstraint:
+            constraintName: "fk_location_profile"
+            baseTableName: "portal_profile"
+            baseColumnNames: "location_id"
+            referencedTableName: "portal_location"
+            referencedColumnNames: "id"
+            onDelete: CASCADE
+

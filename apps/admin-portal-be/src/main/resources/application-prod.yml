@@ -1,0 +1,6 @@
+spring:
+
+  datasource:
+    url: jdbc:postgresql://${POSTGRES_HOST}/${POSTGRES_DATABASE}?autoReconnect=true&targetServerType=master
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}

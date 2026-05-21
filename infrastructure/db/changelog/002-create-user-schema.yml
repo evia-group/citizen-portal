@@ -1,0 +1,38 @@
+databaseChangeLog:
+  - changeSet:
+      id: "002-create-portal-user-schema"
+      author: "Gennadii Switlich"
+      logicalFilePath: "002-create-portal-user-schema.yml"
+      objectQuotingStrategy: "QUOTE_ONLY_RESERVED_WORDS"
+      preConditions:
+        - onFail: MARK_RAN
+        - onFailMessage: "Database tables [portal_user] already initialized"
+        - not:
+            - tableExists:
+                tableName: "portal_user"
+      changes:
+        - createTable:
+            tableName: "portal_user"
+            columns:
+              - column:
+                  name: "id"
+                  type: "BIGINT"
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: "version"
+                  type: "NUMBER(38, 0)"
+                  defaultValueNumeric: "1"
+                  constraints:
+                    nullable: false
+              - column:
+                  name: "name"
+                  type: "VARCHAR(255)"
+                  constraints:
+                    nullable: false
+        - loadData:
+            tableName: "portal_user"
+            file: classpath:db/data/user-data-init.csv
+            separator: ;

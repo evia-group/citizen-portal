@@ -1,0 +1,57 @@
+databaseChangeLog:
+  - changeSet:
+      id: "005-create-document-schema"
+      author: "Ghislain Kouete"
+      logicalFilePath: "005-create-document-schema.yml"
+      objectQuotingStrategy: "QUOTE_ONLY_RESERVED_WORDS"
+      preConditions:
+        - onFail: MARK_RAN
+        - onFailMessage: "Database tables [portal_document] already initialized"
+        - not:
+            - tableExists:
+                tableName: "portal_document"
+      changes:
+        - createTable:
+            tableName: "portal_document"
+            columns:
+              - column:
+                  name: "id"
+                  type: "BIGINT"
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: "version"
+                  type: "NUMBER(38, 0)"
+                  defaultValueNumeric: "1"
+                  constraints:
+                    nullable: false
+              - column:
+                  name: "name"
+                  type: "VARCHAR(255)"
+                  constraints:
+                    nullable: false
+              - column:
+                  name: "is_archive"
+                  type: "BOOLEAN"
+                  defaultValueBoolean: false
+                  constraints:
+                    nullable: false
+              - column:
+                  name: "type"
+                  type: "VARCHAR(50)"
+                  constraints:
+                    nullable: false
+              - column:
+                  name: "profile_id"
+                  type: "BIGINT"
+                  constraints:
+                    nullable: false
+              - column:
+                  name: "file_id"
+                  type: "VARCHAR(255)"
+        - loadData:
+            tableName: "portal_document"
+            file: classpath:db/data/document-data-init.csv
+            separator: ;

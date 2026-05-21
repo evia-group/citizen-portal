@@ -1,0 +1,10 @@
+spring:
+
+  datasource:
+    url: jdbc:h2:mem:portal-test
+    username: portal-test
+    password: portal-test
+    driverClassName: org.h2.Driver
+
+file-storage:
+  root-directory: "${java.io.tmpdir}/file-storage"

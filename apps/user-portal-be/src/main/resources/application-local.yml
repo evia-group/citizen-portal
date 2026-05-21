@@ -1,0 +1,15 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/portal?autoReconnect=true
+    username: portal
+    password: portal
+  
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost/keycloak/realms/portal
+          jwk-set-uri: http://localhost/keycloak/realms/portal/protocol/openid-connect/certs
+
+file-storage:
+  root-directory: "${java.io.tmpdir}/file-storage"

@@ -1,0 +1,32 @@
+@startuml
+
+entity Profile {
+  * id: number <<generated>>
+  --
+  * email: string
+  * emailEnabled: boolean
+  * pushEnabled: boolean
+  + (other attributes)
+}
+
+entity Notification {
+  * id: number <<generated>>
+  --
+  * profile_id: number <<Profile>> <<FK>>
+  * message: string
+  * is_opened: boolean
+  * subject: string
+  * source: string <<NotificationSource>>
+  * created_at: DATE
+}
+
+enum NotificationSource {  
+  AUTHENTICATION
+  COMMENT
+  APPLICATION
+}
+
+Profile "1"--"n" Notification  
+NotificationSource -- Notification
+
+@enduml

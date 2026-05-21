@@ -1,0 +1,20 @@
+{
+  "name": "@repo/profile",
+  "version": "0.0.0",
+  "types": "main.ts",
+  "exports": {
+    ".": "./main.ts",
+    "./mocks": "./mocks/main.ts"
+  },
+  "dependencies": {
+    "@repo/shared": "*",
+    "@repo/ui": "*",
+    "@tanstack/react-query": "^5.22.2",
+    "react-hook-form": "^7.51.0"
+  },
+  "devDependencies": {
+    "@repo/typescript-config": "*",
+    "h3": "^1.11.1",
+    "typescript": "^5.3.3"
+  }
+}

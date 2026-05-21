@@ -1,0 +1,46 @@
+@startuml
+
+entity "ConsentLog"{
+  * id : number
+  --
+  * isAccepted : string <<UserConsentStatus>>
+  * acceptedAt : datetime
+  * consent_text : string
+  * consent_id : number <<Consent>> <<FK>>
+  * profile_id : number <<Profile>> <<FK>>
+}
+enum "UserConsentStatus"{
+  ACCEPTED,
+  DENIED,
+  OTHER
+}
+
+entity "Consent"{
+  * id : number
+  --
+  * name : string
+  * text : string
+  * lastUpdated : datetime
+  * service_id : number <<Service>> <<FK>>
+}
+
+entity "Service"{
+  * id : number
+  --
+  * consent_Text : string
+  + (existing attributes)
+}
+
+entity "Profile"{
+  * id : number
+  --
+  * List<UserConsent> : consent
+  + (existing attributes)
+}
+
+"Consent" -- "ConsentLog"
+"Consent" -- "Service"
+"Profile" -- "ConsentLog"
+"ConsentLog" -- "UserConsentStatus"
+
+@enduml

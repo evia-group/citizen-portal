@@ -1,0 +1,3 @@
+gender;grade;first_name;last_name;birth_name;birth_date;birth_location;zip_code;city;country;street;house_number;phone_number;email;de_mail;can_notify_by_sms;can_notify_by_mail
+MALE;DR;John;Doe;John;1980-01-01;Location;12345;City;GERMANY;Street;1;1234567890;john.doe@example.com;john.doe@mail.de;1;1
+FEMALE;DR_HC;Jane;Doe;Jane;1985-01-01;Location;12345;City;AUSTRIA;Street;2;0987654321;jane.doe@example.com;jane.doe@mail.de;1;1

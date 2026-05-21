@@ -1,0 +1,6 @@
+spring:
+  profiles:
+    active: ${STAGE:local}
+    group:
+      local: "base, local"
+      prod: "base, prod"

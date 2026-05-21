@@ -1,0 +1,38 @@
+databaseChangeLog:
+  - changeSet:
+      id: "017-change-mailbox-message-schema"
+      author: "Mark Iarovih"
+      logicalFilePath: "017-change-mailbox-message-schema.yml"
+      objectQuotingStrategy: "QUOTE_ONLY_RESERVED_WORDS"
+      preConditions:
+        - onFail: MARK_RAN
+        - onFailMessage: "Database tables [portal_mailbox_message] already initialized"
+        - not:
+            - tableExists:
+                tableName: "portal_mailbox_message"
+      changes:
+        - dropForeignKeyConstraint:
+            baseTableName: "portal_mailbox_log"
+            constraintName: "fk_mailbox_log_service"
+        - renameTable:
+            newTableName: "portal_mailbox_message"
+            oldTableName: "portal_mailbox_log"
+        - dropColumn:
+            columnName: "service_id"
+            tableName: "portal_mailbox_message"
+        - addColumn:
+            tableName: "portal_mailbox_message"
+            columns:
+              - column:
+                  name: "application_id"
+                  type: "BIGINT"
+                  constraints:
+                    nullable: false
+                  value: 1
+        - addForeignKeyConstraint:
+            constraintName: "fk_mailbox_message_application"
+            baseTableName: "portal_mailbox_message"
+            baseColumnNames: "application_id"
+            referencedTableName: "portal_application"
+            referencedColumnNames: "id"
+

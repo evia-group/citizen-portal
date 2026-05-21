@@ -1,0 +1,65 @@
+databaseChangeLog:
+  - changeSet:
+      id: "012-create-dog-schema"
+      author: "Jimdjio Dessalli"
+      logicalFilePath: "012-create-dog-schema.yml"
+      objectQuotingStrategy: "QUOTE_ONLY_RESERVED_WORDS"
+      preConditions:
+        - onFail: MARK_RAN
+        - onFailMessage: "Database tables [portal_dog] already initialized"
+        - not:
+            - tableExists:
+                tableName: "portal_dog"
+      changes:
+        - createTable:
+            tableName: "portal_dog"
+            columns:
+              - column:
+                  name: "id"
+                  type: "BIGINT"
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: "version"
+                  type: "NUMBER(38, 0)"
+                  defaultValueNumeric: "1"
+                  constraints:
+                    nullable: false
+              - column:
+                  name: "race"
+                  type: "VARCHAR(255)"
+                  constraints:
+                    nullable: false
+              - column:
+                  name: "name"
+                  type: "VARCHAR(255)"
+                  constraints:
+                    nullable: false
+              - column:
+                  name: "tax_stamp_number"
+                  type: "VARCHAR(255)"
+                  constraints:
+                    nullable: false
+              - column:
+                  name: "booking_reference"
+                  type: "VARCHAR(255)"
+                  constraints:
+                    nullable: true
+              - column:
+                  name: "relationship_id"
+                  type: "BIGINT"
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            constraintName: "fk_dog_relationship"
+            baseTableName: "portal_dog"
+            baseColumnNames: "relationship_id"
+            referencedTableName: "portal_relationship"
+            referencedColumnNames: "id"
+            onDelete: CASCADE
+        - loadData:
+            file: classpath:db/data/dog-data-init.csv
+            tableName: "portal_dog"
+            separator: ";"

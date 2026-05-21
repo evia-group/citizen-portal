@@ -1,0 +1,76 @@
+databaseChangeLog:
+  - changeSet:
+      id: "008-create-service-schema"
+      author: "Ghislain Kouete"
+      logicalFilePath: "008-create-service-schema.yml"
+      objectQuotingStrategy: "QUOTE_ONLY_RESERVED_WORDS"
+      preConditions:
+        - onFail: MARK_RAN
+        - onFailMessage: "Database table [portal_service] already initialized"
+        - not:
+            - tableExists:
+                tableName: "portal_service"
+      changes:
+        - createTable:
+            tableName: "portal_service"
+            columns:
+              - column:
+                  name: "id"
+                  type: "BIGINT"
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: "version"
+                  type: "NUMBER(19, 0)"
+                  defaultValueNumeric: "1"
+                  constraints:
+                    nullable: false
+              - column:
+                  name: "name"
+                  type: "VARCHAR(255)"
+                  constraints:
+                    nullable: false
+              - column:
+                  name: "icon"
+                  type: "VARCHAR(255)"
+              - column:
+                  name: "slug"
+                  type: "VARCHAR(255)"
+                  constraints:
+                    unique: true
+                    nullable: false
+              - column:
+                  name: "cost"
+                  type: "BIGINT"
+                  constraints:
+                    nullable: false
+              - column:
+                  name: "location_id"
+                  type: "BIGINT"
+                  constraints:
+                    nullable: false
+              - column:
+                  name: "category_id"
+                  type: "BIGINT"
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            constraintName: "fk_service_location"
+            baseTableName: "portal_service"
+            baseColumnNames: "location_id"
+            referencedTableName: "portal_location"
+            referencedColumnNames: "id"
+            onDelete: CASCADE
+        - addForeignKeyConstraint:
+            constraintName: "fk_service_category"
+            baseTableName: "portal_service"
+            baseColumnNames: "category_id"
+            referencedTableName: "portal_category"
+            referencedColumnNames: "id"
+            onDelete: CASCADE
+        - loadData:
+            tableName: "portal_service"
+            file: classpath:db/data/service-data-init.csv
+            separator: ;

@@ -1,0 +1,204 @@
+services:
+    postgres:
+        image: postgres:16.2-bullseye
+        container_name: portal-db
+        ports:
+            - '5432:5432'
+        environment:
+            POSTGRES_DB: portal
+            POSTGRES_USER: portal
+            POSTGRES_PASSWORD: portal
+        tty: true
+        volumes:
+            - postgres_data:/var/lib/postgresql/data
+        networks:
+            - portal_network
+    
+    keycloak:
+        image: quay.io/keycloak/keycloak:23.0.6
+        container_name: keycloak
+        command: start-dev --import-realm --hostname-url=http://localhost/keycloak --hostname-admin-url=http://localhost:9080 --hostname-strict-backchannel=true --hostname-debug=true
+        ports:
+            - "9080:8080"
+        volumes:
+            - ./infrastructure/keycloak/import:/opt/keycloak/data/import
+            - ./infrastructure/keycloak/config/keycloak.conf:/opt/keycloak/conf/keycloak.conf
+        environment:
+            KEYCLOAK_ADMIN: admin
+            KEYCLOAK_ADMIN_PASSWORD: admin
+            KC_DB: postgres
+            KC_DB_SCHEMA: public
+            KC_DB_USERNAME: portal
+            KC_DB_PASSWORD: portal
+            KC_DB_URL: jdbc:postgresql://keycloak-postgres:5432/portal
+        depends_on:
+            - keycloak-postgres
+        networks:
+            - portal_network
+    
+    keycloak-postgres:
+        image: postgres:16.2-bullseye
+        container_name: keycloak-postgres
+        ports:
+            - '5433:5432'
+        environment:
+            POSTGRES_DB: portal
+            POSTGRES_USER: portal
+            POSTGRES_PASSWORD: portal
+        tty: true
+        volumes:
+            - keycloak_postgres_data:/var/lib/postgresql/data
+        networks:
+            - portal_network
+    
+    user-portal-fe:
+        container_name: user-portal-fe
+        profiles: [ "full" ]
+        # Mode A serves a *static* Expo web export via Caddy. Build-time args bake
+        # the local-mode URLs into the JS bundle: `/api/v1` is gateway-relative
+        # (openresty proxies it to user-portal-be), and Keycloak is reached
+        # via OpenResty at `/keycloak`; admin console on `:9080`.
+        build:
+            context: .
+            dockerfile: ./apps/user-portal-fe/Dockerfile
+            args:
+                EXPO_PUBLIC_API_URL: /api/v1
+                EXPO_PUBLIC_KEYCLOAK_URL: http://localhost/keycloak
+        restart: always
+        ports:
+            - '8181:8181'
+        networks:
+            - portal_network
+        depends_on:
+            - user-portal-be
+    
+    user-portal-be:
+        container_name: user-portal-be
+        profiles: [ "full" ]
+        build:
+            context: .
+            dockerfile: ./apps/user-portal-be/Dockerfile
+        depends_on:
+            - postgres
+            - keycloak
+        restart: always
+        tty: true
+        environment:
+            POSTGRES_HOST: 'postgres:5432'
+            POSTGRES_DATABASE: 'portal'
+            POSTGRES_USER: 'portal'
+            POSTGRES_PASSWORD: 'portal'
+            KEYCLOAK_URL: 'http://keycloak:8080'
+            KEYCLOAK_ISSUER_URL: 'http://localhost/keycloak'
+            DOWNLOAD_URL: 'http://localhost:8180/api/v1/documents/downloadFile/'
+        ports:
+            - '8180:8080'
+        networks:
+            - portal_network
+    
+    service-portal-fe:
+        container_name: service-portal-fe
+        profiles: [ "full" ]
+        image: node:20-slim
+        working_dir: /app
+        entrypoint: sh -c "npm install --no-audit --ignore-scripts && npm run dev --workspace service-portal-fe"
+        restart: always
+        tty: true
+        environment:
+            PORT: 3001
+            NEXT_PUBLIC_API_URL: http://localhost/service-portal-be/api/v1
+            NEXT_PUBLIC_KEYCLOAK_URL: http://localhost/keycloak
+            NEXT_PUBLIC_BASE_PATH: /service-portal-fe
+        ports:
+            - '8281:3001'
+        volumes:
+            - ./:/app
+            - node_modules_sp1:/app/node_modules
+            - node_modules_sp2:/app/apps/service-portal-fe/node_modules
+        networks:
+            - portal_network
+        depends_on:
+            - service-portal-be
+    
+    service-portal-be:
+        container_name: service-portal-be
+        profiles: [ "full" ]
+        build:
+            context: .
+            dockerfile: ./apps/service-portal-be/Dockerfile
+        restart: always
+        tty: true
+        environment:
+            POSTGRES_HOST: 'postgres:5432'
+            POSTGRES_DATABASE: 'portal'
+            POSTGRES_USER: 'portal'
+            POSTGRES_PASSWORD: 'portal'
+        depends_on:
+            - postgres
+            - keycloak
+        ports:
+            - '8280:8080'
+        networks:
+            - portal_network
+    
+    admin-portal-fe:
+        container_name: admin-portal-fe
+        profiles: [ "full" ]
+        build:
+            context: .
+            dockerfile: ./apps/admin-portal-fe/Dockerfile
+        restart: always
+        tty: true
+        ports:
+            - '8381:3000'
+        networks:
+            - portal_network
+    
+    admin-portal-be:
+        container_name: admin-portal-be
+        profiles: [ "full" ]
+        build:
+            context: .
+            dockerfile: ./apps/admin-portal-be/Dockerfile
+        restart: always
+        tty: true
+        environment:
+            POSTGRES_HOST: 'postgres:5432'
+            POSTGRES_DATABASE: 'portal'
+            POSTGRES_USER: 'portal'
+            POSTGRES_PASSWORD: 'portal'
+        ports:
+            - '8380:8080'
+        depends_on:
+            - postgres
+            - keycloak
+            - user-portal-be
+        networks:
+            - portal_network
+    
+    openresty:
+        container_name: openresty
+        # No profile — starts in both Mode B (infra-only) and Mode A (--profile full).
+        # Mode B: proxies Keycloak at /keycloak so the issuer URL http://localhost/keycloak
+        # works for natively-run FE and BEs without any config change.
+        # Mode A: additionally routes /api/v1 and static FE assets through the gateway.
+        build:
+            context: .
+            dockerfile: ./infrastructure/openresty/Dockerfile
+        ports:
+            - "80:80"
+        volumes:
+            - ./infrastructure/openresty/nginx.conf:/etc/nginx/conf.d/default.conf
+        depends_on:
+            - keycloak
+        networks:
+            - portal_network
+
+networks:
+    portal_network:
+
+volumes:
+    postgres_data:
+    keycloak_postgres_data:
+    node_modules_sp1:
+    node_modules_sp2:

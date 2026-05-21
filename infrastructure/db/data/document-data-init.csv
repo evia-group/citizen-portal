@@ -1,0 +1,4 @@
+name;type;is_archive;profile_id
+Document_1;IDENTITY_CARD;0;1
+Document_2;REGISTRATION_FORM;0;1
+Document_3;OTHER;1;1

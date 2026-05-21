@@ -1,0 +1,64 @@
+databaseChangeLog:
+  - changeSet:
+      id: "010-create-application-schema"
+      author: "Jimdjio Dessalli"
+      logicalFilePath: "010-create-application-schema.yml"
+      objectQuotingStrategy: "QUOTE_ONLY_RESERVED_WORDS"
+      changes:
+        - createTable:
+            tableName: "portal_application"
+            columns:
+              - column:
+                  name: "id"
+                  type: "BIGINT"
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: "version"
+                  type: "NUMBER(38, 0)"
+                  defaultValueNumeric: "1"
+                  constraints:
+                    nullable: false
+              - column:
+                  name: "status"
+                  type: "VARCHAR(50)"
+                  constraints:
+                    nullable: false
+              - column:
+                  name: "profile_id"
+                  type: "BIGINT"
+                  constraints:
+                    nullable: false
+              - column:
+                  name: "created_date"
+                  type: "DATE"
+                  defaultValueComputed: "CURRENT_DATE"
+              - column:
+                  name: "updated_date"
+                  type: "DATE"
+                  defaultValueComputed: "CURRENT_DATE"
+              - column:
+                  name: "service_id"
+                  type: "BIGINT"
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            constraintName: "fk_profile_application"
+            baseTableName: "portal_application"
+            baseColumnNames: "profile_id"
+            referencedTableName: "portal_profile"
+            referencedColumnNames: "id"
+            onDelete: CASCADE
+        - addForeignKeyConstraint:
+            constraintName: "fk_service_application"
+            baseTableName: "portal_application"
+            baseColumnNames: "service_id"
+            referencedTableName: "portal_service"
+            referencedColumnNames: "id"
+            onDelete: CASCADE
+        - loadData:
+            tableName: "portal_application"
+            file: classpath:db/data/application-data-init.csv
+            separator: ;

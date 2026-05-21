@@ -1,0 +1,14 @@
+{
+  "extends": "@repo/typescript-config/react-native-library",
+  "include": ["."],
+  "exclude": ["dist", "build", "node_modules"],
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "~/*": ["./src/*"]
+    },
+    "strict": true,
+    "jsx": "react-jsx",
+    "jsxImportSource": "nativewind"
+  }
+}

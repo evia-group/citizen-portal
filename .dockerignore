@@ -1,0 +1,9 @@
+node_modules
+apps/user-portal-fe/.expo
+apps/user-portal-fe/node_modules
+apps/user-portal-fe/.env
+apps/user-portal-fe/.env.local
+apps/service-portal-fe/.env
+apps/service-portal-fe/.env.local
+apps/admin-portal-fe/.env
+apps/admin-portal-fe/.env.local

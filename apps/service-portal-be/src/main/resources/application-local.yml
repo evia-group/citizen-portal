@@ -1,0 +1,18 @@
+spring:
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/portal?autoReconnect=true
+    username: portal
+    password: portal
+
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost/keycloak/realms/portal
+          jwk-set-uri: http://localhost/keycloak/realms/portal/protocol/openid-connect/certs
+
+logging:
+  level:
+    org.springframework.boot.context.config: DEBUG
+

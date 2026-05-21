@@ -1,0 +1,33 @@
+spring:
+
+  application:
+    name: user-portal-be
+
+  jpa:
+    properties:
+      hibernate.cache.use_second_level_cache: false
+      hibernate.jdbc.batch_size: 100
+      hibernate.jdbc.fetch_size: 500
+      hibernate.jdbc.batch_versioned_data: true
+      hibernate.order_inserts: true
+      hibernate.order_updates: true
+      hibernate.generate_statistics: true
+  
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:9080/realms/portal
+          jwk-set-uri: http://keycloak:8080/realms/portal/protocol/openid-connect/certs
+
+  liquibase:
+    drop-first: true
+    change-log: classpath:db/db.changelog-master.yml
+
+jwt:
+  auth:
+    converter:
+      resource-id: user-portal
+      principle-attribute: preferred_username
+      
+  

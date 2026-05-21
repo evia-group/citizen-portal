@@ -1,0 +1,25 @@
+{
+  "name": "@repo/auth",
+  "description": "Authentication service",
+  "version": "0.0.0",
+  "private": true,
+  "types": "main.ts",
+  "exports": {
+    ".": "./main.ts"
+  },
+  "dependencies": {
+    "@react-native-async-storage/async-storage": "1.21.0",
+    "@repo/profile": "*",
+    "@repo/shared": "*",
+    "expo": "^50.0.15",
+    "expo-auth-session": "^5.4.0",
+    "expo-random": "^13.6.0",
+    "expo-secure-store": "~12.8.1",
+    "expo-web-browser": "^12.8.2"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.75",
+    "react": "^18.2.0",
+    "typescript": "^5.4.5"
+  }
+}

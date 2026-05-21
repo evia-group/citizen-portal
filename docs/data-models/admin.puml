@@ -1,0 +1,35 @@
+@startuml
+
+entity Location {
+  * id: number <<generated>>
+  --
+  * location_name: text
+  * federal_state: text
+}
+
+entity Category {
+  * id: number <<generated>>
+  --
+  * category_name: text
+  * domain_id: <<Domain>> <<FK>>
+}
+
+entity Domain {
+  * id: number <<generated>>
+  --
+  * domain_name: text
+}
+
+entity Service {
+  * id: number <<generated>>
+  --
+  * service_name: text
+  * category_id: <<Category>> <<FK>>
+  * location_id: <<Location>> <<FK>>
+}
+
+Service -- Location
+Category -- Domain
+Service -- Category
+
+@enduml

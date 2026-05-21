@@ -1,0 +1,77 @@
+@startuml
+entity Profile {
+  * id: number <<generated>>
+  --
+  salutation: text <<Gender>>
+  grade: text <<Grade>>
+  * first_name: text
+  * last_name: text
+  birth_name: text
+  * birth_date: date
+  * birth_location: text
+  * street: text
+  * zip_code: number
+  * city: text
+  country: text <<Country>>
+  phone_number: number
+  * email: text
+  demail: text
+  location_id: number <<Location>> <<FK>>
+  account_owner: text
+  iban: text
+  bic: text
+  tax_Id: number
+}
+
+entity Location{
+  * id : number <<generated>>
+  --
+  * location_name
+  * federal_state
+}
+
+entity Relationship {
+  * id: number <<generated>>
+  * profile_id: number <<Profile>> <<FK>>
+  --
+  * type: text <<RelationshipType>>
+  * name: text
+  birth_date: date
+}
+
+enum Gender {
+  MALE
+  FEMALE
+  OTHER
+}
+
+enum Grade {
+  DR
+  DR_HC
+  DR_EH
+}
+
+enum Country {
+  GERMANY, +49
+  AUSTRIA, +43
+  SWITZERLAND, +41
+}
+
+enum RelationshipType {
+  MOTHER
+  FATHER
+  KID
+  WIFE
+  HUSBAND
+  DOG
+  CAT
+}
+
+Profile "0" *- "n" Relationship
+Profile -- Location
+Profile -- Gender
+Profile -- Grade
+Profile -- Country
+Relationship -- RelationshipType
+
+@enduml

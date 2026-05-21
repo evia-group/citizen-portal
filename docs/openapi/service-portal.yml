@@ -1,0 +1,293 @@
+openapi: 3.0.1
+info:
+  title: Service Portal OpenAPI definition
+  version: v0
+servers:
+  - url: http://localhost:8280
+    description: Generated server url
+paths:
+  /api/v1/applications/{id}:
+    get:
+      tags:
+        - application-resource
+      operationId: getApplicationById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationDTO'
+    put:
+      tags:
+        - application-resource
+      operationId: updateApplication
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ApplicationDTO'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationDTO'
+  /api/v1/comments:
+    get:
+      tags:
+        - comment-resource
+      operationId: getComments
+      parameters:
+        - name: applicationId
+          in: query
+          description: Get all comments by passing the application id
+          required: false
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CommentDTO'
+    post:
+      tags:
+        - comment-resource
+      operationId: createDocument
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CommentDTO'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommentDTO'
+  /api/v1/dogs/{id}:
+    get:
+      tags:
+        - dog-resource
+      operationId: getDogId
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DogDTO'
+  /api/v1/applications:
+    get:
+      tags:
+        - application-resource
+      operationId: getApplications
+      parameters:
+        - name: serviceId
+          in: query
+          description: Get all applications by passing the service id
+          required: false
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ApplicationDTO'
+components:
+  schemas:
+    ApplicationDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        status:
+          type: string
+          enum:
+            - ADDED
+            - STARTED
+            - PENDING
+            - FINISHED
+            - ARCHIVED
+            - CANCELED
+        profile:
+          $ref: '#/components/schemas/ProfileDTO'
+        service:
+          $ref: '#/components/schemas/ServiceDTO'
+        createdDate:
+          type: string
+          format: date
+        updatedDate:
+          type: string
+          format: date
+    ProfileDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        gender:
+          type: string
+          enum:
+            - MALE
+            - FEMALE
+            - OTHER
+        grade:
+          type: string
+          enum:
+            - DR
+            - DR_HC
+            - DR_EH
+        firstName:
+          type: string
+        lastName:
+          type: string
+        birthName:
+          type: string
+        birthDate:
+          type: string
+          format: date
+        birthLocation:
+          type: string
+        zipCode:
+          type: integer
+          format: int64
+        street:
+          type: string
+        houseNumber:
+          type: integer
+          format: int64
+        city:
+          type: string
+        country:
+          type: string
+          enum:
+            - GERMANY
+            - AUSTRIA
+            - SWITZERLAND
+        phoneNumber:
+          type: string
+        email:
+          type: string
+        deMail:
+          type: string
+    ServiceDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        cost:
+          type: integer
+          format: int64
+    CommentDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        parentCommentId:
+          type: integer
+          format: int64
+        content:
+          type: string
+        application:
+          $ref: '#/components/schemas/ApplicationDTO'
+        profile:
+          $ref: '#/components/schemas/ProfileDTO'
+        createdDate:
+          type: string
+          format: date
+        updatedDate:
+          type: string
+          format: date
+    DogDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        taxStampNumber:
+          type: string
+        bookingReference:
+          type: string
+        race:
+          type: string
+          enum:
+            - MISCHLING
+            - ANDERE_RASSE
+            - AMERICAN_STAFFORDSHIRE_TERRIER
+            - BORDEAUX_DOGGE
+            - BULLMASTIFF
+            - BULLTERRIER
+            - DOGO_ARGENTINO
+            - FILA_BRASILIERO
+            - MASTIFF
+            - GERMAN_SHEPHERD
+            - MASTINO_NAPOLETANO
+            - PIT_BULL_TERRIER
+            - STAFFORDSHIRE_BERRIER
+            - TOSA_INU
+        justification:
+          type: string
+          enum:
+            - LOST_STAMP
+            - STAMP_UNUSABLE
+        relationship:
+          $ref: '#/components/schemas/RelationshipDTO'
+    RelationshipDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Relation ID
+          format: int64
+          example: 1
+        type:
+          type: string
+          description: Relation Type
+          example: DOG
+        name:
+          type: string
+          description: Relation Name
+          example: Bobik

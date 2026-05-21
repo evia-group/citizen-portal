@@ -1,0 +1,6 @@
+
+spring:
+  profiles:
+    active: local
+    group:
+      local: "test-base, test-local"

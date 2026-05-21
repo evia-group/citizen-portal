@@ -1,0 +1,19 @@
+{
+  "name": "@repo/mock-server",
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "listhen --port 8180 ./app.ts"
+  },
+  "devDependencies": {
+    "@repo/applications": "*",
+    "@repo/mailbox": "*",
+    "@repo/profile": "*",
+    "@repo/services": "*",
+    "@repo/typescript-config": "*",
+    "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "h3": "^1.11.1",
+    "listhen": "^1.7.2"
+  }
+}

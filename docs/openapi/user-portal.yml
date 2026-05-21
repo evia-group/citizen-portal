@@ -1,0 +1,1290 @@
+openapi: 3.0.1
+info:
+  title: User Portal OpenAPI definition
+  version: v0
+servers:
+  - url: http://localhost:8180
+    description: Generated server url
+security:
+  - bearerAuth: [ ]
+paths:
+  /api/v1/profiles/{profileId}/documents/{id}:
+    get:
+      tags:
+        - document-resource
+      operationId: getDocumentById
+      parameters:
+        - name: profileId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DocumentDTO'
+    put:
+      tags:
+        - document-resource
+      operationId: updateDocument
+      parameters:
+        - name: profileId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DocumentDTO'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DocumentDTO'
+    delete:
+      tags:
+        - document-resource
+      operationId: deleteDocument
+      parameters:
+        - name: profileId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+  /api/v1/profiles/{id}:
+    get:
+      tags:
+        - profile-resource
+      operationId: getProfileById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProfileDTO'
+    put:
+      tags:
+        - profile-resource
+      operationId: updateProfile
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProfileDTO'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProfileDTO'
+    delete:
+      tags:
+        - profile-resource
+      operationId: deleteProfile
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+  /api/v1/applications/{id}:
+    get:
+      tags:
+        - application-resource
+      operationId: getApplicationById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationDTO'
+    put:
+      tags:
+        - application-resource
+      operationId: updateApplication
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ApplicationDTO'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationDTO'
+  /api/v1/profiles:
+    get:
+      tags:
+        - profile-resource
+      operationId: getProfiles
+      parameters:
+        - name: firstName
+          in: query
+          description: First name of the profile
+          required: false
+          schema:
+            type: string
+        - name: lastName
+          in: query
+          description: Last name of the profile
+          required: false
+          schema:
+            type: string
+        - name: birthDate
+          in: query
+          description: Birth date of the profile in the format dd-MM-yyyy
+          required: false
+          schema:
+            type: string
+        - name: email
+          in: query
+          description: Email of the profile
+          required: false
+          schema:
+            type: string
+        - name: phone
+          in: query
+          description: Phone number of the profile
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProfileDTO'
+    post:
+      tags:
+        - profile-resource
+      operationId: createProfile
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProfileDTO'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProfileDTO'
+  /api/v1/profiles/{profileId}/documents:
+    get:
+      tags:
+        - document-resource
+      operationId: getDocumentsByProfileId
+      parameters:
+        - name: profileId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: documentName
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DocumentDTO'
+    post:
+      tags:
+        - document-resource
+      operationId: createDocument
+      parameters:
+        - name: profileId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DocumentDTO'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DocumentDTO'
+  /api/v1/profiles/{profileId}/documents/{id}/upload:
+    post:
+      tags:
+        - document-resource
+      operationId: uploadDocument
+      parameters:
+        - name: profileId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              required:
+                - file
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/DocumentDTO'
+  /api/v1/mailbox-messages:
+    get:
+      tags:
+        - mailbox-message-resource
+      operationId: getMailboxMessages
+      parameters:
+        - name: profileId
+          in: query
+          description: Get mailbox message according to a profile by passing the profile id
+          required: false
+          schema:
+            type: integer
+            format: int64
+        - name: applicationId
+          in: query
+          description: Get mailbox message according to a application by passing the application id
+          required: false
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MailboxMessageDTO'
+    post:
+      tags:
+        - mailbox-message-resource
+      operationId: createMailboxMessage
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MailboxMessageDTO'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/MailboxMessageDTO'
+  /api/v1/mailbox-messages/{id}:
+    get:
+      tags:
+        - mailbox-message-resource
+      operationId: getMailboxMessagesById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/MailboxMessageDTO'
+    patch:
+      tags:
+        - mailbox-message-resource
+      operationId: updateMailboxMessageStatus
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MailboxMessageStatusDTO'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/MailboxMessageDTO'
+  /api/v1/dogs-applications:
+    get:
+      tags:
+        - dog-application-resource
+      operationId: getDogApplications
+      parameters:
+        - name: dogId
+          in: query
+          description: Get all dog applications by passing the dog id
+          required: false
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DogApplicationDTO'
+    post:
+      tags:
+        - dog-application-resource
+      operationId: saveDogApplication
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DogApplicationDTO'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DogApplicationDTO'
+  /api/v1/consents-log:
+    get:
+      tags:
+        - consent-log-resource
+      operationId: getConsentLogs
+      parameters:
+        - name: profileId
+          in: query
+          description: Get userConsent according to a profile by passing the profile id
+          required: false
+          schema:
+            type: integer
+            format: int64
+        - name: consentId
+          in: query
+          description: Get userConsent according to a consent by passing the consent id
+          required: false
+          schema:
+            type: integer
+            format: int64
+        - name: status
+          in: query
+          description: Get userConsent according to a status by passing the status
+          required: false
+          schema:
+            type: string
+            enum:
+              - ACCEPTED
+              - DENIED
+              - OPEN
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ConsentLogDTO'
+    post:
+      tags:
+        - consent-log-resource
+      operationId: createConsentLog
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConsentLogDTO'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ConsentLogDTO'
+  /api/v1/comments:
+    get:
+      tags:
+        - comment-resource
+      operationId: getComments
+      parameters:
+        - name: applicationId
+          in: query
+          description: Get all comments by passing the application id
+          required: false
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CommentDTO'
+    post:
+      tags:
+        - comment-resource
+      operationId: createComment
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CommentDTO'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommentDTO'
+  /api/v1/applications:
+    get:
+      tags:
+        - application-resource
+      operationId: getApplications
+      parameters:
+        - name: serviceId
+          in: query
+          description: Get all applications by passing the service id
+          required: false
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ApplicationDTO'
+    post:
+      tags:
+        - application-resource
+      operationId: createApplication
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ApplicationDTO'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationDTO'
+  /api/v1/services:
+    get:
+      tags:
+        - service-resource
+      operationId: getServices
+      parameters:
+        - name: locationId
+          in: query
+          description: Get service according to a location by passing the location id
+          required: false
+          schema:
+            type: integer
+            format: int64
+        - name: categoryId
+          in: query
+          description: Get service according to a category by passing the category id
+          required: false
+          schema:
+            type: integer
+            format: int64
+        - name: name
+          in: query
+          description: Get service according to a service name
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ServiceDTO'
+  /api/v1/profiles/{profileId}/documents/{id}/download:
+    get:
+      tags:
+        - document-resource
+      operationId: download
+      parameters:
+        - name: profileId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+                format: binary
+  /api/v1/profiles/{id}/notifications:
+    get:
+      tags:
+        - profile-resource
+      operationId: getNotificationsByProfileId
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/NotificationDTO'
+  /api/v1/profiles/{id}/notifications/{notificationId}:
+    get:
+      tags:
+        - profile-resource
+      operationId: getNotificationById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: notificationId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationDTO'
+    put:
+      tags:
+        - profile-resource
+      operationId: updateNotificationStatus
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: notificationId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationDTO'
+  /api/v1/me:
+    get:
+      tags:
+        - me-resource
+      operationId: getProfile
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProfileDTO'
+  /api/v1/locations:
+    get:
+      tags:
+        - locations-resource
+      operationId: getAllLocations
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/LocationDTO'
+  /api/v1/domains:
+    get:
+      tags:
+        - domain-resource
+      operationId: getDomains
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DomainDTO'
+  /api/v1/dogs:
+    get:
+      tags:
+        - dog-resource
+      operationId: getDogs
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DogDTO'
+    post:
+      tags:
+        - dog-resource
+      operationId: createDog
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DogDTO'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DogDTO'
+  /api/v1/dogs/{id}:
+    put:
+      tags:
+        - dog-resource
+      operationId: updateDog
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DogDTO'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DogDTO'
+  /api/v1/consents:
+    get:
+      tags:
+        - consent-resource
+      operationId: getConsents
+      parameters:
+        - name: name
+          in: query
+          description: Get consent according to a name by passing the consent name
+          required: false
+          schema:
+            type: string
+        - name: text
+          in: query
+          description: Get consent according to a text by passing the consent text
+          required: false
+          schema:
+            type: string
+        - name: service_id
+          in: query
+          description: Get consent according to a service by passing the service id
+          required: false
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ConsentDTO'
+  /api/v1/consents/{id}:
+    get:
+      tags:
+        - consent-resource
+      operationId: getConsentById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ConsentDTO'
+  /api/v1/consents-log/{id}:
+    get:
+      tags:
+        - consent-log-resource
+      operationId: getConsentLogsById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ConsentLogDTO'
+  /api/v1/categories:
+    get:
+      tags:
+        - category-resource
+      operationId: getCategories
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CategoryDTO'
+components:
+  schemas:
+    DocumentDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        isArchive:
+          type: boolean
+        type:
+          type: string
+          enum:
+            - IDENTITY_CARD
+            - REGISTRATION_FORM
+            - OTHER
+        fileId:
+          type: string
+        profileId:
+          type: integer
+          format: int64
+    AddressDTO:
+      type: object
+      properties:
+        zipCode:
+          type: integer
+          format: int64
+        street:
+          type: string
+        houseNumber:
+          type: integer
+          format: int64
+        city:
+          type: string
+        country:
+          type: string
+          enum:
+            - GERMANY
+            - AUSTRIA
+            - SWITZERLAND
+    ContactDataDTO:
+      type: object
+      properties:
+        phoneNumber:
+          type: string
+        email:
+          type: string
+        deMail:
+          type: string
+    LocationDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        federalState:
+          type: string
+    PaymentDataDTO:
+      type: object
+      properties:
+        accountOwner:
+          type: string
+        iban:
+          type: string
+        bic:
+          type: string
+        taxId:
+          type: string
+    ProfileDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        gender:
+          type: string
+        grade:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        birthName:
+          type: string
+        birthDate:
+          type: string
+        birthLocation:
+          type: string
+        canNotifyByMail:
+          type: boolean
+        canNotifyBySms:
+          type: boolean
+        address:
+          $ref: '#/components/schemas/AddressDTO'
+        contactData:
+          $ref: '#/components/schemas/ContactDataDTO'
+        relationships:
+          type: array
+          items:
+            $ref: '#/components/schemas/RelationshipDTO'
+        location:
+          $ref: '#/components/schemas/LocationDTO'
+        paymentData:
+          $ref: '#/components/schemas/PaymentDataDTO'
+        userId:
+          type: string
+    RelationshipDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Relation ID
+          format: int64
+          example: 1
+        type:
+          type: string
+          description: Relation Type
+          example: DOG
+        name:
+          type: string
+          description: Relation Name
+          example: Bobik
+    ApplicationDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        status:
+          type: string
+          enum:
+            - ADDED
+            - STARTED
+            - PENDING
+            - FINISHED
+            - ARCHIVED
+            - CANCELED
+        statusValue:
+          type: string
+        profile:
+          $ref: '#/components/schemas/ProfileDTO'
+        service:
+          $ref: '#/components/schemas/ServiceDTO'
+        createdDate:
+          type: string
+          format: date
+        updatedDate:
+          type: string
+          format: date
+    CategoryDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        domainName:
+          type: string
+        domainIcon:
+          type: string
+        domainSlug:
+          type: string
+        slug:
+          type: string
+        icon:
+          type: string
+    ServiceDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        location:
+          $ref: '#/components/schemas/LocationDTO'
+        category:
+          $ref: '#/components/schemas/CategoryDTO'
+        slug:
+          type: string
+        icon:
+          type: string
+        cost:
+          type: integer
+          format: int64
+    MailboxMessageDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        subject:
+          type: string
+        text:
+          type: string
+        status:
+          type: string
+          enum:
+            - PENDING
+            - VIEWED
+        sendAt:
+          type: string
+          format: date-time
+        sender:
+          type: string
+        receiver:
+          type: string
+        profileId:
+          type: integer
+          format: int64
+        applicationId:
+          type: integer
+          format: int64
+    DogApplicationDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        application:
+          $ref: '#/components/schemas/ApplicationDTO'
+        justification:
+          type: string
+          enum:
+            - LOST_STAMP
+            - STAMP_UNUSABLE
+        dog:
+          $ref: '#/components/schemas/DogDTO'
+    DogDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        taxStampNumber:
+          type: string
+        bookingReference:
+          type: string
+        race:
+          type: string
+          enum:
+            - MISCHLING
+            - ANDERE_RASSE
+            - AMERICAN_STAFFORDSHIRE_TERRIER
+            - BORDEAUX_DOGGE
+            - BULLMASTIFF
+            - BULLTERRIER
+            - DOGO_ARGENTINO
+            - GERMAN_SHEPHERD
+            - FILA_BRASILIERO
+            - MASTIFF
+            - MASTINO_NAPOLETANO
+            - PIT_BULL_TERRIER
+            - STAFFORDSHIRE_BERRIER
+            - TOSA_INU
+        relationship:
+          $ref: '#/components/schemas/RelationshipDTO'
+    ConsentLogDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        status:
+          type: string
+          enum:
+            - ACCEPTED
+            - DENIED
+            - OPEN
+        consentText:
+          type: string
+        acceptedAt:
+          type: string
+          format: date-time
+        consentId:
+          type: integer
+          format: int64
+        profileId:
+          type: integer
+          format: int64
+    CommentDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        parentCommentId:
+          type: integer
+          format: int64
+        content:
+          type: string
+        application:
+          $ref: '#/components/schemas/ApplicationDTO'
+        user:
+          $ref: '#/components/schemas/UserDTO'
+        createdDate:
+          type: string
+          format: date
+        updatedDate:
+          type: string
+          format: date
+    UserDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+    NotificationDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        message:
+          type: string
+        subject:
+          type: string
+        status:
+          type: string
+          enum:
+            - PENDING
+            - VIEWED
+            - SENT
+        source:
+          type: string
+          enum:
+            - AUTHENTICATION
+            - APPLICATION
+            - COMMENT
+        profile:
+          $ref: '#/components/schemas/ProfileDTO'
+        createdDate:
+          type: string
+          format: date
+    MailboxMessageStatusDTO:
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+            - PENDING
+            - VIEWED
+    DomainDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        slug:
+          type: string
+        icon:
+          type: string
+    ConsentDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        text:
+          type: string
+        serviceId:
+          type: integer
+          format: int64
+  securitySchemes:
+    bearerAuth:
+      type: http
+      in: header
+      scheme: bearer
+      bearerFormat: JWT

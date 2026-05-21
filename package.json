@@ -1,0 +1,42 @@
+{
+  "name": "portal-monorepo",
+  "private": true,
+  "scripts": {
+    "dev": "turbo run dev",
+    "dev:user-portal": "turbo run dev --filter=user-portal-fe...",
+    "dev:service-portal": "turbo run dev --filter=service-portal-fe...",
+    "dev:admin-portal": "turbo run dev --filter=admin-portal-fe...",
+    "dev:local": "npx --yes concurrently -n be,fe -c blue,green \"cd apps/user-portal-be && mvn spring-boot:run -Dspring-boot.run.arguments=--server.port=8180\" \"npm run dev:user-portal\"",
+    "build": "turbo run build",
+    "clean": "turbo run clean && rm -rf node_modules",
+    "lint": "biome check ./apps/*-fe ./libs && turbo run lint",
+    "format": "biome format ./apps/*-fe ./libs --write",
+    "fix": "biome check ./apps/*-fe ./libs --apply"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^1.7.3",
+    "concurrently": "^9.0.0",
+    "turbo": "latest"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "packageManager": "npm@9.6.4",
+  "workspaces": [
+    "apps/*-fe",
+    "libs/*-fe",
+    "libs/auth",
+    "libs/mailbox",
+    "libs/mock-server",
+    "libs/profile",
+    "libs/services",
+    "libs/documents",
+    "libs/applications",
+    "libs/tailwind-config",
+    "libs/typescript-config",
+    "libs/ui"
+  ],
+  "dependencies": {
+    "@types/jest": "^30.0.0"
+  }
+}

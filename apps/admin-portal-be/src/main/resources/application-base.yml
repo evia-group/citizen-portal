@@ -1,0 +1,33 @@
+spring:
+
+  application:
+    name: admin-portal-be
+
+  jpa:
+    properties:
+      hibernate.jdbc.batch_size: 100
+      hibernate.jdbc.fetch_size: 500
+      hibernate.jdbc.batch_versioned_data: true
+      hibernate.order_inserts: true
+      hibernate.order_updates: true
+      hibernate.cache.use_second_level_cache: false
+      hibernate.generate_statistics: false
+      hibernate.session.events.log: false
+      hibernate.format_sql: true
+      jdbc:
+        lob.non_contextual_creation: true
+    hibernate.ddl-auto: update
+
+  datasource:
+    hikari:
+      maximum-pool-size: 20
+      minimum-idle: 5
+
+  liquibase:
+    drop-first: false
+    change-log: classpath:db/db.changelog-master.yml
+
+server:
+  max-http-request-header-size: 1MB
+  error:
+    include-message: always

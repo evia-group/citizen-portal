@@ -1,0 +1,13 @@
+spring:
+
+  datasource:
+    url: jdbc:postgresql://${POSTGRES_HOST}/${POSTGRES_DATABASE}?autoReconnect=true&targetServerType=master
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
+
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost/keycloak/realms/portal
+          jwk-set-uri: http://localhost/keycloak/realms/portal/protocol/openid-connect/certs

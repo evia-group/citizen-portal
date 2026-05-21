@@ -1,0 +1,29 @@
+databaseChangeLog:
+  - changeSet:
+      id: "006-update-profile-payment-data"
+      author: "Mark Iarovih"
+      logicalFilePath: "006-update-profile-payment-data.yml"
+      objectQuotingStrategy: "QUOTE_ONLY_RESERVED_WORDS"
+      preConditions:
+        - onFail: MARK_RAN
+        - onFailMessage: "Database tables [portal_profile] already initialized"
+        - not:
+            - columnExists:
+                tableName: "portal_profile"
+                columnName: "account_owner"
+      changes:
+        - addColumn:
+            tableName: "portal_profile"
+            columns:
+              - column:
+                  name: "account_owner"
+                  type: "VARCHAR(255)"
+              - column:
+                  name: "iban"
+                  type: "VARCHAR(22)"
+              - column:
+                  name: "bic"
+                  type: "VARCHAR(11)"
+              - column:
+                  name: "tax_id"
+                  type: "VARCHAR(11)"

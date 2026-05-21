@@ -1,0 +1,34 @@
+databaseChangeLog:
+  - changeSet:
+      id: "018-update-consent-buergerportal"
+      author: "Mark Iarovih"
+      logicalFilePath: "018-update-consent-buergerportal.yml"
+      objectQuotingStrategy: "QUOTE_ONLY_RESERVED_WORDS"
+      preConditions:
+        - onFail: MARK_RAN
+        - onFailMessage: "Database tables [portal_domain], [portal_category], [portal_service] or/and [portal_consent] are not initialized"
+        - tableExists:
+            tableName: "portal_domain"
+        - tableExists:
+            tableName: "portal_category"
+        - tableExists:
+            tableName: "portal_service"
+        - tableExists:
+            tableName: "portal_consent"
+      changes:
+        - loadData:
+            tableName: "portal_domain"
+            file: classpath:db/data/domain-data-update.csv
+            separator: ;
+        - loadData:
+            tableName: "portal_category"
+            file: classpath:db/data/category-data-update.csv
+            separator: ;
+        - loadData:
+            tableName: "portal_service"
+            file: classpath:db/data/service-data-update.csv
+            separator: ;
+        - loadData:
+            tableName: "portal_consent"
+            file: classpath:db/data/consent-data-update.csv
+            separator: ;

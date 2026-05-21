@@ -1,0 +1,7 @@
+
+
+> @repo/profile@0.0.0 generate:api
+> openapi-typescript ../../docs/openapi/profile.yml --output ./api/profile-api.generated.ts
+
+✨ [1mopenapi-typescript 6.7.4[22m
+🚀 [32m../../docs/openapi/profile.yml → [1mfile:///Users/g.svitlychnyi/Development/public/evia-Buergerportal/libs/profile/api/profile-api.generated.ts[22m[39m [2m[12ms][22m

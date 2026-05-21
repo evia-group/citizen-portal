@@ -1,0 +1,98 @@
+databaseChangeLog:
+  - changeSet:
+      id: "007-create-domain-and-category-schemas"
+      author: "Jimdjio Dessalli"
+      logicalFilePath: "007-create-domain-and-category-schemas.yml"
+      objectQuotingStrategy: "QUOTE_ONLY_RESERVED_WORDS"
+      preConditions:
+        - onFail: MARK_RAN
+        - onFailMessage: "Database tables [portal_domain] and [portal_category] already initialized"
+        - not:
+            - tableExists:
+                tableName: "portal_domain"
+        - not:
+            - tableExists:
+                tableName: "portal_category"
+      changes:
+        - createTable:
+            tableName: "portal_domain"
+            columns:
+              - column:
+                  name: "id"
+                  type: "BIGINT"
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: "version"
+                  type: "NUMBER(38, 0)"
+                  defaultValueNumeric: "1"
+                  constraints:
+                    nullable: false
+              - column:
+                  name: "name"
+                  type: "VARCHAR(255)"
+                  constraints:
+                    unique: true
+                    nullable: false
+              - column:
+                  name: "icon"
+                  type: "VARCHAR(255)"
+              - column:
+                  name: "slug"
+                  type: "VARCHAR(255)"
+                  constraints:
+                    unique: true
+                    nullable: false
+        - loadData:
+            tableName: "portal_domain"
+            file: classpath:db/data/domain-data-init.csv
+            separator: ;
+        - createTable:
+            tableName: "portal_category"
+            columns:
+              - column:
+                  name: "id"
+                  type: "BIGINT"
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: "version"
+                  type: "NUMBER(38, 0)"
+                  defaultValueNumeric: "1"
+                  constraints:
+                    nullable: false
+              - column:
+                  name: "name"
+                  type: "VARCHAR(255)"
+                  constraints:
+                    unique: true
+                    nullable: false
+              - column:
+                  name: "icon"
+                  type: "VARCHAR(255)"
+              - column:
+                  name: "slug"
+                  type: "VARCHAR(255)"
+                  constraints:
+                    unique: true
+                    nullable: false
+              - column:
+                  name: "domain_id"
+                  type: "BIGINT"
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            constraintName: "fk_category_domain"
+            baseTableName: "portal_category"
+            baseColumnNames: "domain_id"
+            referencedTableName: "portal_domain"
+            referencedColumnNames: "id"
+            onDelete: CASCADE
+        - loadData:
+            tableName: "portal_category"
+            file: classpath:db/data/category-data-init.csv
+            separator: ;

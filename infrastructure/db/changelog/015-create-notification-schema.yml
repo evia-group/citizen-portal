@@ -1,0 +1,69 @@
+databaseChangeLog:
+  - changeSet:
+      id: "015-create-dog-application-schema"
+      author: "Jimdjio Dessalli"
+      logicalFilePath: "015-create-dog-application-schema.yml"
+      objectQuotingStrategy: "QUOTE_ONLY_RESERVED_WORDS"
+      preConditions:
+        - onFail: MARK_RAN
+        - onFailMessage: "Database tables [portal_notification] already initialized"
+        - not:
+            - tableExists:
+                tableName: "portal_notification"
+      changes:
+        - createTable:
+            tableName: "portal_notification"
+            columns:
+              - column:
+                  name: "id"
+                  type: "BIGINT"
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: "version"
+                  type: "NUMBER(38, 0)"
+                  defaultValueNumeric: "1"
+                  constraints:
+                    nullable: false
+              - column:
+                  name: "message"
+                  type: "VARCHAR(255)"
+                  constraints:
+                    nullable: false
+              - column:
+                  name: "subject"
+                  type: "VARCHAR(255)"
+                  constraints:
+                    nullable: false
+              - column:
+                  name: "status"
+                  type: "VARCHAR(255)"
+                  constraints:
+                    nullable: false
+              - column:
+                  name: "source"
+                  type: "VARCHAR(255)"
+                  constraints:
+                    nullable: false
+              - column:
+                  name: "profile_id"
+                  type: "BIGINT"
+                  constraints:
+                    nullable: false
+              - column:
+                  name: "created_date"
+                  type: "DATE"
+                  defaultValueComputed: "CURRENT_DATE"
+        - addForeignKeyConstraint:
+            constraintName: "fk_notification_profile"
+            baseTableName: "portal_notification"
+            baseColumnNames: "profile_id"
+            referencedTableName: "portal_profile"
+            referencedColumnNames: "id"
+            onDelete: CASCADE
+        - loadData:
+            file: classpath:db/data/notification-data-init.csv
+            tableName: "portal_notification"
+            separator: ";"

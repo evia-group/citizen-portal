@@ -1,0 +1,34 @@
+@startuml
+
+entity "Application"  {
+    + id : Long <<PK>>
+    --
+    + version : long
+    --
+    + status : ApplicationStatus
+    --
+    + profile_id : Long <<FK>>
+    + service_id : Long <<FK>>
+}
+
+entity "User" {
+    + id : Long <<PK>>
+    --
+    + email : String
+    + (other attributes)
+}
+
+entity "Comment"  {
+    + id : Long <<PK>>
+    --
+    + application_id : Long <<FK>>
+    + user_id : Long <<FK>>
+    + parent_comment_id : Long <<FK>> 
+    + comment : String
+    + created_date : Date
+    + updated_date : Date
+}
+
+Application "1" -- "0..*" Comment
+User "1" -- "0..*" Comment
+@enduml

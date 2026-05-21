@@ -1,0 +1,3 @@
+status;consent_text;consent_id;profile_id
+ACCEPTED;Sind Sie mit der Verarbeitung ihrer Daten einverstanden?;1;1
+DENIED;Wollen Sie Benachrichtigungen zum Status ihrer Anmeldung aktivieren?;2;1

@@ -1,0 +1,31 @@
+databaseChangeLog:
+  - changeSet:
+      id: "019-update-profile-me-endpoint"
+      author: "Mark Iarovih"
+      logicalFilePath: "019-update-profile-me-endpoint.yml"
+      objectQuotingStrategy: "QUOTE_ONLY_RESERVED_WORDS"
+      preConditions:
+        - onFail: MARK_RAN
+        - onFailMessage: "Database tables [portal_profile] not initialized"
+        - tableExists:
+            tableName: "portal_profile"
+      changes:
+        - addColumn:
+            tableName: "portal_profile"
+            columns:
+              - column:
+                  name: "user_id"
+                  type: "VARCHAR(36)"
+        - sql:
+            sql: update portal_profile set user_id = 'c619c4ce-bf01-457d-8cd4-f5963dce9c53' where id = '0';
+        - sql:
+            sql: update portal_profile set user_id = 'd619c4ce-bf01-457d-8cd4-f5963dce9c53' where id = '1';
+        - update:
+            tableName: "portal_profile"
+            columns:
+              - column:
+                  name: "user_id"
+                  constraints:
+                    nullable: false
+                    unique: false
+                  

@@ -1,0 +1,39 @@
+databaseChangeLog:
+  - changeSet:
+      id: "009-create-admin-user-schema"
+      author: "Mark Iarovih"
+      logicalFilePath: "009-create-admin-user-schema.yml"
+      objectQuotingStrategy: "QUOTE_ONLY_RESERVED_WORDS"
+      preConditions:
+        - onFail: MARK_RAN
+        - onFailMessage: "Database table [admin_user] already initialized"
+        - not:
+            - tableExists:
+                tableName: "admin_user"
+      changes:
+        - createTable:
+            tableName: "admin_user"
+            columns:
+              - column:
+                  name: "id"
+                  type: "BIGINT"
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: "version"
+                  type: "NUMBER(38, 0)"
+                  defaultValueNumeric: "1"
+                  constraints:
+                    nullable: false
+              - column:
+                  name: "user_name"
+                  type: "VARCHAR(255)"
+                  constraints:
+                    nullable: false
+              - column:
+                  name: "service"
+                  type: "VARCHAR(255)"
+                  constraints:
+                    nullable: false

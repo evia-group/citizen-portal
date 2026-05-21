@@ -1,0 +1,62 @@
+databaseChangeLog:
+  - changeSet:
+      id: "013-create-dog-application-schema"
+      author: "Jimdjio Dessalli"
+      logicalFilePath: "013-create-dog-application-schema.yml"
+      objectQuotingStrategy: "QUOTE_ONLY_RESERVED_WORDS"
+      preConditions:
+        - onFail: MARK_RAN
+        - onFailMessage: "Database tables [portal_dog_application] already initialized"
+        - not:
+            - tableExists:
+                tableName: "portal_dog_application"
+      changes:
+        - createTable:
+            tableName: "portal_dog_application"
+            columns:
+              - column:
+                  name: "id"
+                  type: "BIGINT"
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: "version"
+                  type: "NUMBER(38, 0)"
+                  defaultValueNumeric: "1"
+                  constraints:
+                    nullable: false
+              - column:
+                  name: "justification"
+                  type: "VARCHAR(255)"
+                  constraints:
+                    nullable: false
+              - column:
+                  name: "application_id"
+                  type: "BIGINT"
+                  constraints:
+                    nullable: false
+              - column:
+                  name: "dog_id"
+                  type: "BIGINT"
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            constraintName: "fk_dog_application_application"
+            baseTableName: "portal_dog_application"
+            baseColumnNames: "application_id"
+            referencedTableName: "portal_application"
+            referencedColumnNames: "id"
+            onDelete: CASCADE
+        - addForeignKeyConstraint:
+            constraintName: "fk_dog_application_dog"
+            baseTableName: "portal_dog_application"
+            baseColumnNames: "dog_id"
+            referencedTableName: "portal_dog"
+            referencedColumnNames: "id"
+            onDelete: CASCADE
+        - loadData:
+            file: classpath:db/data/dog-application-data-init.csv
+            tableName: "portal_dog_application"
+            separator: ";"

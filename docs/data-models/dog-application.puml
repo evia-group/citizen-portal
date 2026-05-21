@@ -1,0 +1,154 @@
+@startuml
+
+entity Document {
+  * id: number <<generated>>
+  * profile_id: number <<Profile>> <<FK>>
+  --
+  * name: text
+  * type: text <<DocumentType>>
+  * category: text <<Category>>
+}
+
+entity Service {
+  * id: number <<generated>>
+  --
+  * name: string
+  * category: text <<Category>>
+  * location: number <<Location>> <<FK>>
+}
+
+entity ApplicationDocument {
+  * id: number <<generated>>
+  --
+  * application_id: number <<Application>> <<FK>>
+  * document_id: number <<Document>> <<FK>>
+}
+entity DogApplicationDocument {
+  * id: number <<generated>>
+  --
+  * dogApplication_id: number <<DogApplication>> <<FK>>
+  * document_id: number <<Document>> <<FK>>
+}
+
+entity Profile {
+  * id: number <<generated>>
+  --
+  ...
+}
+
+entity Relationship {
+   * id: number <<generated>>
+   * profile_id: number <<Profile>> <<FK>>
+   --
+   name: text 
+   type: type <<RelationshipType>>
+}
+
+entity Dog {
+   * id: number <<generated>>
+   --
+   * relationship_id: number <<Relationship>> <<FK>>
+   race: text <<Race>>
+   tax_stamp_number: text 
+}
+
+entity Kid {
+   * id: number <<generated>>
+   --
+   * relationship_id: number <<Relationship>> <<FK>>
+   birth_name: text
+   last_name: text
+   school: <<School>> <<FK>>
+   tax_stamp_number: text 
+}
+
+entity Application {
+  * id: number <<generated>>
+  * profile_id: number <<Dog>> <<FK>>
+  * service_id: number <<Service>> <<FK>>
+  --
+  status: text <<ApplicationStatus>>
+}
+
+entity DogApplication {
+  * id: number <<generated>>
+  * dog_id: number <<Dog>> <<FK>>
+  * application_id: number <<Application>> <<FK>>
+  --
+  status: text <<ApplicationStatus>>
+}
+
+entity KidApplication {
+  * id: number <<generated>>
+  * dog_id: number <<Dog>> <<FK>>
+  * service_id: number <<Service>> <<FK>>
+  --
+  status: text <<ApplicationStatus>>
+}
+
+entity Location {
+  * id: number <<generated>>
+  --
+  ...
+}
+
+enum DocumentType {
+  IDENTITY_CARD
+  REGISTRATION_FORM
+  OTHER
+}
+
+enum Race {
+  BULLDOG,
+  PUDDLE
+}
+
+entity Category {
+  * id: number <<generated>>
+  ---
+  * domain: text <<Domain>>
+}
+
+enum Domain {
+  FAMILY
+  HOBBY
+  HEALTHCARE
+  EDUCATION
+  WORK
+  LAW
+}
+
+enum ApplicationStatus {
+  ADDED
+  STARTED
+  PENDING
+  FINISHED
+  ARCHIVED
+  CANCELED
+}
+
+Location -- Profile
+Location -- Service
+Profile -- Document
+Profile "0"--"n" Application
+Profile "0"--"n" Relationship
+Relationship -- Dog
+Relationship -- Kid
+Service "0"--"n" Application
+Application -- DogApplication
+Application -- KidApplication
+Dog "0"--"n" DogApplication
+Kid "0"--"n" KidApplication
+Service -- Category
+Application "0"--"n" ApplicationDocument
+DogApplication "0"--"n" DogApplicationDocument
+Application -- ApplicationStatus
+DogApplication -- ApplicationStatus
+ApplicationDocument -- Document
+DogApplicationDocument -- Document
+Category -- Domain
+Document -- DocumentType
+Document -- Category
+Dog -- Race
+
+@enduml

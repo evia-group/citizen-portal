@@ -1,0 +1,29 @@
+name;domain_id;slug;icon
+Engagement und Beteiligung;6;engagement;hand-helping
+Fischen und Jagen;6;fishing;fish-symbol
+Veranstaltung durchführen;6;events;party-popper
+Tierhaltung;6;animals;paw-print
+Bootsbesitz;6;boats;sailboat
+Geburt;1;geburt;a-large-small
+Kinderbetreuung;1;kinderbetreuung;a-large-small
+Eheschließung;1;eheschließung;a-large-small
+Adoption und Pflegekinder;1;adoption_und_pflegekinder;a-large-small
+Scheidung;1;scheidung;a-large-small
+Trennung mit Kind;1;trennung_mit_kind;a-large-small
+Gesundheitsvorsorge;2;gesundheitsvorsorge;a-large-small
+Krankheit;2;krankheit;a-large-small
+Behinderung;2;behinderung;a-large-small
+Pflege;2;pflege;a-large-small
+Tod;2;tod;a-large-small
+Schule;5;schule;a-large-small
+Berufsausbildung;5;berufsausbildung;a-large-small
+Studium;5;studium;a-large-small
+Weiterbildung;5;weiterbildung;a-large-small
+Arbeitsplatzwechsel;3;arbeitsplatzwechsel;a-large-small
+Arbeitsplatzverlust;3;arbeitsplatzverlust;a-large-small
+Steuererklärung;3;steuererklärung;a-large-small
+Armutsvermeidung;3;armutsvermeidung;a-large-small
+Altersvorsorge;3;altersvorsorge;a-large-small
+Rente;3;rente;a-large-small
+Anzeige und Klage;4;anzeige_und_klage;a-large-small
+Naturkatastrophe;4;naturkatastrophe;a-large-small

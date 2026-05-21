@@ -1,0 +1,18 @@
+package com.evia.portal.userportal.core.domain.enumeration;
+
+public enum DogRace {
+    MISCHLING,
+    ANDERE_RASSE,
+    AMERICAN_STAFFORDSHIRE_TERRIER,
+    BORDEAUX_DOGGE,
+    BULLMASTIFF,
+    BULLTERRIER,
+    DOGO_ARGENTINO,
+    GERMAN_SHEPHERD,
+    FILA_BRASILIERO,
+    MASTIFF,
+    MASTINO_NAPOLETANO,
+    PIT_BULL_TERRIER,
+    STAFFORDSHIRE_BERRIER,
+    TOSA_INU
+}
