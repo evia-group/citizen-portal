@@ -7,7 +7,7 @@
   },
   "devDependencies": {
     "@repo/typescript-config": "*",
-    "typescript": "^5.3.3"
+    "typescript": "^5.9.3"
   },
   "dependencies": {
     "ky": "^1.2.2"

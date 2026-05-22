@@ -10,10 +10,10 @@
     "@repo/profile": "*",
     "@repo/services": "*",
     "@repo/typescript-config": "*",
-    "typescript": "^5.3.3"
+    "typescript": "^5.9.3"
   },
   "dependencies": {
-    "h3": "^1.11.1",
-    "listhen": "^1.7.2"
+    "h3": "^1.15.11",
+    "listhen": "^1.10.0"
   }
 }

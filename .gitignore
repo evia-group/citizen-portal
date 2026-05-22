@@ -16,6 +16,7 @@ build
 
 # expo
 .expo
+expo-env.d.ts
 
 # misc
 .DS_Store
