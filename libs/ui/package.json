@@ -17,17 +17,19 @@
     "clsx": "^2.1.0",
     "lucide-react": "^0.366.0",
     "lucide-react-native": "^0.366.0",
-    "react": "^18.2.0",
     "react-hook-form": "^7.51.0",
-    "react-native": "^0.73.1",
     "react-native-svg": "^14.1.0",
     "tailwind-merge": "^2.2.2",
     "tailwindcss-animate": "^1.0.7"
   },
+  "peerDependencies": {
+    "@types/react": ">=18",
+    "react": ">=18",
+    "react-native": ">=0.73"
+  },
   "devDependencies": {
     "@repo/tailwind-config": "*",
     "@repo/typescript-config": "*",
-    "@types/react": "^18.2.46",
     "@types/react-native": "^0.73.0",
     "autoprefixer": "^10.4.17",
     "nativewind": "^4.0.36",

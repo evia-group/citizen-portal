@@ -1,4 +1,4 @@
-FROM node:20-alpine AS admin-portal-fe-base
+FROM node:22-alpine AS admin-portal-fe-base
 
 # This is copy/pasted from https://github.com/vercel/turbo/blob/main/examples/with-docker/apps/web/Dockerfile
 

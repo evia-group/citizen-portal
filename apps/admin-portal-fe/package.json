@@ -14,7 +14,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-native-picker-select": "^9.0.1",
-    "react-native-web": "^0.19.10",
+    "react-native-web": "~0.19.6",
     "react-native-safe-area-context": "4.8.2"
   },
   "devDependencies": {
@@ -24,7 +24,7 @@
     "@types/react": "^18.2.46",
     "@types/react-dom": "^18.2.18",
     "autoprefixer": "^10.4.17",
-    "babel-plugin-react-native-web": "^0.19.10",
+    "babel-plugin-react-native-web": "~0.19.6",
     "eslint": "^8.56.0",
     "eslint-config-next": "14.0.4",
     "nativewind": "^4.0.36",

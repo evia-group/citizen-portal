@@ -14,14 +14,19 @@
     "fix": "biome check ./apps/*-fe ./libs --apply"
   },
   "devDependencies": {
-    "@biomejs/biome": "^1.7.3",
+    "@biomejs/biome": "1.7.3",
+    "ajv": "^6.12.6",
+    "ajv-keywords": "^3.5.2",
     "concurrently": "^9.0.0",
-    "turbo": "latest"
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-native": "0.73.6",
+    "turbo": "^1.13.3"
   },
   "engines": {
-    "node": ">=18"
+    "node": ">=22"
   },
-  "packageManager": "npm@9.6.4",
+  "packageManager": "npm@10.9.2",
   "workspaces": [
     "apps/*-fe",
     "libs/*-fe",
@@ -36,7 +41,12 @@
     "libs/typescript-config",
     "libs/ui"
   ],
-  "dependencies": {
-    "@types/jest": "^30.0.0"
+  "overrides": {
+    "nativewind": "4.0.36",
+    "next": "14.1.0",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-native": "0.73.6",
+    "react-native-css-interop": "0.0.36"
   }
 }

@@ -1,4 +1,4 @@
-FROM node:20-slim AS user-portal-fe-build
+FROM node:22-slim AS user-portal-fe-build
 
 # Bake the FE's API + Keycloak URLs into the static bundle at build time.
 # Defaults target the prod/dev cluster; docker-compose overrides them for

@@ -15,6 +15,11 @@
     "expo-router": "~3.4.10",
     "react-hook-form": "^7.51.0"
   },
+  "peerDependencies": {
+    "@types/react": ">=18",
+    "react": ">=18",
+    "react-native": ">=0.73"
+  },
   "devDependencies": {
     "@repo/typescript-config": "*",
     "h3": "^1.11.1",
