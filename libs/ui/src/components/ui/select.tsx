@@ -180,6 +180,7 @@ const SelectSeparator = React.forwardRef<
 SelectSeparator.displayName = SelectPrimitive.Separator.displayName;
 
 export {
+  type Option,
   Select,
   SelectContent,
   SelectGroup,
@@ -190,5 +191,4 @@ export {
   SelectSeparator,
   SelectTrigger,
   SelectValue,
-  type Option,
 };

@@ -24,7 +24,10 @@ ButtonLink.displayName = "ButtonLink";
 export default function ApplicationLayout({
   children,
   params: { applicationId },
-}: { children: React.ReactNode; params: { applicationId: string } }) {
+}: {
+  children: React.ReactNode;
+  params: { applicationId: string };
+}) {
   return (
     <div className="container mx-auto mt-5">
       <div className=" flex row">

@@ -128,7 +128,6 @@ export { Image, Pressable, Text, View };
 
 function composeRefs<T>(...refs: (React.Ref<T> | undefined)[]) {
   return (node: T) =>
-    // biome-ignore lint/complexity/noForEach: copy from react-native-reusables
     refs.forEach((ref) => {
       if (typeof ref === "function") {
         ref(node);

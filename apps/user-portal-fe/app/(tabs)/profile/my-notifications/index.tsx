@@ -1,6 +1,6 @@
 import { useLoggedInAuth } from "@repo/auth";
 import { useProfileNotifications } from "@repo/profile";
-import { Button, Card, Text, cn, formatDate } from "@repo/ui";
+import { Button, Card, cn, formatDate, Text } from "@repo/ui";
 import { router } from "expo-router";
 import { Menu } from "lucide-react-native";
 import { FlatList, Pressable, View } from "react-native";

@@ -6,7 +6,9 @@ import { H2 } from "~/components/ui/typography";
 
 export default function ApplicationDocument({
   params,
-}: { params: { applicationId: number } }) {
+}: {
+  params: { applicationId: number };
+}) {
   const { data, isLoading, isError, error } = useApplication(
     params.applicationId,
   );

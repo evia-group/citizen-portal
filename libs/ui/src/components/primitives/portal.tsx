@@ -79,12 +79,12 @@ export function Portal({
 }) {
   const { updatePortal, removePortal } = React.useContext(PortalContext);
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+  // biome-ignore lint/correctness/useExhaustiveDependencies: updatePortal is stable; depending on it would loop
   React.useEffect(() => {
     updatePortal(hostName, name, children);
   }, [hostName, name, children]);
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+  // biome-ignore lint/correctness/useExhaustiveDependencies: removePortal is stable; depending on it would loop
   React.useEffect(() => {
     return () => {
       removePortal(hostName, name);

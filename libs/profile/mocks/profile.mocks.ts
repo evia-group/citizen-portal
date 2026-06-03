@@ -1,4 +1,4 @@
-import { type Router, defineEventHandler, getRouterParam, readBody } from "h3";
+import { defineEventHandler, getRouterParam, type Router, readBody } from "h3";
 import type { Profile, ProfileList } from "../models/profile";
 import { locations } from "./location.mocks";
 

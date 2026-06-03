@@ -1,5 +1,5 @@
 import type { DogApplication } from "@repo/services";
-import { type SearchParamsOption, client } from "@repo/shared";
+import { client, type SearchParamsOption } from "@repo/shared";
 import type { Application } from "../models/application";
 
 export async function getApplicationsList(searchParams?: SearchParamsOption) {

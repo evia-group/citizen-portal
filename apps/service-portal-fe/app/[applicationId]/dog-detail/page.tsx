@@ -7,7 +7,9 @@ import { H2 } from "~/components/ui/typography";
 
 export default function ApplicationDogDetail({
   params,
-}: { params: { applicationId: number } }) {
+}: {
+  params: { applicationId: number };
+}) {
   const { data, isLoading, isError, error } = useDogApplication(
     params.applicationId,
   );
@@ -30,19 +32,21 @@ export default function ApplicationDogDetail({
             <div>
               <label className={labelClassName}>
                 Nummer der Hundesteuermarke (freiwillige Angabe)
+                <Input value={data.dog?.taxStampNumber ?? "-"} readOnly />
               </label>
-              <Input value={data.dog?.taxStampNumber ?? "-"} readOnly />
             </div>
             <div>
-              <label className={labelClassName}>Name vom Hund </label>
-              <Input value={data.dog?.name ?? "-"} readOnly />
+              <label className={labelClassName}>
+                Name vom Hund <Input value={data.dog?.name ?? "-"} readOnly />
+              </label>
             </div>
             <div>
-              <label className={labelClassName}>Hunderasse </label>
-              <Input value={data.dog?.race ?? "-"} readOnly />
+              <label className={labelClassName}>
+                Hunderasse <Input value={data.dog?.race ?? "-"} readOnly />
+              </label>
             </div>
             <div>
-              <label className={labelClassName}>Grund für den Ersatz :</label>
+              <span className={labelClassName}>Grund für den Ersatz :</span>
               {data?.justification === "STAMP_UNUSABLE" && (
                 <div className="flex items-center">
                   <span>Marke unbrauchbar</span>

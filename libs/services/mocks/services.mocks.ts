@@ -1,5 +1,5 @@
 import { locations } from "@repo/profile/mocks";
-import { type Router, defineEventHandler } from "h3";
+import { defineEventHandler, type Router } from "h3";
 import type { Service as ServiceDTO } from "../models/services";
 
 export function initRoutes(router: Router) {

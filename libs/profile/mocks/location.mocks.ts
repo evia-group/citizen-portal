@@ -1,4 +1,4 @@
-import { type Router, defineEventHandler } from "h3";
+import { defineEventHandler, type Router } from "h3";
 import type { Location } from "../models/location";
 
 export const locations = [

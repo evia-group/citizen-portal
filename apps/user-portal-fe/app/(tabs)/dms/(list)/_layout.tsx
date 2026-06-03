@@ -1,5 +1,5 @@
 import { Button, Dialog, DialogContent, Text, useDisclosure } from "@repo/ui";
-import { Link, Slot, router } from "expo-router";
+import { Link, router, Slot } from "expo-router";
 import { Bot, Settings2 } from "lucide-react-native";
 import { ScrollView, View } from "react-native";
 

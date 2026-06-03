@@ -1,9 +1,9 @@
-import { useAppState } from "@/hooks/use-app-state";
-import { useOnlineManager } from "@/hooks/use-online-manager";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { type Theme, ThemeProvider } from "@react-navigation/native";
 import { AuthenticationProvider } from "@repo/auth";
 import { HTTPError } from "@repo/shared";
+import { useAppState } from "@/hooks/use-app-state";
+import { useOnlineManager } from "@/hooks/use-online-manager";
 import "@repo/tailwind-config/global.css";
 import {
   NAV_THEME,
@@ -12,14 +12,14 @@ import {
   useColorScheme,
 } from "@repo/ui";
 import {
+  focusManager,
   QueryCache,
   QueryClient,
   QueryClientProvider,
-  focusManager,
 } from "@tanstack/react-query";
 import { useFonts } from "expo-font";
 import { LinearGradient } from "expo-linear-gradient";
-import { Stack, router } from "expo-router";
+import { router, Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect, useState } from "react";
 import { type AppStateStatus, Platform, StyleSheet } from "react-native";

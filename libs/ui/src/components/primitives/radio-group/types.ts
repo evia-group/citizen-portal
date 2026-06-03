@@ -12,4 +12,4 @@ interface RadioGroupItemProps {
   "aria-labelledby": string;
 }
 
-export type { RadioGroupRootProps, RadioGroupItemProps };
+export type { RadioGroupItemProps, RadioGroupRootProps };

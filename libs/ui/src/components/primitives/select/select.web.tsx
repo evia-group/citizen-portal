@@ -327,6 +327,7 @@ const Viewport = (
   return <Select.Viewport {...props} />;
 };
 
+export type { Option } from "./types";
 export {
   Content,
   Group,
@@ -341,10 +342,8 @@ export {
   ScrollUpButton,
   Separator,
   Trigger,
-  Value,
-  Viewport,
   useItemContext,
   useRootContext,
+  Value,
+  Viewport,
 };
-
-export type { Option } from "./types";

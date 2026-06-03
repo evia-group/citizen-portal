@@ -1,5 +1,5 @@
+import { router, Stack } from "expo-router";
 import { Header } from "@/components/header";
-import { Stack, router } from "expo-router";
 
 export default function MailboxLayout() {
   return (

@@ -11,10 +11,10 @@
     "clean": "turbo run clean && rm -rf node_modules",
     "lint": "biome check ./apps/*-fe ./libs && turbo run lint",
     "format": "biome format ./apps/*-fe ./libs --write",
-    "fix": "biome check ./apps/*-fe ./libs --apply"
+    "fix": "biome check ./apps/*-fe ./libs --write"
   },
   "devDependencies": {
-    "@biomejs/biome": "1.7.3",
+    "@biomejs/biome": "^2.4.15",
     "ajv": "^6.12.6",
     "ajv-keywords": "^3.5.2",
     "concurrently": "^9.0.0",

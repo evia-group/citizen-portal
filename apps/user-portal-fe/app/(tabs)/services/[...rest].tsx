@@ -1,4 +1,3 @@
-import { Header } from "@/components/header";
 import {
   type Category,
   Details,
@@ -10,6 +9,7 @@ import { Stack, useLocalSearchParams } from "expo-router";
 import { openBrowserAsync } from "expo-web-browser";
 import { useForm } from "react-hook-form";
 import { Platform, ScrollView, View } from "react-native";
+import { Header } from "@/components/header";
 import { Item } from "./index";
 
 export default function ServicesRest() {
@@ -130,7 +130,10 @@ function ServicesDomain({ domain }: { domain: Domain }) {
 function ServicesCategory({
   domain,
   category,
-}: { domain: Domain; category: Category }) {
+}: {
+  domain: Domain;
+  category: Category;
+}) {
   const { control, watch } = useForm({
     defaultValues: { search: "" },
   });

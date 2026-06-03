@@ -1,5 +1,5 @@
-import * as lucide from "lucide-react-native";
 import type { LucideIcon } from "lucide-react-native";
+import * as lucide from "lucide-react-native";
 
 const icons = lucide as unknown as Record<string, LucideIcon | undefined>;
 
@@ -24,7 +24,12 @@ export function DynamicIcon({
   color,
   size,
   className,
-}: { name: string; color: string; size: number; className?: string }) {
+}: {
+  name: string;
+  color: string;
+  size: number;
+  className?: string;
+}) {
   const LucideIcon = icons[ucFirst(camelCase(name))];
 
   return LucideIcon ? (

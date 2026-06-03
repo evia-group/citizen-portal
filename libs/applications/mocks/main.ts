@@ -1,9 +1,9 @@
 import type { Profile } from "@repo/profile";
 import type { Service } from "@repo/services";
 import {
-  type Router,
   defineEventHandler,
   getRouterParam,
+  type Router,
   setResponseStatus,
 } from "h3";
 import type { Application } from "../models/application";

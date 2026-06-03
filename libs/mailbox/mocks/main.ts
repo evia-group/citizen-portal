@@ -1,8 +1,8 @@
 import {
-  type Router,
   defineEventHandler,
   getQuery,
   getRouterParam,
+  type Router,
   readBody,
 } from "h3";
 import type { CreateMail, Mail } from "../models/mail";

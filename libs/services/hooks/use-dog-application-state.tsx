@@ -1,8 +1,8 @@
 import type { Profile } from "@repo/profile";
 import {
+  createContext,
   type Dispatch,
   type ReactNode,
-  createContext,
   useContext,
   useReducer,
 } from "react";
@@ -72,7 +72,9 @@ const dogApplicationReducer = (
 
 export const DogApplicationProvider = ({
   children,
-}: { children: ReactNode }) => {
+}: {
+  children: ReactNode;
+}) => {
   const [state, dispatch] = useReducer(dogApplicationReducer, initialState);
 
   return (

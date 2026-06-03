@@ -21,7 +21,9 @@ import { useForm } from "react-hook-form";
 
 export default function MailboxPage({
   params: { applicationId },
-}: { params: { applicationId: string } }) {
+}: {
+  params: { applicationId: string };
+}) {
   const { data: mails } = useMailbox(1, new URLSearchParams({ applicationId }));
   const { control, handleSubmit, watch, reset } = useForm<CreateMail>({
     defaultValues: {

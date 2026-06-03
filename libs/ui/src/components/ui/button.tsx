@@ -1,4 +1,4 @@
-import { type VariantProps, cva } from "class-variance-authority";
+import { cva, type VariantProps } from "class-variance-authority";
 import * as React from "react";
 import { Pressable } from "react-native";
 import { TextClassContext } from "~/components/ui/text";
@@ -87,5 +87,5 @@ const Button = React.forwardRef<
 });
 Button.displayName = "Button";
 
-export { Button, buttonTextVariants, buttonVariants };
 export type { ButtonProps };
+export { Button, buttonTextVariants, buttonVariants };

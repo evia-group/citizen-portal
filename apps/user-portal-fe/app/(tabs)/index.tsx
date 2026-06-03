@@ -1,4 +1,3 @@
-import { DashboardCarousel } from "@/components/dashboard-carousel";
 import { DynamicIcon, statusMap, useGetDogApplications } from "@repo/services";
 import {
   Badge,
@@ -18,6 +17,7 @@ import {
   useDisclosure,
 } from "@repo/ui";
 import { Pressable, ScrollView, TextInput, View } from "react-native";
+import { DashboardCarousel } from "@/components/dashboard-carousel";
 
 export default function DashboardScreen() {
   const { data, isLoading } = useGetDogApplications();

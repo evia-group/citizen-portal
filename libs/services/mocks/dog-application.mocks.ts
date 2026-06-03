@@ -1,5 +1,5 @@
 import type { Profile } from "@repo/profile";
-import { type Router, defineEventHandler, readBody } from "h3";
+import { defineEventHandler, type Router, readBody } from "h3";
 import type { DogApplication } from "../models/dog-application";
 import type { Service } from "../models/services";
 
