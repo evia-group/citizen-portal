@@ -67,6 +67,22 @@ command: start-dev -Dkeycloak.migration.action=export -Dkeycloak.migration.provi
 
 The export file is written to `infrastructure/keycloak/import/export-realms.json` containing all realms and users.
 
+## Running Junie CLI in a devcontainer
+
+You can run JetBrains' **Junie CLI** against this monorepo inside a **sandbox** via devcontainer. 
+
+**Setup:**
+
+1. Start devcontainer via IntelliJ or a command line: `.devcontainer/devcontainer.json`
+2. In the container terminal, run `junie` → **JetBrains Account**. Complete the
+   login in the browser window your client forwards back to the host.
+
+   > **Port config:** the `/account` login uses a localhost OAuth callback that must be forwarded
+   > 1:1 from host to container, otherwise the redirect URI mismatches and the token exchange fails
+   > (`invalid_grant / Redirect URI mismatch`). The `.devcontainer/devcontainer.json` pins this with
+   > `forwardPorts: [62345]` and a matching `portsAttributes` entry. 
+   > Change the port if needed and recreate the devcontainer
+
 ## Contributors
 
 - Florian Matz - UI / UX

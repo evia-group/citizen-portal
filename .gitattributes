@@ -1,0 +1,10 @@
+# Normalize line endings so files run cleanly in the Linux devcontainer even when
+# checked out on Windows. Without this, CRLF on *.sh / Dockerfile breaks the shebang
+# and the Junie install.sh invocation inside the container.
+* text=auto
+
+*.sh           text eol=lf
+Dockerfile     text eol=lf
+*.Dockerfile   text eol=lf
+.devcontainer/** text eol=lf
+mvnw           text eol=lf
