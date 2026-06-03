@@ -52,7 +52,7 @@ export default function ProfileDataScreen() {
                   close();
                 }, 2_000);
               }}
-              onBack={() => router.navigate("/profile/")}
+              onBack={() => router.navigate("/profile")}
             />
           ) : null}
         </View>

@@ -43,7 +43,7 @@ export default function TabLayout() {
             : [];
 
           return (
-            <Link href="/profile/" asChild>
+            <Link href="/profile" asChild>
               <Pressable className="pr-5">
                 <View className="relative">
                   {hasUnreadNotifications.length > 0 ? (

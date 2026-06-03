@@ -21,7 +21,7 @@
     "eslint": "^9.39.4",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-native": "0.73.6",
+    "react-native": "0.74.5",
     "turbo": "^1.13.3"
   },
   "engines": {
@@ -44,10 +44,9 @@
   ],
   "overrides": {
     "nativewind": "4.0.36",
-    "next": "14.1.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-native": "0.73.6",
+    "react-native": "0.74.5",
     "react-native-css-interop": "0.0.36"
   }
 }
