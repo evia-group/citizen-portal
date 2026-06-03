@@ -7,9 +7,8 @@ module.exports = {
   assetPrefix: "./",
   reactStrictMode: true,
   output: "standalone",
-  experimental: {
-    outputFileTracingRoot: path.join(__dirname, "../../"),
-  },
+  outputFileTracingRoot: path.join(__dirname, "../../"),
+  transpilePackages: ["nativewind", "react-native-css-interop"],
   webpack: (config) => {
     config.resolve.alias = {
       ...config.resolve.alias,

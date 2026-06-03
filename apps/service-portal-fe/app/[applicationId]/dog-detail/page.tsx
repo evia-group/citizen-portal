@@ -1,15 +1,15 @@
 "use client";
 
 import { useDogApplication } from "@repo/applications";
+import { use } from "react";
 import { Input } from "~/components/ui/input";
 import { Text } from "~/components/ui/text";
 import { H2 } from "~/components/ui/typography";
 
-export default function ApplicationDogDetail({
-  params,
-}: {
-  params: { applicationId: number };
+export default function ApplicationDogDetail(props: {
+  params: Promise<{ applicationId: number }>;
 }) {
+  const params = use(props.params);
   const { data, isLoading, isError, error } = useDogApplication(
     params.applicationId,
   );

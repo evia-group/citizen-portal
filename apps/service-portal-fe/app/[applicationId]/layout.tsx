@@ -3,7 +3,7 @@
 
 import { Button, Text } from "@repo/ui";
 import Link from "next/link";
-import { forwardRef } from "react";
+import { forwardRef, use } from "react";
 
 // `onClick`, `href`, and `ref` need to be passed to the DOM element
 // for proper handling
@@ -21,13 +21,16 @@ const ButtonLink = forwardRef<
 });
 ButtonLink.displayName = "ButtonLink";
 
-export default function ApplicationLayout({
-  children,
-  params: { applicationId },
-}: {
+export default function ApplicationLayout(props: {
   children: React.ReactNode;
-  params: { applicationId: string };
+  params: Promise<{ applicationId: string }>;
 }) {
+  const params = use(props.params);
+
+  const { applicationId } = params;
+
+  const { children } = props;
+
   return (
     <div className="container mx-auto mt-5">
       <div className=" flex row">

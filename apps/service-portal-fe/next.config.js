@@ -6,9 +6,8 @@ const path = require("node:path");
 module.exports = {
   reactStrictMode: true,
   output: "standalone",
-  experimental: {
-    outputFileTracingRoot: path.join(__dirname, "../../"),
-  },
+  outputFileTracingRoot: path.join(__dirname, "../../"),
+  transpilePackages: ["nativewind", "react-native-css-interop"],
   basePath: process.env.NEXT_PUBLIC_BASE_PATH || "",
   webpack: (config) => {
     config.resolve.alias = {

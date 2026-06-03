@@ -1,16 +1,17 @@
 "use client";
+
 import { useApplication, useUpdateApplication } from "@repo/applications";
 import { useRouter } from "next/navigation";
+import { use } from "react";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { Text } from "~/components/ui/text";
 import { H2 } from "~/components/ui/typography";
 
-export default function ApplicationDetail({
-  params,
-}: {
-  params: { applicationId: number };
+export default function ApplicationDetail(props: {
+  params: Promise<{ applicationId: number }>;
 }) {
+  const params = use(props.params);
   const { data, isLoading, isError, error } = useApplication(
     params.applicationId,
   );
