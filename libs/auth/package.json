@@ -11,10 +11,9 @@
     "@react-native-async-storage/async-storage": "1.23.1",
     "@repo/profile": "*",
     "@repo/shared": "*",
-    "expo-auth-session": "^5.5.2",
-    "expo-random": "~14.0.1",
-    "expo-secure-store": "~13.0.2",
-    "expo-web-browser": "^13.0.3"
+    "expo-auth-session": "~6.0.3",
+    "expo-secure-store": "~14.0.1",
+    "expo-web-browser": "~14.0.2"
   },
   "peerDependencies": {
     "@types/react": ">=18",

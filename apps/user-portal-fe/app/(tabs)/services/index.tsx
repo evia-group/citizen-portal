@@ -15,7 +15,7 @@ export function Item({
 }: {
   icon: string;
   children: ReactNode;
-  href: Href<`/services/${string}`>;
+  href: Href;
   isFirst?: boolean;
 }) {
   return (

@@ -31,7 +31,7 @@ export default function DmsLayout() {
               </View>
             </View>
             <View className="flex flex-row justify-between py-4 items-center mb-5">
-              <Link href="/dms/" asChild>
+              <Link href="/dms" asChild>
                 <Button variant="outline">
                   <Text>Meine Dokumente</Text>
                 </Button>

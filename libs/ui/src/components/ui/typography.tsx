@@ -7,12 +7,13 @@ import type {
   SlottableTextProps,
   SlottableViewProps,
   TextRef,
+  ViewRef,
 } from "~/components/primitives/types";
 import { cn } from "~/utils/cn";
 import { Separator } from "./separator";
 
 const H1 = React.forwardRef<
-  TextRef,
+  ViewRef,
   SlottableViewProps & {
     icon?: LucideIconNative | LucideIconWeb | React.ElementType;
   }
@@ -32,7 +33,7 @@ const H1 = React.forwardRef<
           role="heading"
           aria-level="1"
           className="web:scroll-m-20 text-2xl lg:text-4xl text-primary font-robotoMedium tracking-tight web:select-text"
-          {...props}
+          {...(props as SlottableTextProps)}
         />
       </RNView>
 

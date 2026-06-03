@@ -1,5 +1,10 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { type Theme, ThemeProvider } from "@react-navigation/native";
+import {
+  DarkTheme,
+  DefaultTheme,
+  type Theme,
+  ThemeProvider,
+} from "@react-navigation/native";
 import { AuthenticationProvider } from "@repo/auth";
 import { HTTPError } from "@repo/shared";
 import { useAppState } from "@/hooks/use-app-state";
@@ -25,10 +30,12 @@ import { useEffect, useState } from "react";
 import { type AppStateStatus, Platform, StyleSheet } from "react-native";
 
 const LIGHT_THEME: Theme = {
+  ...DefaultTheme,
   dark: false,
   colors: NAV_THEME.light,
 };
 const DARK_THEME: Theme = {
+  ...DarkTheme,
   dark: true,
   colors: NAV_THEME.dark,
 };
