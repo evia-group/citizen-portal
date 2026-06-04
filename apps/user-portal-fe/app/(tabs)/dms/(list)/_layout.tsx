@@ -1,4 +1,11 @@
-import { Button, Dialog, DialogContent, Text, useDisclosure } from "@repo/ui";
+import {
+  Button,
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  Text,
+  useDisclosure,
+} from "@repo/ui";
 import { Link, router, Slot } from "expo-router";
 import { Bot, Settings2 } from "lucide-react-native";
 import { ScrollView, View } from "react-native";
@@ -13,6 +20,7 @@ export default function DmsLayout() {
         onOpenChange={(value) => (value ? open() : close())}
       >
         <DialogContent>
+          <DialogTitle className="sr-only">Dokument wird gelesen</DialogTitle>
           <View className="flex flex-column gap-4 items-center justify-center">
             <Text>Das Dokument wird gelesen....</Text>
             <Bot size={36} color="black" />

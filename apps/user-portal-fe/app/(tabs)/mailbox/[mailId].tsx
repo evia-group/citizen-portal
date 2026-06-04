@@ -11,6 +11,7 @@ import {
   Debug,
   Dialog,
   DialogContent,
+  DialogTitle,
   formatDate,
   Separator,
   Text,
@@ -97,6 +98,7 @@ function ReplyForm({ mail }: { mail: Mail }) {
         onOpenChange={(value) => (value ? open() : close())}
       >
         <DialogContent>
+          <DialogTitle className="sr-only">Nachricht gesendet</DialogTitle>
           <View className="flex flex-row gap-4 items-center justify-center">
             <CircleCheck size={28} color="green" />
             <Text>Nachricht wurden erfolgreich gesendet!</Text>

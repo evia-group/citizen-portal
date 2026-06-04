@@ -157,6 +157,14 @@ const Content = React.forwardRef<
         onInteractOutside={onInteractOutside}
         onPointerDownOutside={onPointerDownOutside}
         forceMount={forceMount}
+        // Dialog descriptions are plain Text children in this design system
+        // (Radix's DialogDescription is unused), so clear Radix's default
+        // `aria-describedby` to silence its "Missing `Description`" warning.
+        // Pass `aria-describedby` on DialogContent to link a description
+        // element explicitly.
+        aria-describedby={
+          (props as { "aria-describedby"?: string })["aria-describedby"]
+        }
       >
         <Component ref={ref} {...props} />
       </Dialog.Content>

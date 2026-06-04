@@ -47,9 +47,9 @@
   "overrides": {
     "@types/react": "19.0.14",
     "@types/react-dom": "19.0.6",
-    "nativewind": "4.1.23",
+    "nativewind": "4.2.4",
     "react-native": "0.79.6",
-    "react-native-css-interop": "0.1.22",
+    "react-native-css-interop": "0.2.4",
     "react-native-reanimated": "~3.17.4"
   }
 }

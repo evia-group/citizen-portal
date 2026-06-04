@@ -4,7 +4,7 @@ import { useProfileNotifications } from "@repo/profile";
 import { LoadingIndicator } from "@repo/ui";
 import { Link, Redirect, Tabs } from "expo-router";
 import { CircleUser, FileText, Home, Mail, UserCog } from "lucide-react-native";
-import { Pressable, Text, View } from "react-native";
+import { Platform, Pressable, Text, View } from "react-native";
 
 export default function TabLayout() {
   const { isReady, isAuthenticated, profileId } = useAuthentication();
@@ -28,8 +28,12 @@ export default function TabLayout() {
           backgroundColor: "transparent",
           borderBottomColor: "rgba(255, 255, 255,0.8)",
           borderBottomWidth: 1,
-          elevation: 0,
-          shadowOpacity: 0,
+          // react-native-web deprecated the shadow* props in favour of
+          // boxShadow; native keeps the original props.
+          ...Platform.select({
+            web: { boxShadow: "none" },
+            default: { elevation: 0, shadowOpacity: 0 },
+          }),
         },
         headerRight: () => {
           // biome-ignore lint/correctness/useHookAtTopLevel: this is a inline function component
@@ -71,11 +75,18 @@ export default function TabLayout() {
           backgroundColor: "transparent",
           borderTopWidth: 1,
           borderTopColor: "rgba(255, 255, 255,0.8)",
-          elevation: 0,
-          shadowOpacity: 0.4,
-          shadowColor: "black",
-          shadowOffset: { width: 0, height: -3 },
-          shadowRadius: 10,
+          // react-native-web deprecated the shadow* props in favour of
+          // boxShadow; native keeps the original props.
+          ...Platform.select({
+            web: { boxShadow: "0 -3px 10px rgba(0, 0, 0, 0.4)" },
+            default: {
+              elevation: 0,
+              shadowOpacity: 0.4,
+              shadowColor: "black",
+              shadowOffset: { width: 0, height: -3 },
+              shadowRadius: 10,
+            },
+          }),
         },
       }}
     >

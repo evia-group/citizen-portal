@@ -4,6 +4,7 @@ import {
   Button,
   Dialog,
   DialogContent,
+  DialogTitle,
   DialogTrigger,
   H1,
   Text,
@@ -66,6 +67,7 @@ export default function ProfileScreen() {
             </Button>
           </DialogTrigger>
           <DialogContent>
+            <DialogTitle className="sr-only">Abmelden bestätigen</DialogTitle>
             <View className="flex flex-col gap-4">
               <Text>Sind Sie sich sicher, dass Sie sich abmelden möchten?</Text>
 

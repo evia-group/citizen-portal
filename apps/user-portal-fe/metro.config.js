@@ -15,17 +15,53 @@ const NATIVEWIND_INPUT = "../../libs/tailwind-config/global.css";
 
 module.exports = withTurborepoManagedCache(
   withNoHmrOverlay(
-    withMonorepoPaths(
-      withNativeWindWebCssFix(
-        withNativeWind(getDefaultConfig(__dirname), {
-          input: NATIVEWIND_INPUT,
-          configPath: "./tailwind.config.ts",
-        }),
-        NATIVEWIND_INPUT,
+    withGestureHandlerReact19Fix(
+      withMonorepoPaths(
+        withNativeWindWebCssFix(
+          withNativeWind(getDefaultConfig(__dirname), {
+            input: NATIVEWIND_INPUT,
+            configPath: "./tailwind.config.ts",
+          }),
+          NATIVEWIND_INPUT,
+        ),
       ),
     ),
   ),
 );
+
+/**
+ * Replaces react-native-gesture-handler's `GestureDetector/Wrap.web` with a
+ * React-19-safe shim (web only). The upstream module reads `element.ref`
+ * inside `isRNSVGNode`, which React 19 logs as an error on every
+ * GestureDetector render (e.g. the dashboard carousel). Still unfixed
+ * upstream as of v2.29.1 — remove once `src/web/utils.ts` stops reading
+ * `node.ref`.
+ *
+ * @param {import('expo/metro-config').MetroConfig} config
+ * @returns {import('expo/metro-config').MetroConfig}
+ */
+function withGestureHandlerReact19Fix(config) {
+  const shimPath = path.resolve(
+    __dirname,
+    "shims/gesture-handler-wrap.web.tsx",
+  );
+  const originalResolve = config.resolver?.resolveRequest;
+  config.resolver = config.resolver || {};
+  config.resolver.resolveRequest = (context, moduleName, platform) => {
+    if (
+      platform === "web" &&
+      context.originModulePath.includes("react-native-gesture-handler") &&
+      // The shim imports the real package internals — don't intercept those.
+      !context.originModulePath.includes("shims") &&
+      moduleName.endsWith("/Wrap")
+    ) {
+      return { filePath: shimPath, type: "sourceFile" };
+    }
+    if (originalResolve) return originalResolve(context, moduleName, platform);
+    return context.resolveRequest(context, moduleName, platform);
+  };
+  return config;
+}
 
 /**
  * Replaces the `LoadingView` module used by `@expo/metro-runtime` with a
@@ -231,6 +267,34 @@ function withMonorepoPaths(config) {
   // replicate that mapping here via extraNodeModules.
   config.resolver.extraNodeModules = {
     "~": path.resolve(workspaceRoot, "libs/ui/src"),
+  };
+
+  // #5 - Force a single copy of react & friends into the bundle. The monorepo
+  // root hoists react 18 (a deliberate hoist anchor for the Next.js apps),
+  // while this Expo SDK 53 app needs react 19 — npm nests it in
+  // apps/user-portal-fe/node_modules. Without this redirect, hoisted packages
+  // (expo, expo-router, the @repo/* libs) resolve the root react 18 and the
+  // bundle ends up with two react copies — expo-router 5 then crashes at
+  // runtime with "(0, react_1.use) is not a function".
+  const SINGLETONS = ["react", "react-dom", "scheduler"];
+  const prevResolveRequest = config.resolver.resolveRequest;
+  config.resolver.resolveRequest = (context, moduleName, platform) => {
+    if (
+      SINGLETONS.some(
+        (pkg) => moduleName === pkg || moduleName.startsWith(`${pkg}/`),
+      )
+    ) {
+      // Re-run default resolution as if the import originated from the app
+      // itself, so the upward node_modules walk finds the nested react 19.
+      return context.resolveRequest(
+        { ...context, originModulePath: path.join(projectRoot, "index.js") },
+        moduleName,
+        platform,
+      );
+    }
+    if (prevResolveRequest)
+      return prevResolveRequest(context, moduleName, platform);
+    return context.resolveRequest(context, moduleName, platform);
   };
 
   return config;

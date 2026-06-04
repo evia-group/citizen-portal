@@ -3,6 +3,7 @@ import { ProfileForm, useProfile, useUpdateProfile } from "@repo/profile";
 import {
   Dialog,
   DialogContent,
+  DialogTitle,
   H1,
   LoadingIndicator,
   Text,
@@ -27,6 +28,7 @@ export default function ProfileDataScreen() {
         onOpenChange={(value) => (value ? open() : close())}
       >
         <DialogContent>
+          <DialogTitle className="sr-only">Änderungen gespeichert</DialogTitle>
           <View className="flex flex-row gap-4 items-center justify-center">
             <CircleCheck size={28} color="green" />
             <Text>Änderungen wurden erfolgreich gespeichert!</Text>

@@ -3,23 +3,7 @@
 
 import { Button, Text } from "@repo/ui";
 import Link from "next/link";
-import { forwardRef, use } from "react";
-
-// `onClick`, `href`, and `ref` need to be passed to the DOM element
-// for proper handling
-const ButtonLink = forwardRef<
-  HTMLAnchorElement,
-  { onClick?: () => void; href?: string; children: React.ReactNode }
->(({ onClick, href, children }, ref) => {
-  return (
-    <Button>
-      <a href={href} onClick={onClick} ref={ref}>
-        <Text>{children}</Text>
-      </a>
-    </Button>
-  );
-});
-ButtonLink.displayName = "ButtonLink";
+import { use } from "react";
 
 export default function ApplicationLayout(props: {
   children: React.ReactNode;
@@ -35,39 +19,39 @@ export default function ApplicationLayout(props: {
     <div className="container mx-auto mt-5">
       <div className=" flex row">
         <div className="col-md-2 mx-2">
-          <Link href={`/${applicationId}`} passHref legacyBehavior>
-            <ButtonLink>
+          <Button>
+            <Link href={`/${applicationId}`}>
               <Text>Persönliche Angaben</Text>
-            </ButtonLink>
-          </Link>
+            </Link>
+          </Button>
         </div>
         <div className="col-md-2 mx-2">
-          <Link href={`/${applicationId}/dog-detail`} passHref legacyBehavior>
-            <ButtonLink>
+          <Button>
+            <Link href={`/${applicationId}/dog-detail`}>
               <Text>Angaben zum Hund</Text>
-            </ButtonLink>
-          </Link>
+            </Link>
+          </Button>
         </div>
         <div className="col-md-2 mx-2">
-          <Link href={`/${applicationId}/document`} passHref legacyBehavior>
-            <ButtonLink>
+          <Button>
+            <Link href={`/${applicationId}/document`}>
               <Text>Dokumente</Text>
-            </ButtonLink>
-          </Link>
+            </Link>
+          </Button>
         </div>
         <div className="col-md-2 mx-2">
-          <Link href={`/${applicationId}/cost`} passHref legacyBehavior>
-            <ButtonLink>
+          <Button>
+            <Link href={`/${applicationId}/cost`}>
               <Text>Kosten</Text>
-            </ButtonLink>
-          </Link>
+            </Link>
+          </Button>
         </div>
         <div className="col-md-2 mx-2">
-          <Link href={`/${applicationId}/mailbox`} passHref legacyBehavior>
-            <ButtonLink>
+          <Button>
+            <Link href={`/${applicationId}/mailbox`}>
               <Text>Nachrichten</Text>
-            </ButtonLink>
-          </Link>
+            </Link>
+          </Button>
         </div>
       </div>
 
