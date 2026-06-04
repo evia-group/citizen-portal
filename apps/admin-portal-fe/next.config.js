@@ -8,7 +8,11 @@ module.exports = {
   reactStrictMode: true,
   output: "standalone",
   outputFileTracingRoot: path.join(__dirname, "../../"),
-  transpilePackages: ["nativewind", "react-native-css-interop"],
+  transpilePackages: [
+    "nativewind",
+    "react-native-css-interop",
+    "react-native-reanimated",
+  ],
   webpack: (config, { webpack }) => {
     // react-native ecosystem packages (e.g. react-native-reanimated, pulled in
     // via nativewind) reference the `__DEV__` global that Metro defines but

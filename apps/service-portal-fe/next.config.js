@@ -7,7 +7,11 @@ module.exports = {
   reactStrictMode: true,
   output: "standalone",
   outputFileTracingRoot: path.join(__dirname, "../../"),
-  transpilePackages: ["nativewind", "react-native-css-interop"],
+  transpilePackages: [
+    "nativewind",
+    "react-native-css-interop",
+    "react-native-reanimated",
+  ],
   basePath: process.env.NEXT_PUBLIC_BASE_PATH || "",
   webpack: (config, { webpack }) => {
     // react-native ecosystem packages (e.g. react-native-reanimated, pulled in
