@@ -269,13 +269,13 @@ function withMonorepoPaths(config) {
     "~": path.resolve(workspaceRoot, "libs/ui/src"),
   };
 
-  // #5 - Force a single copy of react & friends into the bundle. The monorepo
-  // root hoists react 18 (a deliberate hoist anchor for the Next.js apps),
-  // while this Expo SDK 53 app needs react 19 — npm nests it in
-  // apps/user-portal-fe/node_modules. Without this redirect, hoisted packages
-  // (expo, expo-router, the @repo/* libs) resolve the root react 18 and the
-  // bundle ends up with two react copies — expo-router 5 then crashes at
-  // runtime with "(0, react_1.use) is not a function".
+  // #5 - Force a single copy of react & friends into the bundle. Since the
+  // Phase 9 React 19 upgrade the whole monorepo shares one hoisted react
+  // 19.0.0 at the workspace root, so this redirect is normally a no-op — but
+  // it stays as a guard: if a future dep bump flips npm's hoisting and nests
+  // a second react copy somewhere, hoisted packages (expo, expo-router, the
+  // @repo/* libs) would silently bundle that other copy and expo-router 5
+  // crashes at runtime with "(0, react_1.use) is not a function".
   const SINGLETONS = ["react", "react-dom", "scheduler"];
   const prevResolveRequest = config.resolver.resolveRequest;
   config.resolver.resolveRequest = (context, moduleName, platform) => {
