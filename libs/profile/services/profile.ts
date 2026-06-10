@@ -1,4 +1,4 @@
-import { HTTPError, type SearchParamsOption, client } from "@repo/shared";
+import { client, HTTPError, type SearchParamsOption } from "@repo/shared";
 import type { Notifications } from "../models/notifications";
 import type { Profile, ProfileFormData, ProfileList } from "../models/profile";
 

@@ -8,4 +8,4 @@ interface CheckboxRootProps {
 
 type CheckboxIndicator = ForceMountable;
 
-export type { CheckboxRootProps, CheckboxIndicator };
+export type { CheckboxIndicator, CheckboxRootProps };

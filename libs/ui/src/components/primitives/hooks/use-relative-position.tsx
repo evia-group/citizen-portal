@@ -2,8 +2,8 @@ import * as React from "react";
 import {
   type LayoutRectangle,
   type ScaledSize,
-  type ViewStyle,
   useWindowDimensions,
+  type ViewStyle,
 } from "react-native";
 import type { Insets } from "~/components/primitives/types";
 

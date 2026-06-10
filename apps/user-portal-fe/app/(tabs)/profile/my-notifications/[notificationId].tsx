@@ -2,7 +2,7 @@ import {
   useProfileNotification,
   useUpdateProfileNotification,
 } from "@repo/profile";
-import { Separator, Text, formatDate } from "@repo/ui";
+import { formatDate, Separator, Text } from "@repo/ui";
 import { Stack, useLocalSearchParams } from "expo-router";
 import { useEffect } from "react";
 import { ScrollView, View } from "react-native";

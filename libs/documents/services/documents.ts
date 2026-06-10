@@ -1,4 +1,4 @@
-import { type SearchParamsOption, basePath, client } from "@repo/shared";
+import { basePath, client, type SearchParamsOption } from "@repo/shared";
 import type { CreateDocument, Document } from "../models/document";
 
 export function getDocumentsByProfileId(

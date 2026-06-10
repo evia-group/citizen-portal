@@ -1,6 +1,6 @@
-import { Header } from "@/components/header";
 import { DogApplicationProvider } from "@repo/services";
 import { Stack } from "expo-router";
+import { Header } from "@/components/header";
 
 export const unstable_settings = {
   // Ensure any route can link back to `/`

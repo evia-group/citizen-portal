@@ -1,4 +1,4 @@
-import { type SearchParamsOption, client } from "@repo/shared";
+import { client, type SearchParamsOption } from "@repo/shared";
 import type { Location } from "../models/location";
 
 /**

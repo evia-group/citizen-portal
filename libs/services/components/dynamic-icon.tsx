@@ -1,4 +1,7 @@
-import { icons } from "lucide-react-native";
+import type { LucideIcon } from "lucide-react-native";
+import * as lucide from "lucide-react-native";
+
+const icons = lucide as unknown as Record<string, LucideIcon | undefined>;
 
 const camelRegex = /-[a-z]/g;
 
@@ -21,8 +24,13 @@ export function DynamicIcon({
   color,
   size,
   className,
-}: { name: string; color: string; size: number; className?: string }) {
-  const LucideIcon = icons[ucFirst(camelCase(name)) as keyof typeof icons];
+}: {
+  name: string;
+  color: string;
+  size: number;
+  className?: string;
+}) {
+  const LucideIcon = icons[ucFirst(camelCase(name))];
 
   return LucideIcon ? (
     <LucideIcon color={color} size={size} className={className} />

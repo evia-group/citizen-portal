@@ -1,1 +1,1 @@
-export { type Application } from "@repo/services";
+export type { Application } from "@repo/services";

@@ -5,7 +5,14 @@ import {
   useProfile,
   useUpdateProfile,
 } from "@repo/profile";
-import { Dialog, DialogContent, H1, Text, useDisclosure } from "@repo/ui";
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  H1,
+  Text,
+  useDisclosure,
+} from "@repo/ui";
 import { router } from "expo-router";
 import { CircleCheck, User } from "lucide-react-native";
 import { ScrollView, View } from "react-native";
@@ -26,6 +33,7 @@ export default function ProfileMunicipalityScreen() {
         onOpenChange={(value) => (value ? open() : close())}
       >
         <DialogContent>
+          <DialogTitle className="sr-only">Änderungen gespeichert</DialogTitle>
           <View className="flex flex-row gap-4 items-center justify-center">
             <CircleCheck size={28} color="green" />
             <Text>Änderungen wurden erfolgreich gespeichert!</Text>
@@ -55,7 +63,7 @@ export default function ProfileMunicipalityScreen() {
                   close();
                 }, 2_000);
               }}
-              onBack={() => router.navigate("/profile/")}
+              onBack={() => router.navigate("/profile")}
             />
           ) : null}
         </View>

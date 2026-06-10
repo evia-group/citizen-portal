@@ -14,7 +14,6 @@ export function useAugmentedRef<T>({
   deps = [],
 }: AugmentRefProps<T>) {
   const augmentedRef = React.useRef<T>(null);
-  // biome-ignore lint/correctness/useExhaustiveDependencies: copied from react-native-reusable
   React.useImperativeHandle(
     ref,
     () => {
@@ -26,6 +25,7 @@ export function useAugmentedRef<T>({
         ...methods,
       };
     },
+    // biome-ignore lint/correctness/useExhaustiveDependencies: deps is a runtime-controlled list per react-native-reusables
     deps,
   );
   return augmentedRef;

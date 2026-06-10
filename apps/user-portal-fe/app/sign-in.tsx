@@ -22,6 +22,7 @@ export default function SignIn() {
     null,
   );
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: retrievePreviouslyLoggedInState is defined in this component and only needs to run on mount
   useEffect(() => {
     retrievePreviouslyLoggedInState();
   }, []);

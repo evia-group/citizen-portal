@@ -1,4 +1,3 @@
-import { Header } from "@/components/header";
 import { DynamicIcon, useServiceList } from "@repo/services";
 import { Input, LoadingIndicator, Text } from "@repo/ui";
 import { type Href, Link, Stack } from "expo-router";
@@ -6,6 +5,7 @@ import { ChevronRight } from "lucide-react-native";
 import type { ReactNode } from "react";
 import { useForm } from "react-hook-form";
 import { Pressable, ScrollView, View } from "react-native";
+import { Header } from "@/components/header";
 
 export function Item({
   icon,
@@ -15,7 +15,7 @@ export function Item({
 }: {
   icon: string;
   children: ReactNode;
-  href: Href<`/services/${string}`>;
+  href: Href;
   isFirst?: boolean;
 }) {
   return (

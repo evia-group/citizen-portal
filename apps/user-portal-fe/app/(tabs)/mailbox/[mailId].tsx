@@ -11,13 +11,14 @@ import {
   Debug,
   Dialog,
   DialogContent,
+  DialogTitle,
+  formatDate,
   Separator,
   Text,
   Textarea,
-  formatDate,
   useDisclosure,
 } from "@repo/ui";
-import { Stack, router, useLocalSearchParams } from "expo-router";
+import { router, Stack, useLocalSearchParams } from "expo-router";
 import { CircleCheck } from "lucide-react-native";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -97,6 +98,7 @@ function ReplyForm({ mail }: { mail: Mail }) {
         onOpenChange={(value) => (value ? open() : close())}
       >
         <DialogContent>
+          <DialogTitle className="sr-only">Nachricht gesendet</DialogTitle>
           <View className="flex flex-row gap-4 items-center justify-center">
             <CircleCheck size={28} color="green" />
             <Text>Nachricht wurden erfolgreich gesendet!</Text>

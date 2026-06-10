@@ -29,12 +29,10 @@ const Pressable = React.forwardRef<
     React.ComponentPropsWithoutRef<typeof RNPressable>,
     React.ElementRef<typeof RNPressable>
   >(isTextChildren(children) ? <></> : children, {
-    ...mergeProps(pressableslotProps, children.props),
+    ...mergeProps(pressableslotProps, children.props as AnyProps),
     ref: forwardedRef
-      ? // biome-ignore lint/suspicious/noExplicitAny: copy from react-native-reusables
-        composeRefs(forwardedRef, (children as any).ref)
-      : // biome-ignore lint/suspicious/noExplicitAny: copy from react-native-reusables
-        (children as any).ref,
+      ? composeRefs(forwardedRef, getElementRef(children))
+      : getElementRef(children),
   });
 });
 
@@ -53,12 +51,10 @@ const View = React.forwardRef<React.ElementRef<typeof RNView>, RNViewProps>(
       React.ComponentPropsWithoutRef<typeof RNView>,
       React.ElementRef<typeof RNView>
     >(isTextChildren(children) ? <></> : children, {
-      ...mergeProps(viewSlotProps, children.props),
+      ...mergeProps(viewSlotProps, children.props as AnyProps),
       ref: forwardedRef
-        ? // biome-ignore lint/suspicious/noExplicitAny: copy from react-native-reusables
-          composeRefs(forwardedRef, (children as any).ref)
-        : // biome-ignore lint/suspicious/noExplicitAny: copy from react-native-reusables
-          (children as any).ref,
+        ? composeRefs(forwardedRef, getElementRef(children))
+        : getElementRef(children),
     });
   },
 );
@@ -78,12 +74,10 @@ const Text = React.forwardRef<React.ElementRef<typeof RNText>, RNTextProps>(
       React.ComponentPropsWithoutRef<typeof RNText>,
       React.ElementRef<typeof RNText>
     >(isTextChildren(children) ? <></> : children, {
-      ...mergeProps(textSlotProps, children.props),
+      ...mergeProps(textSlotProps, children.props as AnyProps),
       ref: forwardedRef
-        ? // biome-ignore lint/suspicious/noExplicitAny: copy from react-native-reusables
-          composeRefs(forwardedRef, (children as any).ref)
-        : // biome-ignore lint/suspicious/noExplicitAny: copy from react-native-reusables
-          (children as any).ref,
+        ? composeRefs(forwardedRef, getElementRef(children))
+        : getElementRef(children),
     });
   },
 );
@@ -109,12 +103,10 @@ const Image = React.forwardRef<
     React.ComponentPropsWithoutRef<typeof RNImage>,
     React.ElementRef<typeof RNImage>
   >(isTextChildren(children) ? <></> : children, {
-    ...mergeProps(imageSlotProps, children.props),
+    ...mergeProps(imageSlotProps, children.props as AnyProps),
     ref: forwardedRef
-      ? // biome-ignore lint/suspicious/noExplicitAny: copy from react-native-reusables
-        composeRefs(forwardedRef, (children as any).ref)
-      : // biome-ignore lint/suspicious/noExplicitAny: copy from react-native-reusables
-        (children as any).ref,
+      ? composeRefs(forwardedRef, getElementRef(children))
+      : getElementRef(children),
   });
 });
 
@@ -126,9 +118,34 @@ export { Image, Pressable, Text, View };
 // The code is licensed under the MIT License.
 // https://github.com/radix-ui/primitives/tree/main
 
+/**
+ * Reads the ref of a child element across React versions. React 19 moved
+ * element refs to `props.ref` and logs an error when `element.ref` is
+ * accessed; React <=18 does the inverse. Mirrors Radix UI's `getElementRef`.
+ */
+// biome-ignore lint/suspicious/noExplicitAny: ref type depends on the child element
+function getElementRef(element: React.ReactElement): React.Ref<any> {
+  // React <=18: `element.props.ref` is guarded by a warning getter.
+  let getter = Object.getOwnPropertyDescriptor(element.props, "ref")?.get;
+  let mayWarn = getter && "isReactWarning" in getter && getter.isReactWarning;
+  if (mayWarn) {
+    // biome-ignore lint/suspicious/noExplicitAny: legacy React stores the ref on the element
+    return (element as any).ref;
+  }
+
+  // React 19: `element.ref` is guarded by a warning getter.
+  getter = Object.getOwnPropertyDescriptor(element, "ref")?.get;
+  mayWarn = getter && "isReactWarning" in getter && getter.isReactWarning;
+  if (mayWarn) {
+    return (element.props as AnyProps).ref;
+  }
+
+  // biome-ignore lint/suspicious/noExplicitAny: legacy React stores the ref on the element
+  return (element.props as AnyProps).ref ?? (element as any).ref;
+}
+
 function composeRefs<T>(...refs: (React.Ref<T> | undefined)[]) {
   return (node: T) =>
-    // biome-ignore lint/complexity/noForEach: copy from react-native-reusables
     refs.forEach((ref) => {
       if (typeof ref === "function") {
         ref(node);

@@ -68,7 +68,7 @@ pw screenshot --filename=screenshots/02-dashboard.png         || fail "A03:scree
 
 # --- Step 4: Navigate to Services catalogue -----------------------------------
 log "A04 navigate Services"
-click_by link "Services"                                      || fail "A04:click-services"
+click_by tab "Services"                                       || fail "A04:click-services"
 wait_for link "Engagement und Hobby" 10                       || fail "A04:catalogue-not-loaded"
 pw snapshot                                                   || fail "A04:snapshot"
 pw screenshot --filename=screenshots/03-services-catalogue.png || fail "A04:screenshot"

@@ -4,6 +4,7 @@
 node_modules
 .pnp
 .pnp.js
+tsconfig.tsbuildinfo
 
 # testing
 coverage
@@ -16,6 +17,7 @@ build
 
 # expo
 .expo
+expo-env.d.ts
 
 # misc
 .DS_Store
@@ -41,12 +43,18 @@ yarn-error.log*
 .turbo
 infrastructure/dms/
 
+# e2e run artifacts (loose screenshots + playwright cache; tracked baselines stay)
+e2e/*/screenshots/*
+!e2e/*/screenshots/baseline/
+e2e/*/.playwright-cli/
+
 # Local agent scratch (screenshots, traces, ad-hoc artifacts)
 .scratch/
 
 # AI coding agents — local/per-user state (instructions live in AGENTS.md;
 # shared plans live in .junie/plans/)
 .claude/settings.local.json
+.claude/scheduled_tasks.lock
 .aider*
 .cursor/
 .codex/

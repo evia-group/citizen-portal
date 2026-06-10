@@ -2,14 +2,16 @@
 
 import { useApplication } from "@repo/applications";
 import { statusMap } from "@repo/services/models/dog-application";
+import { use } from "react";
 import { Text } from "~/components/ui/text";
 import { H2 } from "~/components/ui/typography";
 
-export default function ApplicationCost({
-  params,
-}: { params: { applicationId: number } }) {
+export default function ApplicationCost(props: {
+  params: Promise<{ applicationId: string }>;
+}) {
+  const params = use(props.params);
   const { data, isLoading, isError, error } = useApplication(
-    params.applicationId,
+    Number(params.applicationId),
   );
 
   const labelClassName =

@@ -2,10 +2,10 @@ import { getMyProfile } from "@repo/profile";
 import { registerAuthAdapter, unregisterAuthAdapter } from "@repo/shared";
 import {
   type AuthRequestConfig,
-  type TokenResponse,
   exchangeCodeAsync,
   makeRedirectUri,
   revokeAsync,
+  type TokenResponse,
   useAuthRequest,
   useAutoDiscovery,
 } from "expo-auth-session";

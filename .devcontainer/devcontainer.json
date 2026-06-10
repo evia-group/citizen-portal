@@ -1,0 +1,58 @@
+{
+  "name": "Citizen Portal — Junie sandbox",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  "remoteUser": "vscode",
+
+  // Pin JAVA_HOME to the JDK shipped in mcr.microsoft.com/devcontainers/java:1-21-bookworm
+  // (Microsoft Build of OpenJDK — confirmed via `docker run ... echo $JAVA_HOME`) so a host
+  // JAVA_HOME can't leak in and break `./mvnw` ("JAVA_HOME is not defined correctly").
+  // containerEnv applies to every process incl. postCreateCommand.
+  "containerEnv": {
+    "JAVA_HOME": "/usr/lib/jvm/msopenjdk-current"
+  },
+
+  // Node 22 via the official feature (matches .node-version v22.11.0, engines.node >=22).
+  // Kept out of the Dockerfile so the image stays simple and cross-platform.
+  "features": {
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "22"
+    }
+  },
+
+  // Persist Junie auth + dependency caches as named volumes so they survive rebuilds.
+  // Nothing secret is committed to the repo; the one-time /account login lives in ~/.junie.
+  "mounts": [
+    "source=citizen-portal-junie,target=/home/vscode/.junie,type=volume",
+    "source=citizen-portal-m2,target=/home/vscode/.m2,type=volume",
+    "source=citizen-portal-npm,target=/home/vscode/.npm,type=volume"
+  ],
+
+  // Named volumes mount root-owned, so the non-root `vscode` user can't write into
+  // ~/.junie, ~/.m2, or ~/.npm (Junie's logs/, Maven's wrapper/ → AccessDeniedException).
+  // chown them once after mount, then warm the dependency caches. Tolerant of failure
+  // (|| true) so the container still comes up if the network hiccups; honors .npmrc
+  // legacy-peer-deps.
+  "postCreateCommand": "sudo chown -R vscode:vscode /home/vscode/.junie /home/vscode/.m2 /home/vscode/.npm; npm install || true; ./mvnw -q -DskipTests dependency:go-offline || true",
+
+  // The Junie /account login opens a localhost OAuth callback. Auto-forwarding can remap
+  // the container port to a different host port, which breaks the loopback redirect_uri
+  // ("invalid_grant / Redirect URI mismatch" at token exchange). Pin 62345 so the host
+  // forwards it 1:1 to the container — the redirect_uri then matches byte-for-byte.
+  // Junie must use this same port for the handshake (e.g. start it as `junie` after
+  // confirming the printed callback URL reads http://localhost:62345).
+  "forwardPorts": [62345],
+  "portsAttributes": {
+    "62345": {
+      "label": "Junie auth callback",
+      "onAutoForward": "silent"
+    }
+  },
+
+  "customizations": {
+    "vscode": {
+      "extensions": []
+    }
+  }
+}

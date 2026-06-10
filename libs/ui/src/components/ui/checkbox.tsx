@@ -1,8 +1,7 @@
 import * as React from "react";
+import { Platform } from "react-native";
 import { Check } from "~/components/icons";
 import * as CheckboxPrimitive from "~/components/primitives/checkbox";
-
-import { Platform } from "react-native";
 import { cn } from "~/utils";
 
 const Checkbox = React.forwardRef<

@@ -123,16 +123,12 @@ const Trigger = React.forwardRef<PressableRef, SlottablePressableProps>(
     } = useRootContext();
 
     // biome-ignore lint/correctness/useExhaustiveDependencies: copied from react-native-reusable
-    React.useImperativeHandle(
-      ref,
-      () => {
-        if (!triggerRef.current) {
-          return new View({});
-        }
-        return triggerRef.current;
-      },
-      [triggerRef.current],
-    );
+    React.useImperativeHandle(ref, () => {
+      if (!triggerRef.current) {
+        return new View({});
+      }
+      return triggerRef.current;
+    }, [triggerRef.current]);
 
     function onPress(ev: GestureResponderEvent) {
       if (disabled) return;
@@ -473,22 +469,32 @@ Separator.displayName = "SeparatorNativeSelect";
 
 const ScrollUpButton = ({
   children,
-}: { children?: React.ReactNode; className?: string }) => {
+}: {
+  children?: React.ReactNode;
+  className?: string;
+}) => {
   return children;
 };
 
 const ScrollDownButton = ({
   children,
-}: { children?: React.ReactNode; className?: string }) => {
+}: {
+  children?: React.ReactNode;
+  className?: string;
+}) => {
   return children;
 };
 
 const Viewport = ({
   children,
-}: { children?: React.ReactNode; className?: string }) => {
+}: {
+  children?: React.ReactNode;
+  className?: string;
+}) => {
   return children;
 };
 
+export type { Option } from "./types";
 export {
   Content,
   Group,
@@ -503,13 +509,11 @@ export {
   ScrollUpButton,
   Separator,
   Trigger,
-  Value,
-  Viewport,
   useItemContext,
   useRootContext,
+  Value,
+  Viewport,
 };
-
-export type { Option } from "./types";
 
 function onStartShouldSetResponder() {
   return true;

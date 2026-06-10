@@ -1,6 +1,8 @@
-import { type VariantProps, cva } from "class-variance-authority";
+import { cva, type VariantProps } from "class-variance-authority";
 import * as React from "react";
 import { Pressable } from "react-native";
+import * as Slot from "~/components/primitives/slot";
+import type { SlottablePressableProps } from "~/components/primitives/types";
 import { TextClassContext } from "~/components/ui/text";
 import { cn } from "~/utils/cn";
 
@@ -59,13 +61,14 @@ const buttonTextVariants = cva(
   },
 );
 
-type ButtonProps = React.ComponentPropsWithoutRef<typeof Pressable> &
+type ButtonProps = SlottablePressableProps &
   VariantProps<typeof buttonVariants>;
 
 const Button = React.forwardRef<
   React.ElementRef<typeof Pressable>,
   ButtonProps
->(({ className, variant, size, ...props }, ref) => {
+>(({ className, variant, size, asChild = false, ...props }, ref) => {
+  const Component = asChild ? Slot.Pressable : Pressable;
   return (
     <TextClassContext.Provider
       value={cn(
@@ -73,7 +76,7 @@ const Button = React.forwardRef<
         buttonTextVariants({ variant, size }),
       )}
     >
-      <Pressable
+      <Component
         className={cn(
           props.disabled && "opacity-50 web:pointer-events-none",
           buttonVariants({ variant, size, className }),
@@ -87,5 +90,5 @@ const Button = React.forwardRef<
 });
 Button.displayName = "Button";
 
-export { Button, buttonTextVariants, buttonVariants };
 export type { ButtonProps };
+export { Button, buttonTextVariants, buttonVariants };

@@ -1,0 +1,2 @@
+- See @README.md for project overview
+- When reporting information to me, be extremely concise and sacrifice grammar for the sake of concision.

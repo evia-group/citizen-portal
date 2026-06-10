@@ -69,28 +69,28 @@ pw screenshot --filename=screenshots/03-dashboard.png         || fail "04:screen
 
 # --- Step 5: Dokumente tab ----------------------------------------------------
 log "05 navigate Dokumente"
-click_by link "Dokumente"                                     || fail "05:click-dokumente"
+click_by tab "Dokumente"                                      || fail "05:click-dokumente"
 wait_for button "Dokument/e hochladen" 10                     || fail "05:dokumente-not-loaded"
 pw snapshot                                                   || fail "05:snapshot"
 pw screenshot --filename=screenshots/04-dokumente.png         || fail "05:screenshot"
 
 # --- Step 6: Services tab -----------------------------------------------------
 log "06 navigate Services"
-click_by link "Services"                                      || fail "06:click-services"
+click_by tab "Services"                                       || fail "06:click-services"
 wait_for link "Engagement und Hobby" 10                       || fail "06:services-not-loaded"
 pw snapshot                                                   || fail "06:snapshot"
 pw screenshot --filename=screenshots/05-services.png          || fail "06:screenshot"
 
 # --- Step 7: Mailbox tab ------------------------------------------------------
 log "07 navigate Mailbox"
-click_by link "Mailbox"                                       || fail "07:click-mailbox"
+click_by tab "Mailbox"                                        || fail "07:click-mailbox"
 wait_for button "Neue E-Mail" 10                              || fail "07:mailbox-not-loaded"
 pw snapshot                                                   || fail "07:snapshot"
 pw screenshot --filename=screenshots/06-mailbox.png           || fail "07:screenshot"
 
 # --- Step 8: Return to Home ---------------------------------------------------
 log "08 navigate Home"
-click_by link "Home"                                          || fail "08:click-home"
+click_by tab "Home"                                           || fail "08:click-home"
 wait_for heading "Dokumenteneingang" 10                       || fail "08:home-not-restored"
 pw snapshot                                                   || fail "08:snapshot"
 pw screenshot --filename=screenshots/07-home-restored.png     || fail "08:screenshot"

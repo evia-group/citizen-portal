@@ -1,4 +1,4 @@
-import { type VariantProps, cva } from "class-variance-authority";
+import { cva, type VariantProps } from "class-variance-authority";
 import { View } from "react-native";
 import * as Slot from "~/components/primitives/slot";
 import type { SlottableViewProps } from "~/components/primitives/types";
@@ -53,5 +53,5 @@ function Badge({ className, variant, asChild, ...props }: BadgeProps) {
   );
 }
 
-export { Badge, badgeTextVariants, badgeVariants };
 export type { BadgeProps };
+export { Badge, badgeTextVariants, badgeVariants };

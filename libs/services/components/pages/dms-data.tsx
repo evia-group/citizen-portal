@@ -18,7 +18,7 @@ export function DmsData() {
         <H3>Laden Sie Ihre Dokumente hoch</H3>
 
         <View className="flex flex-row fle justify-between">
-          <Link href="/dms/" asChild>
+          <Link href="/dms" asChild>
             <Button variant="secondary">
               <Text>Dokument aus DMS hochladen</Text>
             </Button>

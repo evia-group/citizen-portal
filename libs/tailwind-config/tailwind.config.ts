@@ -2,8 +2,8 @@
 import nativewind from "nativewind/preset";
 import { hairlineWidth } from "nativewind/theme";
 import type { Config } from "tailwindcss";
-import tailwindAnimate from "tailwindcss-animate";
 import defaultTheme from "tailwindcss/defaultTheme";
+import tailwindAnimate from "tailwindcss-animate";
 
 // We want each package to be responsible for its own content.
 const config: Omit<Config, "content"> = {

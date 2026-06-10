@@ -17,11 +17,16 @@ import {
   useDisclosure,
 } from "@repo/ui";
 import { CircleCheck } from "lucide-react";
+import { use } from "react";
 import { useForm } from "react-hook-form";
 
-export default function MailboxPage({
-  params: { applicationId },
-}: { params: { applicationId: string } }) {
+export default function MailboxPage(props: {
+  params: Promise<{ applicationId: string }>;
+}) {
+  const params = use(props.params);
+
+  const { applicationId } = params;
+
   const { data: mails } = useMailbox(1, new URLSearchParams({ applicationId }));
   const { control, handleSubmit, watch, reset } = useForm<CreateMail>({
     defaultValues: {

@@ -62,13 +62,10 @@ export {
   P,
   Small,
 } from "./components/ui/typography";
-
+export { NAV_THEME } from "./constants";
 // Hooks
 export { useColorScheme } from "./hooks/use-color-scheme";
 export { useDisclosure } from "./hooks/use-disclosure";
-
 // Utils
 export { cn } from "./utils/cn";
 export { formatDate } from "./utils/date";
-
-export { NAV_THEME } from "./constants";
