@@ -7,11 +7,11 @@ import { Text } from "~/components/ui/text";
 import { H2 } from "~/components/ui/typography";
 
 export default function ApplicationDogDetail(props: {
-  params: Promise<{ applicationId: number }>;
+  params: Promise<{ applicationId: string }>;
 }) {
   const params = use(props.params);
   const { data, isLoading, isError, error } = useDogApplication(
-    params.applicationId,
+    Number(params.applicationId),
   );
 
   const labelClassName =
@@ -30,20 +30,26 @@ export default function ApplicationDogDetail(props: {
         {data && (
           <div className="flex flex-col gap-3 mb-3">
             <div>
-              <label className={labelClassName}>
+              <label className={labelClassName} htmlFor="dog-tax-stamp-number">
                 Nummer der Hundesteuermarke (freiwillige Angabe)
-                <Input value={data.dog?.taxStampNumber ?? "-"} readOnly />
               </label>
+              <Input
+                id="dog-tax-stamp-number"
+                value={data.dog?.taxStampNumber ?? "-"}
+                readOnly
+              />
             </div>
             <div>
-              <label className={labelClassName}>
-                Name vom Hund <Input value={data.dog?.name ?? "-"} readOnly />
+              <label className={labelClassName} htmlFor="dog-name">
+                Name vom Hund
               </label>
+              <Input id="dog-name" value={data.dog?.name ?? "-"} readOnly />
             </div>
             <div>
-              <label className={labelClassName}>
-                Hunderasse <Input value={data.dog?.race ?? "-"} readOnly />
+              <label className={labelClassName} htmlFor="dog-race">
+                Hunderasse
               </label>
+              <Input id="dog-race" value={data.dog?.race ?? "-"} readOnly />
             </div>
             <div>
               <span className={labelClassName}>Grund für den Ersatz :</span>

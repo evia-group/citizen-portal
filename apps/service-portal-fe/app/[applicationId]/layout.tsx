@@ -19,35 +19,35 @@ export default function ApplicationLayout(props: {
     <div className="container mx-auto mt-5">
       <div className=" flex row">
         <div className="col-md-2 mx-2">
-          <Button>
+          <Button asChild>
             <Link href={`/${applicationId}`}>
               <Text>Persönliche Angaben</Text>
             </Link>
           </Button>
         </div>
         <div className="col-md-2 mx-2">
-          <Button>
+          <Button asChild>
             <Link href={`/${applicationId}/dog-detail`}>
               <Text>Angaben zum Hund</Text>
             </Link>
           </Button>
         </div>
         <div className="col-md-2 mx-2">
-          <Button>
+          <Button asChild>
             <Link href={`/${applicationId}/document`}>
               <Text>Dokumente</Text>
             </Link>
           </Button>
         </div>
         <div className="col-md-2 mx-2">
-          <Button>
+          <Button asChild>
             <Link href={`/${applicationId}/cost`}>
               <Text>Kosten</Text>
             </Link>
           </Button>
         </div>
         <div className="col-md-2 mx-2">
-          <Button>
+          <Button asChild>
             <Link href={`/${applicationId}/mailbox`}>
               <Text>Nachrichten</Text>
             </Link>

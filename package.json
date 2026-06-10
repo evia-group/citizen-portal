@@ -15,8 +15,6 @@
   },
   "devDependencies": {
     "@biomejs/biome": "^2.4.15",
-    "ajv": "^6.12.6",
-    "ajv-keywords": "^3.5.2",
     "concurrently": "^9.0.0",
     "eslint": "^9.39.4",
     "react": "19.0.0",
@@ -40,6 +38,7 @@
     "libs/services",
     "libs/documents",
     "libs/applications",
+    "libs/eslint-config",
     "libs/tailwind-config",
     "libs/typescript-config",
     "libs/ui"

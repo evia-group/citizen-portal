@@ -9,11 +9,11 @@ import { Text } from "~/components/ui/text";
 import { H2 } from "~/components/ui/typography";
 
 export default function ApplicationDetail(props: {
-  params: Promise<{ applicationId: number }>;
+  params: Promise<{ applicationId: string }>;
 }) {
   const params = use(props.params);
   const { data, isLoading, isError, error } = useApplication(
-    params.applicationId,
+    Number(params.applicationId),
   );
   const router = useRouter();
   const update = useUpdateApplication();

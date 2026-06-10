@@ -96,11 +96,11 @@ export default function Web() {
                     <Text>{statusMap[item.status]}</Text>
                   </TableCell>
                   <TableCell style={colStyles(7)}>
-                    <Link href={`/${item.id}`}>
-                      <Button>
+                    <Button asChild>
+                      <Link href={`/${item.id}`}>
                         <Text>Details</Text>
-                      </Button>
-                    </Link>
+                      </Link>
+                    </Button>
                   </TableCell>
                 </TableRow>
               ))
