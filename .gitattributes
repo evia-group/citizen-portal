@@ -8,3 +8,6 @@ Dockerfile     text eol=lf
 *.Dockerfile   text eol=lf
 .devcontainer/** text eol=lf
 mvnw           text eol=lf
+
+# cmd misparses LF-only batch files in edge cases; keep CRLF on every checkout.
+*.bat          text eol=crlf
