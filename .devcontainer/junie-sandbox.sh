@@ -15,6 +15,17 @@ IMAGE=citizen-portal-junie-sandbox
 CONTAINER=citizen-portal-junie-sandbox
 WORKDIR=/workspaces/citizen-portal
 
+# Interactive attach needs a real TTY; without one (IDE terminal, npm, mintty)
+# `docker exec -it` fails, so print manual instructions instead.
+attach() {
+  if [ -t 0 ]; then
+    exec docker exec -it -w "$WORKDIR" "$CONTAINER" bash
+  fi
+  echo ">> No TTY in this terminal — container is running. Attach with:"
+  echo "     docker exec -it -w $WORKDIR $CONTAINER bash"
+  exit 0
+}
+
 if [[ "${1:-}" == "--rebuild" ]]; then
   docker rm -f "$CONTAINER" 2>/dev/null || true
   docker rmi "$IMAGE" 2>/dev/null || true
@@ -25,7 +36,7 @@ fi
 if docker container inspect "$CONTAINER" >/dev/null 2>&1; then
   echo ">> Reattaching to existing container $CONTAINER"
   docker start "$CONTAINER" >/dev/null
-  exec docker exec -it -w "$WORKDIR" "$CONTAINER" bash
+  attach
 fi
 
 if ! docker image inspect "$IMAGE" >/dev/null 2>&1; then
@@ -58,11 +69,13 @@ docker run -dit --name "$CONTAINER" \
 
 # postCreateCommand equivalent: named volumes mount root-owned → chown once, then
 # warm dependency caches (failure-tolerant, same as devcontainer.json).
+# No -it: setup is non-interactive, and exec -it fails ("stdin is not a terminal")
+# when the script runs without a real console (IDE terminal, npm, mintty).
 echo ">> Running one-time setup (chown volumes, npm install, maven go-offline)"
-docker exec -it -w "$WORKDIR" "$CONTAINER" bash -c '
+docker exec -w "$WORKDIR" "$CONTAINER" bash -c '
   sudo chown -R vscode:vscode /home/vscode/.junie /home/vscode/.m2 /home/vscode/.npm
   npm install || true
   ./mvnw -q -DskipTests dependency:go-offline || true
 '
 
-exec docker exec -it -w "$WORKDIR" "$CONTAINER" bash
+attach

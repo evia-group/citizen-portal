@@ -28,8 +28,7 @@ docker container inspect %CONTAINER% >nul 2>&1
 if not errorlevel 1 (
     echo ^>^> Reattaching to existing container %CONTAINER%
     docker start %CONTAINER% >nul || exit /b 1
-    docker exec -it -w %WORKDIR% %CONTAINER% bash
-    exit /b %errorlevel%
+    goto :attach
 )
 
 docker image inspect %IMAGE% >nul 2>&1
@@ -62,8 +61,17 @@ docker run -dit --name %CONTAINER% ^
 
 rem postCreateCommand equivalent: named volumes mount root-owned -> chown once, then
 rem warm dependency caches (failure-tolerant, same as devcontainer.json).
+rem No -it here: setup is non-interactive, and exec -it fails ("stdin is not a
+rem terminal") when the script runs without a real console (IDE terminal, npm, mintty).
 echo ^>^> Running one-time setup ^(chown volumes, npm install, maven go-offline^)
-docker exec -it -w %WORKDIR% %CONTAINER% bash -c "sudo chown -R vscode:vscode /home/vscode/.junie /home/vscode/.m2 /home/vscode/.npm; npm install || true; ./mvnw -q -DskipTests dependency:go-offline || true"
+docker exec -w %WORKDIR% %CONTAINER% bash -c "sudo chown -R vscode:vscode /home/vscode/.junie /home/vscode/.m2 /home/vscode/.npm; npm install || true; ./mvnw -q -DskipTests dependency:go-offline || true"
 
+:attach
 docker exec -it -w %WORKDIR% %CONTAINER% bash
-exit /b %errorlevel%
+set "RC=%errorlevel%"
+if not "%RC%"=="0" (
+    echo ^>^> Could not attach an interactive shell ^(this terminal has no TTY^).
+    echo ^>^> The container is running. Attach from cmd/PowerShell/Windows Terminal:
+    echo      docker exec -it -w %WORKDIR% %CONTAINER% bash
+)
+exit /b %RC%
