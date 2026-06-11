@@ -1,7 +1,18 @@
 {
   "name": "Citizen Portal — Junie sandbox",
+  // Proxy build args: containerEnv does NOT apply at image build time, but the
+  // Dockerfile downloads Junie via curl. HTTP(S)_PROXY/NO_PROXY are predefined Docker
+  // build args — no ARG declarations needed; they become env for every RUN step.
   "build": {
-    "dockerfile": "Dockerfile"
+    "dockerfile": "Dockerfile",
+    "args": {
+//      "HTTP_PROXY": "<PROXY_HOST:PROXY_PORT>",
+//      "HTTPS_PROXY": "<PROXY_HOST:PROXY_PORT>",
+//      "NO_PROXY": "localhost,127.0.0.1",
+//      "http_proxy": "<PROXY_HOST:PROXY_PORT>",
+//      "https_proxy": "<PROXY_HOST:PROXY_PORT>",
+//      "no_proxy": "localhost,127.0.0.1"
+    }
   },
   "remoteUser": "vscode",
 
@@ -10,7 +21,14 @@
   // JAVA_HOME can't leak in and break `./mvnw` ("JAVA_HOME is not defined correctly").
   // containerEnv applies to every process incl. postCreateCommand.
   "containerEnv": {
-    "JAVA_HOME": "/usr/lib/jvm/msopenjdk-current"
+//    "JAVA_HOME": "/usr/lib/jvm/msopenjdk-current",
+//    "HTTP_PROXY": "<PROXY_HOST:PROXY_PORT>",
+//    "HTTPS_PROXY": "<PROXY_HOST:PROXY_PORT>",
+//    "NO_PROXY": "localhost,127.0.0.1",
+//    "http_proxy": "<PROXY_HOST:PROXY_PORT>",
+//    "https_proxy": "<PROXY_HOST:PROXY_PORT>",
+//    "no_proxy": "localhost,127.0.0.1",
+//    "MAVEN_OPTS": "-Dhttp.proxyHost=<PROXY_HOST> -Dhttp.proxyPort=<PROXY_PORT> -Dhttps.proxyHost=<PROXY_HOST> -Dhttps.proxyPort=<PROXY_PORT> -Dhttp.nonProxyHosts=localhost|127.0.0.1"
   },
 
   // Node 22 via the official feature (matches .node-version v22.11.0, engines.node >=22).
@@ -33,8 +51,9 @@
   // ~/.junie, ~/.m2, or ~/.npm (Junie's logs/, Maven's wrapper/ → AccessDeniedException).
   // chown them once after mount, then warm the dependency caches. Tolerant of failure
   // (|| true) so the container still comes up if the network hiccups; honors .npmrc
-  // legacy-peer-deps.
-  "postCreateCommand": "sudo chown -R vscode:vscode /home/vscode/.junie /home/vscode/.m2 /home/vscode/.npm; npm install || true; ./mvnw -q -DskipTests dependency:go-offline || true",
+  // legacy-peer-deps. Installs the repo-managed Maven proxy config before warming the
+  // cache — Maven ignores proxy env vars, so settings.xml is mandatory behind the proxy.
+  "postCreateCommand": "sudo chown -R vscode:vscode /home/vscode/.junie /home/vscode/.m2 /home/vscode/.npm; /home/vscode/.m2/settings.xml; npm install || true; ./mvnw -q -DskipTests dependency:go-offline || true",
 
   // The Junie /account login opens a localhost OAuth callback. Auto-forwarding can remap
   // the container port to a different host port, which breaks the loopback redirect_uri

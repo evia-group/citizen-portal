@@ -9,6 +9,11 @@
 FROM mcr.microsoft.com/devcontainers/java:1-21-bookworm
 
 # Install Junie CLI as the non-root `vscode` user so the binary lands on that user's
-# PATH and auth/config is written to /home/vscode/.junie (persisted as a named volume).
+# PATH (~/.local/bin) and auth/config is written to /home/vscode/.junie (persisted as a
+# named volume). pipefail is mandatory: without it a failed curl (e.g. proxy not passed
+# as build arg) feeds bash empty input, the RUN exits 0, and the image silently ships
+# without Junie ("junie: command not found"). The trailing check catches an installer
+# that ran but didn't produce the binary.
 USER vscode
-RUN curl -fsSL https://junie.jetbrains.com/install.sh | bash
+RUN bash -o pipefail -c 'curl -fsSL https://junie.jetbrains.com/install.sh | bash' \
+    && test -x /home/vscode/.local/bin/junie
