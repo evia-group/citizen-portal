@@ -59,3 +59,7 @@ e2e/*/.playwright-cli/
 .cursor/
 .codex/
 /.claude/plans/
+
+# devcontainer local proxy config (real values, never commit)
+.devcontainer/devcontainer.env
+.devcontainer/_devcontainer.json
