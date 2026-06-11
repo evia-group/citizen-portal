@@ -1,34 +1,40 @@
 {
   "name": "Citizen Portal — Junie sandbox",
-  // Proxy build args: containerEnv does NOT apply at image build time, but the
-  // Dockerfile downloads Junie via curl. HTTP(S)_PROXY/NO_PROXY are predefined Docker
-  // build args — no ARG declarations needed; they become env for every RUN step.
+  // Build-time proxy: runArgs --env-file does NOT apply to image builds, so build
+  // args resolve from the HOST environment. Export the vars on the host first, e.g.
+  //   set -a; source .devcontainer/devcontainer.env; set +a
+  // before launching, or configure "proxies" in ~/.docker/config.json instead (Docker
+  // then injects them into every build/run automatically). On a proxy-less host the
+  // unset vars resolve to "" — curl/apt treat empty as "no proxy".
   "build": {
     "dockerfile": "Dockerfile",
     "args": {
-//      "HTTP_PROXY": "<PROXY_HOST:PROXY_PORT>",
-//      "HTTPS_PROXY": "<PROXY_HOST:PROXY_PORT>",
-//      "NO_PROXY": "localhost,127.0.0.1",
-//      "http_proxy": "<PROXY_HOST:PROXY_PORT>",
-//      "https_proxy": "<PROXY_HOST:PROXY_PORT>",
-//      "no_proxy": "localhost,127.0.0.1"
+      "HTTP_PROXY": "${localEnv:HTTP_PROXY}",
+      "HTTPS_PROXY": "${localEnv:HTTPS_PROXY}",
+      "NO_PROXY": "${localEnv:NO_PROXY}",
+      "http_proxy": "${localEnv:http_proxy}",
+      "https_proxy": "${localEnv:https_proxy}",
+      "no_proxy": "${localEnv:no_proxy}"
     }
   },
   "remoteUser": "vscode",
+
+  // Runtime proxy config lives in .devcontainer/devcontainer.env — gitignored so the
+  // real proxy host never lands in git; initializeCommand seeds it from the committed
+  // example on first launch (all-empty = proxy-less default). It holds only three
+  // canonical values (HTTP_PROXY, NO_PROXY, JAVA_TOOL_OPTIONS — every JVM incl. the
+  // mvnw wrapper download reads the latter); --env-file can't expand variables, so
+  // setup-proxy.sh derives HTTPS_PROXY + lowercase variants (~/.proxy.env, sourced by
+  // ~/.bashrc) and ~/.m2/settings.xml (Maven resolution ignores env vars) at postCreate.
+  "initializeCommand": "test -f .devcontainer/devcontainer.env || cp .devcontainer/devcontainer.env.example .devcontainer/devcontainer.env",
+  "runArgs": ["--env-file", "${localWorkspaceFolder}/.devcontainer/devcontainer.env"],
 
   // Pin JAVA_HOME to the JDK shipped in mcr.microsoft.com/devcontainers/java:1-21-bookworm
   // (Microsoft Build of OpenJDK — confirmed via `docker run ... echo $JAVA_HOME`) so a host
   // JAVA_HOME can't leak in and break `./mvnw` ("JAVA_HOME is not defined correctly").
   // containerEnv applies to every process incl. postCreateCommand.
   "containerEnv": {
-//    "JAVA_HOME": "/usr/lib/jvm/msopenjdk-current",
-//    "HTTP_PROXY": "<PROXY_HOST:PROXY_PORT>",
-//    "HTTPS_PROXY": "<PROXY_HOST:PROXY_PORT>",
-//    "NO_PROXY": "localhost,127.0.0.1",
-//    "http_proxy": "<PROXY_HOST:PROXY_PORT>",
-//    "https_proxy": "<PROXY_HOST:PROXY_PORT>",
-//    "no_proxy": "localhost,127.0.0.1",
-//    "MAVEN_OPTS": "-Dhttp.proxyHost=<PROXY_HOST> -Dhttp.proxyPort=<PROXY_PORT> -Dhttps.proxyHost=<PROXY_HOST> -Dhttps.proxyPort=<PROXY_PORT> -Dhttp.nonProxyHosts=localhost|127.0.0.1"
+    "JAVA_HOME": "/usr/lib/jvm/msopenjdk-current"
   },
 
   // Node 22 via the official feature (matches .node-version v22.11.0, engines.node >=22).
@@ -49,11 +55,10 @@
 
   // Named volumes mount root-owned, so the non-root `vscode` user can't write into
   // ~/.junie, ~/.m2, or ~/.npm (Junie's logs/, Maven's wrapper/ → AccessDeniedException).
-  // chown them once after mount, then warm the dependency caches. Tolerant of failure
-  // (|| true) so the container still comes up if the network hiccups; honors .npmrc
-  // legacy-peer-deps. Installs the repo-managed Maven proxy config before warming the
-  // cache — Maven ignores proxy env vars, so settings.xml is mandatory behind the proxy.
-  "postCreateCommand": "sudo chown -R vscode:vscode /home/vscode/.junie /home/vscode/.m2 /home/vscode/.npm; /home/vscode/.m2/settings.xml; npm install || true; ./mvnw -q -DskipTests dependency:go-offline || true",
+  // chown them once after mount, generate the Maven proxy config from env, then warm
+  // the dependency caches. Tolerant of failure (|| true) so the container still comes
+  // up if the network hiccups; honors .npmrc legacy-peer-deps.
+  "postCreateCommand": "sudo chown -R vscode:vscode /home/vscode/.junie /home/vscode/.m2 /home/vscode/.npm; bash .devcontainer/setup-proxy.sh; . $HOME/.proxy.env; npm install || true; ./mvnw -q -DskipTests dependency:go-offline || true",
 
   // The Junie /account login opens a localhost OAuth callback. Auto-forwarding can remap
   // the container port to a different host port, which breaks the loopback redirect_uri
