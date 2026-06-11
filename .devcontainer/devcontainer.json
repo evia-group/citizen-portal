@@ -20,14 +20,13 @@
   "remoteUser": "vscode",
 
   // Runtime proxy config lives in .devcontainer/devcontainer.env — gitignored so the
-  // real proxy host never lands in git; initializeCommand seeds it from the committed
-  // example on first launch (all-empty = proxy-less default). It holds only three
-  // canonical values (HTTP_PROXY, NO_PROXY, JAVA_TOOL_OPTIONS — every JVM incl. the
-  // mvnw wrapper download reads the latter); --env-file can't expand variables, so
-  // setup-proxy.sh derives HTTPS_PROXY + lowercase variants (~/.proxy.env, sourced by
-  // ~/.bashrc) and ~/.m2/settings.xml (Maven resolution ignores env vars) at postCreate.
-  "initializeCommand": "test -f .devcontainer/devcontainer.env || cp .devcontainer/devcontainer.env.example .devcontainer/devcontainer.env",
-  "runArgs": ["--env-file", "${localWorkspaceFolder}/.devcontainer/devcontainer.env"],
+  // real proxy host never lands in git; optional and missing/empty = proxy-less
+  // default. It holds only three canonical values (HTTP_PROXY, NO_PROXY,
+  // JAVA_TOOL_OPTIONS — every JVM incl. the mvnw wrapper download reads the latter).
+  // setup-proxy.sh reads it INSIDE the container at postCreate (no initializeCommand /
+  // runArgs: host-side lifecycle commands run via `sh`, which breaks on Windows hosts,
+  // and --env-file fails when the file is absent) and derives ~/.proxy.env (exports,
+  // sourced by ~/.bashrc) plus ~/.m2/settings.xml (Maven resolution ignores env vars).
 
   // Pin JAVA_HOME to the JDK shipped in mcr.microsoft.com/devcontainers/java:1-21-bookworm
   // (Microsoft Build of OpenJDK — confirmed via `docker run ... echo $JAVA_HOME`) so a host
