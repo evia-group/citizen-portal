@@ -17,14 +17,15 @@ RUN npm install
 
 RUN npm run build:web --workspace user-portal-fe
 
-# Belt-and-braces: verify the NativeWind CSS bundle is non-empty before the
-# image is considered buildable. We use an explicit sh -c snippet rather than
-# `test -s <glob>` because `test -s` takes a single operand — if expo export
-# ever emits more than one matching file, busybox test returns non-zero for
-# "too many args" and bash reports a usage error. The snippet picks the first
-# matching file and fails loudly if it is absent or empty.
+# Belt-and-braces: verify the CSS bundle is non-empty before the image is
+# considered buildable. expo export emits a content-hashed CSS file under
+# _expo/static/css/ (e.g. web-<hash>.css). We use an explicit sh -c snippet
+# rather than `test -s <glob>` because `test -s` takes a single operand — if
+# expo export ever emits more than one matching file, busybox test returns
+# non-zero for "too many args". The snippet picks the first matching file and
+# fails loudly if it is absent or empty.
 RUN sh -c 'set -e; \
-  f=$(ls ./apps/user-portal-fe/dist/_expo/static/css/global-*.css 2>/dev/null | head -n1); \
+  f=$(ls ./apps/user-portal-fe/dist/_expo/static/css/*.css 2>/dev/null | head -n1); \
   if [ -z "$f" ] || [ ! -s "$f" ]; then \
     echo "FATAL: NativeWind CSS bundle is empty or missing after expo export"; exit 1; \
   fi'
