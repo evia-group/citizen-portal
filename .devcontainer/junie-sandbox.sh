@@ -58,12 +58,14 @@ echo ">> Starting $CONTAINER (workspace bind-mounted at $WORKDIR)"
 # JAVA_HOME pinned; 62345 published 1:1 for the Junie OAuth loopback redirect.
 docker run -dit --name "$CONTAINER" \
   --user vscode \
+  --add-host=host.docker.internal:host-gateway \
   -v "$REPO_ROOT":"$WORKDIR" \
   -v citizen-portal-junie:/home/vscode/.junie \
   -v citizen-portal-m2:/home/vscode/.m2 \
   -v citizen-portal-npm:/home/vscode/.npm \
   -p 62345:62345 \
   -e JAVA_HOME=/usr/lib/jvm/msopenjdk-current \
+  -e E2E_IN_DEVCONTAINER=1 \
   -w "$WORKDIR" \
   "$IMAGE" bash >/dev/null
 
