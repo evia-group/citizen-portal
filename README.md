@@ -83,6 +83,11 @@ You can run JetBrains' **Junie CLI** against this monorepo inside a **sandbox** 
    > `forwardPorts: [62345]` and a matching `portsAttributes` entry. 
    > Change the port if needed and recreate the devcontainer
 
+3. If http://localhost:62345 is unreachable run the following in the container with a link from your callback in browser:
+```
+curl -s "http://localhost:62345/?code=...."
+```
+
 ## Dependency pinning & hoisting
 
 The FE dependency tree is deliberately constrained so two incompatible stacks can coexist in one
