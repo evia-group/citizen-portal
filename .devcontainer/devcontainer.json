@@ -39,7 +39,7 @@
   // Node 22 via the official feature (matches .node-version v22.11.0, engines.node >=22).
   // Kept out of the Dockerfile so the image stays simple and cross-platform.
   "features": {
-    "ghcr.io/devcontainers/features/node:1": {
+    "ghcr.io/devcontainers/features/node:2": {
       "version": "22"
     }
   },
