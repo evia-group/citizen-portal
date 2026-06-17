@@ -21,10 +21,12 @@
   "mounts": [
     "source=citizen-portal-junie,target=/home/vscode/.junie,type=volume",
     "source=citizen-portal-m2,target=/home/vscode/.m2,type=volume",
-    "source=citizen-portal-npm,target=/home/vscode/.npm,type=volume"
+    "source=citizen-portal-npm,target=/home/vscode/.npm,type=volume",
+    "source=citizen-portal-node_modules,target=${containerWorkspaceFolder}/node_modules,type=volume"
   ],
 
-  "postCreateCommand": "sudo chown -R vscode:vscode /home/vscode/.junie /home/vscode/.m2 /home/vscode/.npm; bash .devcontainer/setup-proxy.sh; . $HOME/.proxy.env; npm install || true; ./mvnw -q -DskipTests dependency:go-offline || true",
+  "onCreateCommand": "sudo chown -R vscode:vscode /home/vscode/.junie /home/vscode/.m2 /home/vscode/.npm ${containerWorkspaceFolder}/node_modules; bash .devcontainer/setup-proxy.sh; . $HOME/.proxy.env; npm install || true; ./mvnw -q -DskipTests dependency:go-offline || true",
+  "postStartCommand": "bash .devcontainer/setup-proxy.sh",
 
   "forwardPorts": [62345],
   "portsAttributes": {

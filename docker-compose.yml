@@ -83,7 +83,9 @@ services:
             - keycloak
         restart: always
         tty: true
+        mem_limit: 1g
         environment:
+            JAVA_TOOL_OPTIONS: '-XX:MaxRAMPercentage=75'
             POSTGRES_HOST: 'postgres:5432'
             POSTGRES_DATABASE: 'portal'
             POSTGRES_USER: 'portal'
@@ -128,7 +130,9 @@ services:
             dockerfile: ./apps/service-portal-be/Dockerfile
         restart: always
         tty: true
+        mem_limit: 1g
         environment:
+            JAVA_TOOL_OPTIONS: '-XX:MaxRAMPercentage=75'
             POSTGRES_HOST: 'postgres:5432'
             POSTGRES_DATABASE: 'portal'
             POSTGRES_USER: 'portal'
@@ -162,7 +166,9 @@ services:
             dockerfile: ./apps/admin-portal-be/Dockerfile
         restart: always
         tty: true
+        mem_limit: 1g
         environment:
+            JAVA_TOOL_OPTIONS: '-XX:MaxRAMPercentage=75'
             POSTGRES_HOST: 'postgres:5432'
             POSTGRES_DATABASE: 'portal'
             POSTGRES_USER: 'portal'
