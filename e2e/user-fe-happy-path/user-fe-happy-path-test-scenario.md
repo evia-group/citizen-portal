@@ -15,7 +15,7 @@ all main tabs, and open the profile page and logout
 |--------------------|---------------------------------------------------------|
 | App URL            | `http://localhost:8081`                                 |
 | Sign-in URL        | `http://localhost:8081/sign-in` (redirect target)       |
-| Keycloak URL       | `http://localhost/keycloak` (via OpenResty proxy)       |
+| Keycloak URL       | `http://localhost:8090/keycloak` (via OpenResty proxy)  |
 | Realm              | `portal`                                                |
 | Test User          | `user` (from `e2e/.env` USER_NAME)                      |
 | Test User Password | (from `e2e/.env` USER_PASSWORD, do not expose)          |

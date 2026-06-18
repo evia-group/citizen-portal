@@ -1,4 +1,18 @@
-FROM node:22-slim AS user-portal-fe-build
+FROM node:22-slim AS user-portal-fe-base
+
+# Prune the monorepo down to just the user-portal-fe workspace and its
+# dependencies. Installing the *entire* monorepo here (all FEs/libs plus the
+# heavy Expo/React-Native graph) blew up memory during `docker compose build`
+# and got OOM-killed (`npm install` exit code 146), especially while sibling
+# images build in parallel. `turbo prune` mirrors the admin-portal-fe pattern
+# and keeps the install footprint to this workspace's subgraph.
+FROM user-portal-fe-base AS user-portal-fe-builder
+WORKDIR /app
+COPY . .
+RUN npx --yes turbo prune user-portal-fe --docker
+
+# Install only the pruned subworkspace and build the static Expo web bundle.
+FROM user-portal-fe-base AS user-portal-fe-build
 
 # Bake the FE's API + Keycloak URLs into the static bundle at build time.
 # Defaults target the prod/dev cluster; docker-compose overrides them for
@@ -11,9 +25,15 @@ ENV EXPO_PUBLIC_KEYCLOAK_URL=${EXPO_PUBLIC_KEYCLOAK_URL}
 
 WORKDIR /app
 
-COPY . .
-
+# First install the dependencies (as they change less often)
+COPY .gitignore .gitignore
+COPY --from=user-portal-fe-builder /app/out/json/ .
+COPY --from=user-portal-fe-builder /app/out/package-lock.json ./package-lock.json
 RUN npm install
+
+# Then bring in the full pruned sources and build
+COPY --from=user-portal-fe-builder /app/out/full/ .
+COPY turbo.json turbo.json
 
 RUN npm run build:web --workspace user-portal-fe
 
@@ -23,8 +43,13 @@ RUN npm run build:web --workspace user-portal-fe
 # ever emits more than one matching file, busybox test returns non-zero for
 # "too many args" and bash reports a usage error. The snippet picks the first
 # matching file and fails loudly if it is absent or empty.
+
+# Expo SDK 53 emits the merged web CSS bundle (which includes the NativeWind
+# global.css output) as `web-<hash>.css`, not `global-<hash>.css`. Match the
+# actual filename so the guard validates the real artefact instead of always
+# tripping on a glob that never resolves.
 RUN sh -c 'set -e; \
-  f=$(ls ./apps/user-portal-fe/dist/_expo/static/css/global-*.css 2>/dev/null | head -n1); \
+  f=$(ls ./apps/user-portal-fe/dist/_expo/static/css/web-*.css 2>/dev/null | head -n1); \
   if [ -z "$f" ] || [ ! -s "$f" ]; then \
     echo "FATAL: NativeWind CSS bundle is empty or missing after expo export"; exit 1; \
   fi'

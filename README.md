@@ -6,8 +6,9 @@
 
 _Prerequisites_: Docker, Node.js ≥ 18, Java 21, Maven.
 
-There are two supported local-dev modes. Both use the same Keycloak issuer (`http://localhost/keycloak/realms/portal`) — tokens are
-interchangeable.
+There are two supported local-dev modes. Both use the same Keycloak issuer (`http://localhost:8090/keycloak/realms/portal`) — tokens are
+interchangeable. The OpenResty gateway is published on host port **8090** (port 80 collides with other local services, and 8081 collides
+with the native Expo dev server used in Mode B).
 
 ### Mode A — Full Docker
 
@@ -18,19 +19,19 @@ the gateway path or when you don't need hot-reload.
 docker compose --profile full up -d
 ```
 
-- App: http://localhost — login `user` / `user`
+- App: http://localhost:8090 — login `user` / `user`
 - Keycloak admin: http://localhost:9080 — login `admin` / `admin`
 
 After editing FE source, rebuild the bundle: `docker compose --profile full up --build user-portal-fe`.
 
 #### Known issues:
 
-- After all containers started, restart of service-portal-fe might be needed in case of http://localhost/service-portal-fe gives 502
+- After all containers started, restart of service-portal-fe might be needed in case of http://localhost:8090/service-portal-fe gives 502
 
 ### Mode B — Infra-only Docker (recommended for development)
 
 Runs postgres, keycloak, and openresty in Docker; FE and BE run natively with hot-reload. OpenResty proxies `/keycloak` so the shared issuer
-URL (`http://localhost/keycloak`) works without any config change.
+URL (`http://localhost:8090/keycloak`) works without any config change.
 
 ```sh
 npm install
@@ -40,7 +41,8 @@ npm run dev:local
 
 >**Note:** for local Spring setup, for user-portal-be add server.port=8180 env variable
 
-- User Portal FE: http://localhost:8081 — login `user` / `user`
+- User Portal FE (native Expo): http://localhost:8081 — login `user` / `user`
+- Gateway (Keycloak `/keycloak`, etc.): http://localhost:8090
 - User Portal BE: http://localhost:8180
 - Keycloak admin: http://localhost:9080 — login `admin` / `admin`
 

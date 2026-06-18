@@ -17,7 +17,7 @@ services:
     keycloak:
         image: quay.io/keycloak/keycloak:23.0.6
         container_name: keycloak
-        command: start-dev --import-realm --hostname-url=http://localhost/keycloak --hostname-admin-url=http://localhost:9080 --hostname-strict-backchannel=true --hostname-debug=true
+        command: start-dev --import-realm --hostname-url=http://localhost:8090/keycloak --hostname-admin-url=http://localhost:9080 --hostname-strict-backchannel=true --hostname-debug=true
         ports:
             - "9080:8080"
         volumes:
@@ -63,7 +63,7 @@ services:
             dockerfile: ./apps/user-portal-fe/Dockerfile
             args:
                 EXPO_PUBLIC_API_URL: /api/v1
-                EXPO_PUBLIC_KEYCLOAK_URL: http://localhost/keycloak
+                EXPO_PUBLIC_KEYCLOAK_URL: http://localhost:8090/keycloak
         restart: always
         ports:
             - '8181:8181'
@@ -78,6 +78,11 @@ services:
         build:
             context: .
             dockerfile: ./apps/user-portal-be/Dockerfile
+            args:
+                HTTP_PROXY: ${HTTP_PROXY:-}
+                HTTPS_PROXY: ${HTTPS_PROXY:-}
+                NO_PROXY: ${NO_PROXY:-}
+                JAVA_TOOL_OPTIONS: ${JAVA_TOOL_OPTIONS:-}
         depends_on:
             - postgres
             - keycloak
@@ -89,7 +94,7 @@ services:
             POSTGRES_USER: 'portal'
             POSTGRES_PASSWORD: 'portal'
             KEYCLOAK_URL: 'http://keycloak:8080'
-            KEYCLOAK_ISSUER_URL: 'http://localhost/keycloak'
+            KEYCLOAK_ISSUER_URL: 'http://localhost:8090/keycloak'
             DOWNLOAD_URL: 'http://localhost:8180/api/v1/documents/downloadFile/'
         ports:
             - '8180:8080'
@@ -106,8 +111,8 @@ services:
         tty: true
         environment:
             PORT: 3001
-            NEXT_PUBLIC_API_URL: http://localhost/service-portal-be/api/v1
-            NEXT_PUBLIC_KEYCLOAK_URL: http://localhost/keycloak
+            NEXT_PUBLIC_API_URL: http://localhost:8090/service-portal-be/api/v1
+            NEXT_PUBLIC_KEYCLOAK_URL: http://localhost:8090/keycloak
             NEXT_PUBLIC_BASE_PATH: /service-portal-fe
         ports:
             - '8281:3001'
@@ -126,6 +131,11 @@ services:
         build:
             context: .
             dockerfile: ./apps/service-portal-be/Dockerfile
+            args:
+                HTTP_PROXY: ${HTTP_PROXY:-}
+                HTTPS_PROXY: ${HTTPS_PROXY:-}
+                NO_PROXY: ${NO_PROXY:-}
+                JAVA_TOOL_OPTIONS: ${JAVA_TOOL_OPTIONS:-}
         restart: always
         tty: true
         environment:
@@ -160,6 +170,11 @@ services:
         build:
             context: .
             dockerfile: ./apps/admin-portal-be/Dockerfile
+            args:
+                HTTP_PROXY: ${HTTP_PROXY:-}
+                HTTPS_PROXY: ${HTTPS_PROXY:-}
+                NO_PROXY: ${NO_PROXY:-}
+                JAVA_TOOL_OPTIONS: ${JAVA_TOOL_OPTIONS:-}
         restart: always
         tty: true
         environment:
@@ -179,14 +194,14 @@ services:
     openresty:
         container_name: openresty
         # No profile — starts in both Mode B (infra-only) and Mode A (--profile full).
-        # Mode B: proxies Keycloak at /keycloak so the issuer URL http://localhost/keycloak
+        # Mode B: proxies Keycloak at /keycloak so the issuer URL http://localhost:8090/keycloak
         # works for natively-run FE and BEs without any config change.
         # Mode A: additionally routes /api/v1 and static FE assets through the gateway.
         build:
             context: .
             dockerfile: ./infrastructure/openresty/Dockerfile
         ports:
-            - "80:80"
+            - "8090:80"
         volumes:
             - ./infrastructure/openresty/nginx.conf:/etc/nginx/conf.d/default.conf
         depends_on:

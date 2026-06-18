@@ -20,7 +20,7 @@ and must be re-derived from each fresh `playwright-cli snapshot` (match by role
 | User Portal Sign-in URL     | `http://localhost:8081/sign-in` (redirect target)                      |
 | Service Portal URL (Mode B) | `http://localhost:3001` (native `npm run dev:service-portal`)          |
 | Service Portal URL (Mode A) | `http://localhost:8281` (full Docker; container maps 8281→3001)        |
-| Keycloak URL                | `http://localhost/keycloak` (via OpenResty proxy)                      |
+| Keycloak URL                | `http://localhost:8090/keycloak` (via OpenResty proxy)                 |
 | Citizen Realm               | `portal` (the only realm — service portal shares it)                   |
 | Citizen User                | `user` (from `e2e/.env` `USER_NAME`)                                   |
 | Citizen Password            | `user` (from `e2e/.env` `USER_PASSWORD`)                               |
@@ -378,7 +378,7 @@ playwright-cli -s=user-service-request-happy-path--citizen close
    uses a separate service session. After Phase A, `playwright-cli goto` in
    Phase C resets in-memory auth state — re-login is expected.
 3. **Single Keycloak realm.** Both portals share the `portal` realm
-   (`http://localhost/keycloak/realms/portal`). There is no separate `service`
+   (`http://localhost:8090/keycloak/realms/portal`). There is no separate `service`
    realm in this checkout — confirm against
    `infrastructure/keycloak/import/portal-realm.json`.
 4. **Service portal has no auth in dev.** Open `http://localhost:3001` (or

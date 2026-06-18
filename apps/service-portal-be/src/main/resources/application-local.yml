@@ -9,8 +9,8 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: http://localhost/keycloak/realms/portal
-          jwk-set-uri: http://localhost/keycloak/realms/portal/protocol/openid-connect/certs
+          issuer-uri: http://localhost:8090/keycloak/realms/portal
+          jwk-set-uri: http://localhost:8090/keycloak/realms/portal/protocol/openid-connect/certs
 
 logging:
   level:
