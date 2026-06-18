@@ -17,6 +17,22 @@ RUN npm install
 
 RUN npm run build:web --workspace user-portal-fe
 
+# Belt-and-braces: verify that Expo exported at least one non-empty CSS bundle.
+# Expo/Metro does not guarantee that the emitted CSS file is named `global-*.css`,
+# so checking only that glob can fail even when a valid CSS bundle exists.
+RUN sh -c 'set -e; \
+  css_dir="./apps/user-portal-fe/dist/_expo/static/css"; \
+  echo "Checking exported CSS bundles in: $css_dir"; \
+  find "$css_dir" -maxdepth 1 -type f -name "*.css" -print 2>/dev/null || true; \
+  f=$(find "$css_dir" -maxdepth 1 -type f -name "*.css" -size +0c -print 2>/dev/null | head -n1); \
+  if [ -z "$f" ]; then \
+    echo "FATAL: NativeWind/Expo CSS bundle is empty or missing after expo export"; \
+    echo "Contents of dist/_expo/static, if present:"; \
+    find ./apps/user-portal-fe/dist/_expo/static -maxdepth 3 -type f -print 2>/dev/null || true; \
+    exit 1; \
+  fi; \
+  echo "Found non-empty CSS bundle: $f"'
+
 # Belt-and-braces: verify the NativeWind CSS bundle is non-empty before the
 # image is considered buildable. We use an explicit sh -c snippet rather than
 # `test -s <glob>` because `test -s` takes a single operand — if expo export
@@ -24,7 +40,7 @@ RUN npm run build:web --workspace user-portal-fe
 # "too many args" and bash reports a usage error. The snippet picks the first
 # matching file and fails loudly if it is absent or empty.
 RUN sh -c 'set -e; \
-  f=$(ls ./apps/user-portal-fe/dist/_expo/static/css/global-*.css 2>/dev/null | head -n1); \
+  f=$(ls ./apps/user-portal-fe/dist/_expo/static/css/web-*.css 2>/dev/null | head -n1); \
   if [ -z "$f" ] || [ ! -s "$f" ]; then \
     echo "FATAL: NativeWind CSS bundle is empty or missing after expo export"; exit 1; \
   fi'
