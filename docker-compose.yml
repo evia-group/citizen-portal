@@ -78,6 +78,11 @@ services:
         build:
             context: .
             dockerfile: ./apps/user-portal-be/Dockerfile
+            args:
+                HTTP_PROXY: ${HTTP_PROXY:-}
+                HTTPS_PROXY: ${HTTPS_PROXY:-}
+                NO_PROXY: ${NO_PROXY:-}
+                JAVA_TOOL_OPTIONS: ${JAVA_TOOL_OPTIONS:-}
         depends_on:
             - postgres
             - keycloak
@@ -126,6 +131,11 @@ services:
         build:
             context: .
             dockerfile: ./apps/service-portal-be/Dockerfile
+            args:
+                HTTP_PROXY: ${HTTP_PROXY:-}
+                HTTPS_PROXY: ${HTTPS_PROXY:-}
+                NO_PROXY: ${NO_PROXY:-}
+                JAVA_TOOL_OPTIONS: ${JAVA_TOOL_OPTIONS:-}
         restart: always
         tty: true
         environment:
@@ -160,6 +170,11 @@ services:
         build:
             context: .
             dockerfile: ./apps/admin-portal-be/Dockerfile
+            args:
+                HTTP_PROXY: ${HTTP_PROXY:-}
+                HTTPS_PROXY: ${HTTPS_PROXY:-}
+                NO_PROXY: ${NO_PROXY:-}
+                JAVA_TOOL_OPTIONS: ${JAVA_TOOL_OPTIONS:-}
         restart: always
         tty: true
         environment:
@@ -186,7 +201,7 @@ services:
             context: .
             dockerfile: ./infrastructure/openresty/Dockerfile
         ports:
-            - "80:80"
+            - "8081:80"
         volumes:
             - ./infrastructure/openresty/nginx.conf:/etc/nginx/conf.d/default.conf
         depends_on:
