@@ -1,6 +1,7 @@
 package com.evia.portal.userportal.core.service;
 
 import com.evia.portal.userportal.core.domain.Application;
+import com.evia.portal.userportal.core.domain.Service;
 import com.evia.portal.userportal.core.exception.EntityNotFoundException;
 import com.evia.portal.userportal.core.repository.ApplicationRepository;
 import com.evia.portal.userportal.core.repository.criteria.ApplicationCriteria;
@@ -34,7 +35,8 @@ public class ApplicationService {
   public Application createApplication(Application application) {
 
     profileService.getProfileById(application.getProfile().getId());
-    servicesService.getServiceById(application.getService().getId());
+    Service service = servicesService.getServiceById(application.getService().getId());
+    application.setService(service);
     application.setStatus(ADDED);
 
     return applicationRepository.save(application);
