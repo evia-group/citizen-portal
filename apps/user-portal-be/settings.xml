@@ -1,0 +1,20 @@
+<settings>
+    <proxies>
+        <proxy>
+            <id>corporate-http</id>
+            <active>true</active>
+            <protocol>http</protocol>
+            <host>webproxy.kvnbw.de</host>
+            <port>3128</port>
+            <nonProxyHosts>localhost|127.0.0.1|postgres|keycloak|keycloak-postgres</nonProxyHosts>
+        </proxy>
+        <proxy>
+            <id>corporate-https</id>
+            <active>true</active>
+            <protocol>https</protocol>
+            <host>webproxy.kvnbw.de</host>
+            <port>3128</port>
+            <nonProxyHosts>localhost|127.0.0.1|postgres|keycloak|keycloak-postgres</nonProxyHosts>
+        </proxy>
+    </proxies>
+</settings>
