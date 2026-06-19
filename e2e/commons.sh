@@ -28,12 +28,43 @@ source "$(dirname "${BASH_SOURCE[0]}")/.env"   # provides USER_NAME, USER_PASSWO
 
 : "${S:?commons.sh: set S (session name) before sourcing}"
 
-KC="${KC:-http://localhost:9080}"
-API="${API:-http://localhost:8180}"
-APP="${APP:-http://localhost:8081}"
+# Environment-aware target URLs. A scenario may still override KC/API/APP before
+# sourcing; otherwise they are derived from the detected environment (see forwards.sh):
+#   - devcontainer (Mode A): everything is served through the openresty gateway on the
+#     host's :80, reached via the socat localhost forwards brought up below.
+#   - host (Mode B): the FE runs natively on :8081; infra (Keycloak/BE) is in Docker.
+# shellcheck disable=SC1091
+source "$(dirname "${BASH_SOURCE[0]}")/forwards.sh"
+
+if [ "$(e2e_env_kind)" = "devcontainer" ]; then
+  APP="${APP:-http://localhost}"
+  KC="${KC:-http://localhost:9080}"
+  API="${API:-http://localhost:8180}"
+else
+  APP="${APP:-http://localhost:8081}"
+  KC="${KC:-http://localhost:9080}"
+  API="${API:-http://localhost:8180}"
+fi
 
 rm -rf .playwright-cli
 mkdir -p screenshots .playwright-cli
+
+# In the devcontainer the agent CLI (`@playwright/cli` -> `playwright-cli`) defaults to the
+# Google "chrome" channel, which has no Linux/arm64 build, so we pin it to the bundled
+# Chromium ("chrome-for-testing", installed via `playwright-cli install-browser`). Chromium's
+# setuid sandbox does not work inside the unprivileged container, hence `chromiumSandbox:false`.
+# playwright-cli auto-loads `.playwright/cli.config.json` from the cwd (each scenario dir).
+if [ "$(e2e_env_kind)" = "devcontainer" ]; then
+  mkdir -p .playwright
+  cat > .playwright/cli.config.json <<'JSON'
+{
+  "browser": {
+    "browserName": "chromium",
+    "launchOptions": { "chromiumSandbox": false }
+  }
+}
+JSON
+fi
 
 START=$SECONDS
 
@@ -41,11 +72,26 @@ fail() { echo "FAILED_AT=$1" >&2; playwright-cli -s="$S" close >/dev/null 2>&1 |
 log()  { echo "[run.sh] $*"; }
 pass() { echo "PASS duration=$((SECONDS - START))s"; }
 
+# Bring up the host-port forwards if needed (devcontainer/Mode A only; idempotent no-op
+# on the host). Done here so fail() is defined. The top-level run.sh also does this once
+# before launching scenarios in parallel; this call covers standalone scenario runs.
+ensure_forwards || fail "forwards:setup"
+
 # pw <subcommand> <args...> — run playwright-cli with strict error detection.
 # playwright-cli prints "### Error\nError: ..." on failure but still exits 0,
 # so we grep stdout and translate that into a shell failure.
+#
+# The bare `snapshot` command in @playwright/cli prints the accessibility tree
+# inline to stdout and does NOT persist it to disk, but the ref_for helper below
+# resolves refs by grepping the latest snapshot FILE. We therefore inject
+# `--filename` so every `pw snapshot` writes a fresh page-<ts>.yml that
+# latest_snap/ref_for can read. (Action commands like click/fill already persist
+# their post-action snapshot to .playwright-cli/ automatically.)
 pw() {
   local out rc
+  if [ "${1:-}" = "snapshot" ] && [[ "$*" != *--filename* ]]; then
+    set -- "$@" "--filename=.playwright-cli/page-$(date +%s%N).yml"
+  fi
   out=$(playwright-cli -s="$S" "$@" 2>&1)
   rc=$?
   if printf '%s\n' "$out" | grep -q '^### Error'; then

@@ -7,6 +7,13 @@ SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 TMPDIR_BASE=$(mktemp -d)
 trap 'rm -rf "$TMPDIR_BASE"' EXIT
 
+# Bring host-port forwards up once (devcontainer/Mode A only; idempotent no-op on the
+# host). Doing it here — before launching scenarios in parallel — avoids multiple
+# scenarios racing to bind the same privileged port (:80).
+# shellcheck disable=SC1091
+source "$SCRIPT_DIR/forwards.sh"
+ensure_forwards || { echo "Failed to set up host-port forwards (see [forwards] above)." >&2; exit 1; }
+
 pids=()
 scenarios=()
 start_time=$(date +%s)

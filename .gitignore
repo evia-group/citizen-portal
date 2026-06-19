@@ -47,6 +47,7 @@ infrastructure/dms/
 e2e/*/screenshots/*
 !e2e/*/screenshots/baseline/
 e2e/*/.playwright-cli/
+e2e/*/.playwright/
 
 # Local agent scratch (screenshots, traces, ad-hoc artifacts)
 .scratch/

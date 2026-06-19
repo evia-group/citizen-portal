@@ -84,8 +84,15 @@ You can run JetBrains' **Junie CLI** against this monorepo inside a **sandbox** 
    > Change the port if needed and recreate the devcontainer
 
 3. If http://localhost:62345 is unreachable run the following in the container with a link from your callback in browser:
+
 ```
 curl -s "http://localhost:62345/?code=...."
+```
+
+4. Connect to a dev container terminal:
+
+```sh
+docker exec -it -w /IdeaProjects/citizen-portal citizen-portal-devcontainer bash
 ```
 
 ## Dependency pinning & hoisting
