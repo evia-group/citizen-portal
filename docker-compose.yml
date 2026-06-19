@@ -13,6 +13,8 @@ services:
             - postgres_data:/var/lib/postgresql/data
         networks:
             - portal_network
+        env_file:
+            - .env
     
     keycloak:
         image: quay.io/keycloak/keycloak:23.0.6
@@ -35,6 +37,8 @@ services:
             - keycloak-postgres
         networks:
             - portal_network
+        env_file:
+            - .env
     
     keycloak-postgres:
         image: postgres:16.2-bullseye
@@ -50,7 +54,9 @@ services:
             - keycloak_postgres_data:/var/lib/postgresql/data
         networks:
             - portal_network
-    
+        env_file:
+            - .env
+            
     user-portal-fe:
         container_name: user-portal-fe
         profiles: [ "full" ]
@@ -71,13 +77,19 @@ services:
             - portal_network
         depends_on:
             - user-portal-be
-    
+        env_file:
+            - .env
+            
     user-portal-be:
         container_name: user-portal-be
         profiles: [ "full" ]
         build:
             context: .
-            dockerfile: ./apps/user-portal-be/Dockerfile
+            dockerfile: ./apps/be-base.Dockerfile
+            args:
+                APP_NAME: user-portal-be
+                HTTP_PROXY: ${HTTP_PROXY}
+                NO_PROXY: ${NO_PROXY}
         depends_on:
             - postgres
             - keycloak
@@ -97,7 +109,9 @@ services:
             - '8180:8080'
         networks:
             - portal_network
-    
+        env_file:
+            - .env
+            
     service-portal-fe:
         container_name: service-portal-fe
         profiles: [ "full" ]
@@ -111,6 +125,7 @@ services:
             NEXT_PUBLIC_API_URL: http://localhost/service-portal-be/api/v1
             NEXT_PUBLIC_KEYCLOAK_URL: http://localhost/keycloak
             NEXT_PUBLIC_BASE_PATH: /service-portal-fe
+            HTTPS_PROXY: ${HTTP_PROXY}
         ports:
             - '8281:3001'
         volumes:
@@ -121,13 +136,19 @@ services:
             - portal_network
         depends_on:
             - service-portal-be
-    
+        env_file:
+            - .env
+            
     service-portal-be:
         container_name: service-portal-be
         profiles: [ "full" ]
         build:
             context: .
-            dockerfile: ./apps/service-portal-be/Dockerfile
+            dockerfile: ./apps/be-base.Dockerfile
+            args:
+                APP_NAME: service-portal-be
+                HTTP_PROXY: ${HTTP_PROXY}
+                NO_PROXY: ${NO_PROXY}
         restart: always
         tty: true
         mem_limit: 1g
@@ -144,44 +165,54 @@ services:
             - '8280:8080'
         networks:
             - portal_network
-    
-    admin-portal-fe:
-        container_name: admin-portal-fe
-        profiles: [ "full" ]
-        build:
-            context: .
-            dockerfile: ./apps/admin-portal-fe/Dockerfile
-        restart: always
-        tty: true
-        ports:
-            - '8381:3000'
-        networks:
-            - portal_network
-    
-    admin-portal-be:
-        container_name: admin-portal-be
-        profiles: [ "full" ]
-        build:
-            context: .
-            dockerfile: ./apps/admin-portal-be/Dockerfile
-        restart: always
-        tty: true
-        mem_limit: 1g
-        environment:
-            JAVA_TOOL_OPTIONS: '-XX:MaxRAMPercentage=75'
-            POSTGRES_HOST: 'postgres:5432'
-            POSTGRES_DATABASE: 'portal'
-            POSTGRES_USER: 'portal'
-            POSTGRES_PASSWORD: 'portal'
-        ports:
-            - '8380:8080'
-        depends_on:
-            - postgres
-            - keycloak
-            - user-portal-be
-        networks:
-            - portal_network
-    
+        env_file:
+            - .env
+            
+#    admin-portal-fe:
+#        container_name: admin-portal-fe
+#        profiles: [ "full" ]
+#        build:
+#            context: .
+#            dockerfile: ./apps/admin-portal-fe/Dockerfile
+#        restart: always
+#        tty: true
+#        ports:
+#            - '8381:3000'
+#        networks:
+#            - portal_network
+#        env_file:
+#            - .env
+#            
+#    admin-portal-be:
+#        container_name: admin-portal-be
+#        profiles: [ "full" ]
+#        build:
+#            context: .
+#            dockerfile: ./apps/be-base.Dockerfile
+#            args:
+#                APP_NAME: admin-portal-be
+#                HTTP_PROXY: ${HTTP_PROXY}
+#                NO_PROXY: ${NO_PROXY}
+#        restart: always
+#        tty: true
+#        mem_limit: 1g
+#        environment:
+#            JAVA_TOOL_OPTIONS: '-XX:MaxRAMPercentage=75'
+#            POSTGRES_HOST: 'postgres:5432'
+#            POSTGRES_DATABASE: 'portal'
+#            POSTGRES_USER: 'portal'
+#            POSTGRES_PASSWORD: 'portal'
+#        ports:
+#            - '8380:8080'
+#        depends_on:
+#            - postgres
+#            - keycloak
+#            - user-portal-be
+#        networks:
+#            - portal_network
+#        env_file:
+#            - .env
+            
     openresty:
         container_name: openresty
         # No profile — starts in both Mode B (infra-only) and Mode A (--profile full).
@@ -191,6 +222,9 @@ services:
         build:
             context: .
             dockerfile: ./infrastructure/openresty/Dockerfile
+            args:
+                HTTP_PROXY: ${HTTP_PROXY}
+                HTTPS_PROXY: ${HTTP_PROXY}
         ports:
             - "80:80"
         volumes:
@@ -199,7 +233,9 @@ services:
             - keycloak
         networks:
             - portal_network
-
+        env_file:
+            - .env
+            
 networks:
     portal_network:
 

@@ -11,9 +11,7 @@
     "clean": "turbo run clean && rm -rf node_modules",
     "lint": "biome check ./apps/*-fe ./libs && turbo run lint",
     "format": "biome format ./apps/*-fe ./libs --write",
-    "fix": "biome check ./apps/*-fe ./libs --write",
-    "junie:sandbox": "bash .devcontainer/junie-sandbox.sh",
-    "junie:sandbox:win": ".devcontainer\\junie-sandbox.bat"
+    "fix": "biome check ./apps/*-fe ./libs --write"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.4.15",
