@@ -37,7 +37,7 @@ source "$(dirname "${BASH_SOURCE[0]}")/.env"   # provides USER_NAME, USER_PASSWO
 source "$(dirname "${BASH_SOURCE[0]}")/forwards.sh"
 
 if [ "$(e2e_env_kind)" = "devcontainer" ]; then
-  APP="${APP:-http://localhost}"
+  APP="${APP:-http://localhost:8888}"
   KC="${KC:-http://localhost:9080}"
   API="${API:-http://localhost:8180}"
 else

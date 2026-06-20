@@ -11,16 +11,16 @@ all main tabs, and open the profile page and logout
 
 ## Static Test Data
 
-| Item               | Value                                                   |
-|--------------------|---------------------------------------------------------|
-| App URL            | `http://localhost:8081`                                 |
-| Sign-in URL        | `http://localhost:8081/sign-in` (redirect target)       |
-| Keycloak URL       | `http://localhost/keycloak` (via OpenResty proxy)       |
-| Realm              | `portal`                                                |
-| Test User          | `user` (from `e2e/.env` USER_NAME)                      |
-| Test User Password | (from `e2e/.env` USER_PASSWORD, do not expose)          |
-| Dashboard URL      | `/`                                                     |
-| Profile URL        | `/profile/`                                             |
+| Item               | Value                                                  |
+|--------------------|--------------------------------------------------------|
+| App URL            | `http://localhost:8081`                                |
+| Sign-in URL        | `http://localhost:8081/sign-in` (redirect target)      |
+| Keycloak URL       | `http://localhost:8888/keycloak` (via OpenResty proxy) |
+| Realm              | `portal`                                               |
+| Test User          | `user` (from `e2e/.env` USER_NAME)                     |
+| Test User Password | (from `e2e/.env` USER_PASSWORD, do not expose)         |
+| Dashboard URL      | `/`                                                    |
+| Profile URL        | `/profile/`                                            |
 
 ## Preconditions
 
