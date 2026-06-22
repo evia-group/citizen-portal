@@ -15,7 +15,8 @@ Runs everything in containers, including a static Expo web export of `user-porta
 the gateway path or when you don't need hot-reload.
 
 ```sh
-docker compose --profile full up -d
+set -a; . ./.env; set +a
+docker compose --profile full up -d --build
 ```
 
 - App: http://localhost — login `user` / `user`
@@ -84,37 +85,35 @@ You can run JetBrains' **Junie CLI** against this monorepo inside a **sandbox** 
    > Change the port if needed and recreate the devcontainer
 
 3. If http://localhost:62345 is unreachable run the following in the container with a link from your callback in browser:
+
 ```
 curl -s "http://localhost:62345/?code=...."
 ```
 
-## Dependency pinning & hoisting
+4. Connect to a dev container terminal:
 
-The FE dependency tree is deliberately constrained so two incompatible stacks can coexist in one
-npm-workspaces install: the **Next.js** apps (`admin-portal-fe`, `service-portal-fe`) and the
-**Expo / React Native** app (`user-portal-fe`). Read this before bumping FE deps or running
-`npm update`.
+```sh
+docker exec -it -w /IdeaProjects/citizen-portal citizen-portal-devcontainer bash
+```
 
-- **Root `devDependencies` are hoist anchors, not direct deps.** `react`/`react-dom` `19.0.0`,
-  `react-native` `0.79.6`, `react-native-reanimated` `~3.17.4`, and `react-native-svg` `15.2.0`
-  exist at the root to control what npm hoists to the top-level `node_modules`, so the Next apps
-  resolve compatible versions. `user-portal-fe` keeps newer app-local copies where needed (e.g.
-  `react-native-svg` `15.11.2`). Removing/changing these or running a blanket `npm update` can
-  silently break the Next apps.
-- **The `overrides` block pins versions tree-wide** (`nativewind` 4.2.4,
-  `react-native-css-interop` 0.2.4, `@types/react` / `@types/react-dom`, `react-native`,
-  `react-native-reanimated`). A dep bump elsewhere won't take effect until the matching override is
-  updated; stale `package-lock.json` entries may need deleting when an override changes.
-- **`.npmrc` sets `legacy-peer-deps=true`** — added during the FE version update to get past the
-  React 19 / React Native peer-dependency conflicts that otherwise abort `npm install`. Trade-off:
-  it masks future peer conflicts, so run `npm ls` after dependency changes to catch breakage.
-- **`turbo` is pinned to `^1.13.3`** on purpose; the Turbo 2 migration is deferred.
-- **`user-portal-fe/metro.config.js` forces single copies of `react`/`react-dom`/`scheduler`** to
-  the app-local React 19 (root hoists for the Next apps), preventing the "two React copies" runtime
-  crash in the Expo bundle.
-- `ajv` / `ajv-keywords` were previously pinned in root devDeps but **removed** — they were
-  redundant (ajv@6 is still resolved transitively via `eslint` → `@eslint/eslintrc`, and lint +
-  Next builds pass without them).
+## Corporate proxy
+
+Set the proxy **once** in the repo-root `.env`:
+
+```
+HTTP_PROXY=http://proxy.example.com:8080
+HTTPS_PROXY=http://proxy.example.com:8080
+NO_PROXY=localhost,127.0.0.1
+```
+
+This single file feeds every build path:
+
+- **devcontainer shells** — `.devcontainer/setup-proxy.sh` derives `~/.proxy.env` (HTTP(S)_PROXY, lowercase variants, NO_PROXY, `JAVA_TOOL_OPTIONS`).
+- **native + container Maven** — the same script generates `~/.m2/settings.xml` (Maven's resolver ignores proxy env vars and JVM props, so `settings.xml` is required).
+- **openresty image build** — `docker-compose.yml` interpolates `${HTTP_PROXY}` into the build args.
+- **runtime containers** — services read `.env` via `env_file`; runtime-install services (e.g. `service-portal-fe`) also get `HTTPS_PROXY`.
+
+Leave `HTTP_PROXY` empty for a proxy-less setup everywhere.
 
 ## Contributors
 

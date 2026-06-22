@@ -47,6 +47,7 @@ infrastructure/dms/
 e2e/*/screenshots/*
 !e2e/*/screenshots/baseline/
 e2e/*/.playwright-cli/
+e2e/*/.playwright/
 
 # Local agent scratch (screenshots, traces, ad-hoc artifacts)
 .scratch/
@@ -60,6 +61,4 @@ e2e/*/.playwright-cli/
 .codex/
 /.claude/plans/
 
-# devcontainer local proxy config (real values, never commit)
-.devcontainer/devcontainer.env
-.devcontainer/_devcontainer.json
+.env
