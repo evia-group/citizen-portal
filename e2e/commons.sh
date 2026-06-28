@@ -31,13 +31,13 @@ source "$(dirname "${BASH_SOURCE[0]}")/.env"   # provides USER_NAME, USER_PASSWO
 # Environment-aware target URLs. A scenario may still override KC/API/APP before
 # sourcing; otherwise they are derived from the detected environment (see forwards.sh):
 #   - devcontainer (Mode A): everything is served through the openresty gateway on the
-#     host's :80, reached via the socat localhost forwards brought up below.
+#     host's :8888, reached via the socat localhost forwards brought up below.
 #   - host (Mode B): the FE runs natively on :8081; infra (Keycloak/BE) is in Docker.
 # shellcheck disable=SC1091
 source "$(dirname "${BASH_SOURCE[0]}")/forwards.sh"
 
 if [ "$(e2e_env_kind)" = "devcontainer" ]; then
-  APP="${APP:-http://localhost}"
+  APP="${APP:-http://localhost:8888}"
   KC="${KC:-http://localhost:9080}"
   API="${API:-http://localhost:8180}"
 else

@@ -20,13 +20,13 @@ source ../commons.sh
 
 # Service portal URL, environment-aware (mirrors commons.sh's APP/KC/API handling):
 #   - devcontainer (Mode A): the FE is served through the openresty gateway at
-#     /service-portal-fe on the host's :80, reached via the forwarded localhost:80.
+#     /service-portal-fe on the host's :8888, reached via the forwarded localhost:8888.
 #     (localhost:3001 is not running in the container, and direct :8281 is not
 #     forwarded and would break the localhost-pinned OIDC redirect URIs anyway.)
 #   - host (Mode B): the service portal runs natively on :3001.
 # Override via the SERVICE_APP env var.
 if [ "$(e2e_env_kind)" = "devcontainer" ]; then
-  SERVICE_APP="${SERVICE_APP:-http://localhost/service-portal-fe}"
+  SERVICE_APP="${SERVICE_APP:-http://localhost:8888/service-portal-fe}"
 else
   SERVICE_APP="${SERVICE_APP:-http://localhost:3001}"
 fi

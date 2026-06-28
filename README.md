@@ -6,7 +6,7 @@
 
 _Prerequisites_: Docker, Node.js ≥ 18, Java 21, Maven.
 
-There are two supported local-dev modes. Both use the same Keycloak issuer (`http://localhost/keycloak/realms/portal`) — tokens are
+There are two supported local-dev modes. Both use the same Keycloak issuer (`http://localhost:8888/keycloak/realms/portal`) — tokens are
 interchangeable.
 
 ### Mode A — Full Docker
@@ -19,19 +19,19 @@ set -a; . ./.env; set +a
 docker compose --profile full up -d --build
 ```
 
-- App: http://localhost — login `user` / `user`
+- App: http://localhost:8888 — login `user` / `user`
 - Keycloak admin: http://localhost:9080 — login `admin` / `admin`
 
 After editing FE source, rebuild the bundle: `docker compose --profile full up --build user-portal-fe`.
 
 #### Known issues:
 
-- After all containers started, restart of service-portal-fe might be needed in case of http://localhost/service-portal-fe gives 502
+- After all containers started, restart of service-portal-fe might be needed in case of http://localhost:8888/service-portal-fe gives 502
 
 ### Mode B — Infra-only Docker (recommended for development)
 
 Runs postgres, keycloak, and openresty in Docker; FE and BE run natively with hot-reload. OpenResty proxies `/keycloak` so the shared issuer
-URL (`http://localhost/keycloak`) works without any config change.
+URL (`http://localhost:8888/keycloak`) works without any config change.
 
 ```sh
 npm install
