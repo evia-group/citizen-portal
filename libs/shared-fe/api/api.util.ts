@@ -5,7 +5,7 @@ type HttpMethod = "get" | "post" | "put" | "patch" | "delete";
 export const basePath =
   process.env.EXPO_PUBLIC_API_URL ??
   process.env.NEXT_PUBLIC_API_URL ??
-  "http://localhost/api/v1";
+  "http://localhost:8888/api/v1";
 
 export interface AuthAdapter {
   getAccessToken: () => string | null;

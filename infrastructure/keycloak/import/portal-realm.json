@@ -2398,7 +2398,7 @@
     "oauth2DeviceCodeLifespan": "600",
     "parRequestUriLifespan": "60",
     "clientSessionMaxLifespan": "0",
-    "frontendUrl": "http://localhost/keycloak",
+    "frontendUrl": "http://localhost:8888/keycloak",
     "acr.loa.map": "{}"
   },
   "keycloakVersion": "23.0.7",
